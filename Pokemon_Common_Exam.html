@@ -65,6 +65,13 @@
     .news-box { background: #fffbe6; border: 2px solid #FFE66D; border-radius: 12px; padding: 20px; margin: 20px 0; }
     .news-title { color: #E74C3C; font-weight: 700; font-size: 18px; margin-bottom: 10px; }
     .scenario-box { background: #ffe6f0; border: 2px solid #E74C3C; border-radius: 12px; padding: 20px; margin: 20px 0; }
+    .section-answer { margin-top: 20px; border: 3px solid #32CD32; border-radius: 10px; overflow: hidden; }
+    .section-answer-toggle { width: 100%; padding: 12px 20px; background: linear-gradient(135deg, #32CD32, #90EE90); color: white; border: none; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .section-answer-toggle:hover { background: linear-gradient(135deg, #228B22, #32CD32); }
+    .section-answer-panel { background: #f0fff0; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .section-answer-panel.expanded { padding: 20px; max-height: 2000px; }
+    .inline-answer { background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #32CD32; margin: 5px 0; font-size: 14px; }
+    .inline-answer strong { color: #E74C3C; }
     @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } .answer-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -83,8 +90,8 @@
       <div class="instructions">
         <h3>📝 考生須知</h3>
         <ul>
-          <li>本卷共分<b>四部分</b>：神經系統基礎、人體協調、泌尿系統、保護身體系統</li>
-          <li><b>考試時間：</b>45分鐘</li>
+          <li>本卷共分<b>五部分</b>：神經系統基礎、人體協調、泌尿系統、保護身體系統、香港時事</li>
+          <li><b>考試時間：</b>50分鐘</li>
           <li><b>總分：</b>100分</li>
           <li>選擇題請用鉛筆把正確選項前的圓圈塗黑及塗滿</li>
           <li>填充題請在橫線上填寫正確答案</li>
@@ -162,10 +169,29 @@
         <div class="mcq-option"><span class="mcq-circle">C</span> 可以冷靜思考</div>
         <div class="mcq-option"><span class="mcq-circle">D</span> 讓人更快睡着</div>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第一部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>選填 1.</strong> 腦；脊髓；神經</div>
+          <div class="inline-answer"><strong>選填 2.</strong> 記憶；思考；協調動作</div>
+          <div class="inline-answer"><strong>選填 3.</strong> 記憶</div>
+          <div class="inline-answer"><strong>選填 4.</strong> 思考</div>
+          <div class="inline-answer"><strong>情境分析</strong> 因為這是反射動作，由脊髓直接處理，不需要經過腦部思考，所以反應更快，可以及時保護身體避免受傷。</div>
+          <div class="inline-answer"><strong>MCQ 1.</strong> C (腦)</div>
+          <div class="inline-answer"><strong>MCQ 2.</strong> D (消化食物)</div>
+          <div class="inline-answer"><strong>MCQ 3.</strong> B (由脊髓直接處理，反應更快)</div>
+          <div class="inline-answer"><strong>MCQ 4.</strong> B (騎單車時佩戴頭盔)</div>
+          <div class="inline-answer"><strong>MCQ 5.</strong> C (腦)</div>
+          <div class="inline-answer"><strong>MCQ 6.</strong> B (反應更快，可以及時保護身體避免受傷)</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-header">第二部分：人體協調與反應 (30分)</div>
+      <div class="section-header">第二部分：人體協調與反應 (25分)</div>
       <div class="tip-box">
         <p><strong>🧠 皮卡丘小知識：</strong>就像小智下棋時要思考每一步，神經系統也在協調我們的每一個動作！</p>
       </div>
@@ -217,10 +243,24 @@
         <p><strong>問題：</strong>小智騎著摩托鼠躲避障礙物時，神經系統是怎樣協調他的身體完成這個動作的？</p>
         <textarea class="short-answer" placeholder="請在此作答..."></textarea>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第二部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>實驗 1.</strong> 否</div>
+          <div class="inline-answer"><strong>實驗 2.</strong> 脊髓</div>
+          <div class="inline-answer"><strong>配對 1.</strong> A-發出指令；B-傳遞信息；C-連接各部分</div>
+          <div class="inline-answer"><strong>配對 2.</strong> A-眼睛；B-視覺神經；C-腦；D-運動神經</div>
+          <div class="inline-answer"><strong>配對 3.</strong> 經過腦部思考；不經過腦部思考</div>
+          <div class="inline-answer"><strong>問答</strong> 眼睛看見障礙物，信息通過視覺神經傳送到腦，腦接收信息後發出指令，指令通過脊髓和運動神經傳送到相關肌肉，肌肉收縮使身體作出躲避動作。</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-header">第三部分：泌尿系統 (25分)</div>
+      <div class="section-header">第三部分：泌尿系統 (20分)</div>
       <div class="tip-box">
         <p><strong>💧 皮卡丘小知識：</strong>就像可達鴨有時會頭疼（水分過多），我們的身體也需要排出多餘的水分——這就是泌尿系統的工作！</p>
       </div>
@@ -265,10 +305,22 @@
         <p>A. 膀胱儲存尿液　B. 腎臟形成尿液　C. 輸尿管輸送尿液　D. 尿道排出尿液　E. 血液流入腎臟</p>
         <p style="margin-top:15px;">答案：( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> )</p>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第三部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>判斷 1.</strong> ✓ ✓ ✗ ✗ ✓ (腎臟✓、肝臟✗、膀胱✓、心臟✗、輸尿管✓)</div>
+          <div class="inline-answer"><strong>判斷 2.</strong> A、C (過濾血液中的廢物；將多餘水分形成尿液)</div>
+          <div class="inline-answer"><strong>判斷 3.</strong> A、C、D (储存尿液；當膀胱充滿時需要排尿；通過尿道排出尿液)</div>
+          <div class="inline-answer"><strong>序列</strong> E → B → C → A → D</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-header">第四部分：保護身體系統與健康 (20分)</div>
+      <div class="section-header">第四部分：保護身體系統與健康 (15分)</div>
       <div class="tip-box">
         <p><strong>🔋 皮卡丘小知識：</strong>就像皮卡丘需要小心用電，我們也要好好保護自己的神經系統和泌尿系統！</p>
       </div>
@@ -319,6 +371,110 @@
         <p style="margin-top:15px;"><strong>6.</strong> 碰到燙手東西時身體會作出 <input type="text" class="fill-blank" style="width:100px;"> ，這是不經過腦部思考的快速反應。</p>
         <p style="margin-top:15px;"><strong>7.</strong> 我們每天應該喝適量的 <input type="text" class="fill-blank" style="width:100px;"> 來維持身體正常運作。</p>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第四部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>簡答 1.</strong> 騎單車時佩戴頭盔/保持正確坐姿/避免長時間使用電子產品/保持充足睡眠</div>
+          <div class="inline-answer"><strong>簡答 2.</strong> 每天喝適量的水/少吃高鹽分食物/不強忍小便</div>
+          <div class="inline-answer"><strong>時事 1.</strong> C (六至八杯)</div>
+          <div class="inline-answer"><strong>時事 2.</strong> C (神經系統)</div>
+          <div class="inline-answer"><strong>填空 1.</strong> 腦</div>
+          <div class="inline-answer"><strong>填空 2.</strong> 腦、脊髓</div>
+          <div class="inline-answer"><strong>填空 3.</strong> 腎臟</div>
+          <div class="inline-answer"><strong>填空 4.</strong> 輸尿管</div>
+          <div class="inline-answer"><strong>填空 5.</strong> 尿道</div>
+          <div class="inline-answer"><strong>填空 6.</strong> 反射動作</div>
+          <div class="inline-answer"><strong>填空 7.</strong> 水/清水</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第五部分：香港時事與健康資訊 (15分)</div>
+      <div class="tip-box">
+        <p><strong>⚡ 皮卡丘小知識：</strong>就像皮卡丘需要不斷學習新招式，我們也要關心香港和國家的最新發展！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(十三) 香港醫療與健康時事題。6% @2%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞一：香港公立醫院服務優化</div>
+          <p>【本報訊】2025年，香港醫管局宣佈多項措施優化公立醫院服務，包括增加專科門診名額、縮短手術輪候時間，並推出流動健康應用程式，讓市民可透過手機預約門診和查閱健康紀錄。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 醫管局推出的流動健康應用程式可以讓市民做甚麼？（可選多項）</p>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">A</span> 預約門診</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">B</span> 查閱健康紀錄</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">C</span> 購買零食</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">D</span> 繳交醫療費用</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 醫管局優化服務的重點不包括哪項？</p>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">A</span> 增加專科門診名額</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">B</span> 縮短手術輪候時間</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">C</span> 興建新主題公園</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">D</span> 推出流動健康應用程式</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 香港醫管局的主要職責是管理哪些醫療服務？</p>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">A</span> 私營診所</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">B</span> 公立醫院</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">C</span> 藥房</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">D</span> 牙科診所</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十四) 香港環境衞生時事題。6% @2%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞二：香港屋苑蚊患防控措施</div>
+          <p>【本報訊】食物環境衞生署提醒市民，隨著天氣回暖，蚊患季節開始。署方呼籲市民清除積水、防止蚊蟲滋生，並定期更換水生植物的水，以預防登革熱等由蚊子傳播的疾病。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 食物環境衞生署呼籲市民如何預防蚊患？（可選多項）</p>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">A</span> 清除積水</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">B</span> 防止蚊蟲滋生</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">C</span> 關閉窗戶</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">D</span> 定期更換水生植物的水</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 蚊子可以傳播哪種疾病？</p>
+        <label class="mcq-option"><input type="radio" name="q14_2"> <span class="mcq-circle">A</span> 流感</label>
+        <label class="mcq-option"><input type="radio" name="q14_2"> <span class="mcq-circle">B</span> 登革熱</label>
+        <label class="mcq-option"><input type="radio" name="q14_2"> <span class="mcq-circle">C</span> 新冠肺炎</label>
+        <label class="mcq-option"><input type="radio" name="q14_2"> <span class="mcq-circle">D</span> 沙士</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 預防蚊患的最佳方法是甚麼？</p>
+        <label class="mcq-option"><input type="radio" name="q14_3"> <span class="mcq-circle">A</span> 多吃水果</label>
+        <label class="mcq-option"><input type="radio" name="q14_3"> <span class="mcq-circle">B</span> 清除積水，防止蚊蟲滋生</label>
+        <label class="mcq-option"><input type="radio" name="q14_3"> <span class="mcq-circle">C</span> 穿厚衣服</label>
+        <label class="mcq-option"><input type="radio" name="q14_3"> <span class="mcq-circle">D</span> 多喝水</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十五) 香港科技發展時事題。3%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞三：香港智慧城市發展</div>
+          <p>【本報訊】香港特區政府積極推動智慧城市發展，包括在部分公共屋邨安裝智能廚餘回收機、推行電子道路收費研究，以及擴展5G網絡覆蓋範圍，目標是在2025年實現全面的城市數碼化。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 香港智慧城市發展不包括哪項措施？</p>
+        <label class="mcq-option"><input type="radio" name="q15_1"> <span class="mcq-circle">A</span> 安裝智能廚餘回收機</label>
+        <label class="mcq-option"><input type="radio" name="q15_1"> <span class="mcq-circle">B</span> 推行電子道路收費研究</label>
+        <label class="mcq-option"><input type="radio" name="q15_1"> <span class="mcq-circle">C</span> 興建新的鐵路線</label>
+        <label class="mcq-option"><input type="radio" name="q15_1"> <span class="mcq-circle">D</span> 擴展5G網絡覆蓋範圍</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第五部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>時事題1.</strong> A、B (預約門診、查閱健康紀錄)</div>
+          <div class="inline-answer"><strong>時事題2.</strong> C (興建新主題公園)</div>
+          <div class="inline-answer"><strong>時事題3.</strong> B (公立醫院)</div>
+          <div class="inline-answer"><strong>時事題4.</strong> A、B、D (清除積水、防止蚊蟲滋生、定期更換水生植物的水)</div>
+          <div class="inline-answer"><strong>時事題5.</strong> B (登革熱)</div>
+          <div class="inline-answer"><strong>時事題6.</strong> B (清除積水，防止蚊蟲滋生)</div>
+          <div class="inline-answer"><strong>時事題7.</strong> C (興建新的鐵路線)</div>
+        </div>
+      </div>
     </div>
 
     <div style="text-align:center; color:#E74C3C; font-weight:bold; margin:40px 0; font-size:20px;">~ 全卷完 ~</div>
@@ -327,81 +483,13 @@
 
     <div class="pokemon-decoration">⚡ 🔋 💧 🧠 🔋 ⚡ 🔋 💧</div>
 
-    <div class="answer-key-container">
-      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
-        <span id="toggle-icon">▶</span> 
-        答案匙 Answer Key
-        <span class="key-badge">教師專用</span>
-      </button>
-      
-      <div id="answer-key-panel" class="answer-key-panel collapsed">
-        <h3 class="answer-key-title">第一部分：神經系統基礎 (25分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">1.</span> 腦；脊髓；神經</div>
-          <div class="answer-item"><span class="q-num">2.</span> 記憶；思考；協調動作</div>
-          <div class="answer-item"><span class="q-num">3.</span> 記憶</div>
-          <div class="answer-item"><span class="q-num">4.</span> 思考</div>
-          <div class="answer-item long"><span class="q-num">情境</span> 因為這是反射動作，由脊髓直接處理，不需要經過腦部思考，所以反應更快，可以及時保護身體避免受傷。</div>
-          <div class="answer-item"><span class="q-num">MCQ 1.</span> C (腦)</div>
-          <div class="answer-item"><span class="q-num">MCQ 2.</span> D (消化食物)</div>
-          <div class="answer-item"><span class="q-num">MCQ 3.</span> B (由脊髓直接處理，反應更快)</div>
-          <div class="answer-item"><span class="q-num">MCQ 4.</span> B (騎單車時佩戴頭盔)</div>
-          <div class="answer-item"><span class="q-num">MCQ 5.</span> C (腦)</div>
-          <div class="answer-item"><span class="q-num">MCQ 6.</span> B (反應更快，可以及時保護身體避免受傷)</div>
-        </div>
-
-        <h3 class="answer-key-title">第二部分：人體協調與反應 (30分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">實驗1.</span> 否</div>
-          <div class="answer-item"><span class="q-num">實驗2.</span> 脊髓</div>
-          <div class="answer-item"><span class="q-num">配對1.</span> A-發出指令；B-傳遞信息；C-連接各部分</div>
-          <div class="answer-item"><span class="q-num">配對2.</span> A-眼睛；B-視覺神經；C-腦；D-運動神經</div>
-          <div class="answer-item"><span class="q-num">配對3.</span> 經過腦部思考；不經過腦部思考</div>
-          <div class="answer-item long"><span class="q-num">問答</span> 眼睛看見障礙物，信息通過視覺神經傳送到腦，腦接收信息後發出指令，指令通過脊髓和運動神經傳送到相關肌肉，肌肉收縮使身體作出躲避動作。</div>
-        </div>
-
-        <h3 class="answer-key-title">第三部分：泌尿系統 (25分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">判斷1.</span> ✓ × ✓ × ✓</div>
-          <div class="answer-item"><span class="q-num">判斷2.</span> A、C (過濾血液中的廢物；將多餘水分形成尿液)</div>
-          <div class="answer-item"><span class="q-num">判斷3.</span> A、C、D (储存尿液；當膀胱充滿時需要排尿；通過尿道排出尿液)</div>
-          <div class="answer-item"><span class="q-num">序列</span> E → B → C → A → D</div>
-        </div>
-
-        <h3 class="answer-key-title">第四部分：保護身體系統與健康 (20分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">簡答1.</span> 騎單車時佩戴頭盔/保持正確坐姿/避免長時間使用電子產品/保持充足睡眠</div>
-          <div class="answer-item"><span class="q-num">簡答2.</span> 每天喝適量的水/少吃高鹽分食物/不強忍小便</div>
-          <div class="answer-item"><span class="q-num">時事1.</span> C (六至八杯)</div>
-          <div class="answer-item"><span class="q-num">時事2.</span> C (神經系統)</div>
-          <div class="answer-item"><span class="q-num">填空1.</span> 腦</div>
-          <div class="answer-item"><span class="q-num">填空2.</span> 腦、脊髓</div>
-          <div class="answer-item"><span class="q-num">填空3.</span> 腎臟</div>
-          <div class="answer-item"><span class="q-num">填空4.</span> 輸尿管</div>
-          <div class="answer-item"><span class="q-num">填空5.</span> 尿道</div>
-          <div class="answer-item"><span class="q-num">填空6.</span> 反射動作</div>
-          <div class="answer-item"><span class="q-num">填空7.</span> 水/清水</div>
-        </div>
-
-        <div class="answer-footer">
-          <p>📊 <strong>總分：100分</strong></p>
-          <p>⏱️ <strong>建議作答時間：45分鐘</strong></p>
-        </div>
-      </div>
-    </div>
-
     <script>
-      function toggleAnswerKey() {
-        const panel = document.getElementById('answer-key-panel');
-        const icon = document.getElementById('toggle-icon');
-        if (panel.classList.contains('collapsed')) {
-          panel.classList.remove('collapsed');
-          panel.classList.add('expanded');
-          icon.textContent = '▼';
-        } else {
-          panel.classList.add('collapsed');
+      function toggleSectionAnswer(btn) {
+        const panel = btn.nextElementSibling;
+        if (panel.classList.contains('expanded')) {
           panel.classList.remove('expanded');
-          icon.textContent = '▶';
+        } else {
+          panel.classList.add('expanded');
         }
       }
     </script>

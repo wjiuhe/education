@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>大亂鬥數學科考試 - 圓與分數</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+    };
+  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,6 +67,33 @@
     .smash-decoration { text-align: center; font-size: 30px; margin: 20px 0; letter-spacing: 10px; }
     .tip-box { background: #e8f6f3; border-left: 4px solid #1abc9c; padding: 12px 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
     .formula-box { background: #fef9e7; border: 2px solid #f39c12; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; font-size: 18px; }
+    .shape-container { display: flex; justify-content: center; gap: 30px; margin: 20px 0; flex-wrap: wrap; }
+    .cube-net { display: grid; grid-template-columns: repeat(3, 50px); grid-template-rows: repeat(3, 50px); gap: 2px; margin: 10px auto; }
+    .net-cell { width: 50px; height: 50px; border: 2px solid #3498db; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: #e8f6f3; }
+    .net-cell.filled { background: #3498db; color: white; font-weight: bold; }
+    .net-cell.empty { background: #fff; }
+    .cylinder-shape { position: relative; width: 100px; height: 80px; margin: 10px auto; }
+    .cylinder-top { position: absolute; top: 0; left: 10px; width: 80px; height: 20px; background: #3498db; border-radius: 50%; border: 2px solid #2980b9; }
+    .cylinder-body { position: absolute; top: 10px; left: 10px; width: 80px; height: 60px; background: #5dade2; border: 2px solid #2980b9; border-top: none; }
+    .cube-3d { position: relative; width: 100px; height: 100px; margin: 10px auto; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(-30deg); }
+    .cube-face { position: absolute; width: 100px; height: 100px; border: 2px solid #e74c3c; background: rgba(231, 76, 60, 0.2); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #e74c3c; }
+    .cube-face.front { transform: translateZ(50px); }
+    .cube-face.back { transform: rotateY(180deg) translateZ(50px); }
+    .cube-face.right { transform: rotateY(90deg) translateZ(50px); }
+    .cube-face.left { transform: rotateY(-90deg) translateZ(50px); }
+    .cube-face.top { transform: rotateX(90deg) translateZ(50px); background: rgba(52, 152, 219, 0.3); border-color: #3498db; color: #3498db; }
+    .cube-face.bottom { transform: rotateX(-90deg) translateZ(50px); }
+    .shape-question { display: flex; align-items: center; gap: 15px; margin: 15px 0; padding: 15px; background: #fff; border-radius: 10px; border: 2px solid #3498db; }
+    .shape-question label { flex: 1; cursor: pointer; }
+    .shape-question:hover { background: #e8f6f3; }
+    .net-table { border-collapse: separate; border-spacing: 3px; margin: 15px auto; }
+    .net-table td { width: 55px; height: 55px; text-align: center; vertical-align: middle; border: 2px solid #3498db; border-radius: 5px; font-size: 11px; }
+    .net-table td.filled { background: #3498db; color: white; font-weight: bold; }
+    .net-table td.empty { background: #fff; }
+    .view-box { border: 3px solid #3498db; background: #fef9e7; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
+    .view-grid { display: grid; grid-template-columns: repeat(3, 30px); grid-template-rows: repeat(3, 30px); gap: 2px; margin: 10px auto; width: fit-content; }
+    .view-cell { width: 30px; height: 30px; border: 1px solid #3498db; border-radius: 3px; }
+    .view-cell.filled { background: #e74c3c; }
     @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } }
   </style>
 </head>
@@ -245,49 +280,152 @@
       </div>
       
       <div class="question">
-        <div class="question-number">(八) 立體圖形的截面配對。6% @2%</div>
-        <p style="margin-bottom:10px;"><strong>以下立體圖形可以切出什麼截面？請把正確答案的字母填在橫線上：</strong></p>
-        <table class="data-table">
-          <tr><th>立體圖形</th><th>答案</th><th>截面形狀</th></tr>
-          <tr><td>1. 圓柱</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>長方形</td></tr>
-          <tr><td>2. 角柱</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>三角形</td></tr>
-          <tr><td>3. 圓錐</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>橢圓形</td></tr>
-        </table>
-        <p style="margin-top:15px; color:#666;">答案選項：A. 平行四邊形　B. 圓形　C. 三角形　D. 長方形</p>
-      </div>
-
-      <div class="question">
-        <div class="question-number">(九) 正方體和長方體的認識。8% @2%</div>
-        <p style="margin-bottom:10px;"><strong>1.</strong> 正方體有多少個面？<input type="text" class="fill-blank" style="width:50px;"></p>
-        <p style="margin-top:15px;"><strong>2.</strong> 正方體有多少個頂點？<input type="text" class="fill-blank" style="width:50px;"></p>
-        <p style="margin-top:15px;"><strong>3.</strong> 長方體有多少條棱？<input type="text" class="fill-blank" style="width:50px;"></p>
-        <p style="margin-top:15px;"><strong>4.</strong> 以下哪個不是正方體的展開圖？（）</p>
-        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">A</span> 六個相同正方形組成的十字形</label>
-        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">B</span> 六個相同正方形組成的T形</label>
-        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">C</span> 六個相同正方形組成的田字形</label>
-        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">D</span> 六個不相同長方形組成的形狀</label>
-      </div>
-
-      <div class="question">
-        <div class="question-number">(十) 球的認識。6% @2%</div>
-        <p style="margin-bottom:10px;"><strong>1.</strong> 球有多少個面？<input type="text" class="fill-blank" style="width:50px;"></p>
-        <p style="margin-top:15px;"><strong>2.</strong> 用一個平面切球，截面是什麼形狀？<input type="text" class="fill-blank" style="width:80px;"></p>
-        <p style="margin-top:15px;"><strong>3.</strong> 球有多少個頂點？<input type="text" class="fill-blank" style="width:50px;"></p>
-      </div>
-
-      <div class="question">
-        <div class="question-number">(十一) 選擇題。5%</div>
-        <p style="margin-bottom:10px;"><strong>1.</strong> 以下哪個立體圖形沒有頂點？</p>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">A</span> 正方體</label>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">B</span> 長方體</label>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">C</span> 圓柱</label>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">D</span> 角錐</label>
+        <div class="question-number">(八) 認識立體圖形的截面。6%</div>
+        <p style="margin-bottom:15px;"><strong>1.</strong> 以下左圖是三角柱，請在右圖中繪畫出水平切過三角柱的截面形狀：</p>
+        <div class="shape-container">
+          <div style="text-align:center;">
+            <p style="color:#666;font-size:12px;">三角柱立體圖</p>
+            <svg width="100" height="80" viewBox="0 0 100 80">
+              <polygon points="50,5 90,75 10,75" fill="#e8f6f3" stroke="#3498db" stroke-width="2"/>
+              <polygon points="50,5 90,75 50,75 50,35" fill="#aed6f1" stroke="#3498db" stroke-width="2"/>
+              <polygon points="50,35 10,75 50,75" fill="#85c1e9" stroke="#3498db" stroke-width="2"/>
+            </svg>
+          </div>
+          <div style="text-align:center;">
+            <p style="color:#666;font-size:12px;">截面形狀（請繪畫）</p>
+            <svg width="100" height="80" viewBox="0 0 100 80" style="border:2px dashed #e74c3c;background:#fef9e7;">
+              <text x="50" y="45" text-anchor="middle" fill="#666" font-size="10">請繪畫截面</text>
+            </svg>
+          </div>
+        </div>
+        <p style="margin-top:15px;">截面形狀是：<input type="text" class="fill-blank" style="width:80px;">（2%）</p>
         
-        <p style="margin:20px 0 10px;"><strong>2.</strong> 圓柱有多少條曲面？</p>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">A</span> 0</label>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">B</span> 1</label>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">C</span> 2</label>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">D</span> 3</label>
+        <p style="margin:25px 0 15px;"><strong>2.</strong> 以下左圖是圓柱，請在右圖中繪畫出縱切（通過中心軸）圓柱的截面形狀：</p>
+        <div class="shape-container">
+          <div style="text-align:center;">
+            <p style="color:#666;font-size:12px;">圓柱立體圖</p>
+            <svg width="100" height="80" viewBox="0 0 100 80">
+              <ellipse cx="50" cy="15" rx="40" ry="12" fill="#aed6f1" stroke="#3498db" stroke-width="2"/>
+              <line x1="10" y1="15" x2="10" y2="65" stroke="#3498db" stroke-width="2"/>
+              <line x1="90" y1="15" x2="90" y2="65" stroke="#3498db" stroke-width="2"/>
+              <ellipse cx="50" cy="65" rx="40" ry="12" fill="#85c1e9" stroke="#3498db" stroke-width="2"/>
+              <ellipse cx="50" cy="15" rx="40" ry="12" fill="none" stroke="#3498db" stroke-width="2"/>
+            </svg>
+          </div>
+          <div style="text-align:center;">
+            <p style="color:#666;font-size:12px;">截面形狀（請繪畫）</p>
+            <svg width="100" height="80" viewBox="0 0 100 80" style="border:2px dashed #e74c3c;background:#fef9e7;">
+              <text x="50" y="45" text-anchor="middle" fill="#666" font-size="10">請繪畫截面</text>
+            </svg>
+          </div>
+        </div>
+        <p style="margin-top:15px;">截面形狀是：<input type="text" class="fill-blank" style="width:80px;">（2%）</p>
+        
+        <p style="margin:25px 0 15px;"><strong>3.</strong> 用一個平面切球，截面是什麼形狀？（2%）</p>
+        <label class="mcq-option"><input type="radio" name="q8_3"> <span class="mcq-circle">A</span> 正方形</label>
+        <label class="mcq-option"><input type="radio" name="q8_3"> <span class="mcq-circle">B</span> 三角形</label>
+        <label class="mcq-option"><input type="radio" name="q8_3"> <span class="mcq-circle">C</span> 圓形</label>
+        <label class="mcq-option"><input type="radio" name="q8_3"> <span class="mcq-circle">D</span> 長方形</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(九) 正方體和長方體的認識。8%</div>
+        <p style="margin-bottom:15px;"><strong>1.</strong> 下圖是正方體的其中一個展開圖，每個小方格是 1 cm²。這個展開圖可以摺成多大的正方體？</p>
+        <div style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap;">
+          <table class="net-table">
+            <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+            <tr><td class="filled"></td><td class="empty"></td><td class="filled"></td></tr>
+            <tr><td class="filled"></td><td class="filled"></td><td class="empty"></td></tr>
+          </table>
+          <table class="net-table">
+            <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+            <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+            <tr><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+          </table>
+        </div>
+        <p style="margin-top:10px;">正方體的棱長：<input type="text" class="fill-blank" style="width:50px;"> cm（2%）</p>
+        <p style="margin-top:10px;">正方體的表面積：<input type="text" class="fill-blank" style="width:50px;"> cm²（2%）</p>
+        
+        <p style="margin:25px 0 15px;"><strong>2.</strong> 以下哪個不是正方體的展開圖？（）</p>
+        <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:15px 0;">
+          <div style="text-align:center;">
+            <p style="font-size:11px;color:#666;">A</p>
+            <table class="net-table">
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="empty"></td><td class="filled"></td><td class="empty"></td></tr>
+            </table>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:11px;color:#666;">B</p>
+            <table class="net-table">
+              <tr><td class="empty"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="empty"></td><td class="filled"></td><td class="filled"></td></tr>
+            </table>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:11px;color:#666;">C</p>
+            <table class="net-table">
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+            </table>
+          </div>
+          <div style="text-align:center;">
+            <p style="font-size:11px;color:#666;">D</p>
+            <table class="net-table">
+              <tr><td class="filled"></td><td class="filled"></td><td class="empty"></td></tr>
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+              <tr><td class="filled"></td><td class="filled"></td><td class="filled"></td></tr>
+            </table>
+          </div>
+        </div>
+        <label class="mcq-option"><input type="radio" name="q9_2"> <span class="mcq-circle">A</span> A（十字形）</label>
+        <label class="mcq-option"><input type="radio" name="q9_2"> <span class="mcq-circle">B</span> B（T形）</label>
+        <label class="mcq-option"><input type="radio" name="q9_2"> <span class="mcq-circle">C</span> C（田字形）</label>
+        <label class="mcq-option"><input type="radio" name="q9_2"> <span class="mcq-circle">D</span> D（階梯形）</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 填空：</p>
+        <p style="margin-left:20px;">正方體有 <input type="text" class="fill-blank" style="width:40px;"> 個面、<input type="text" class="fill-blank" style="width:40px;"> 個頂點、<input type="text" class="fill-blank" style="width:40px;"> 條棱</p>
+        <p style="margin-left:20px;margin-top:10px;">長方體有 <input type="text" class="fill-blank" style="width:40px;"> 個面、<input type="text" class="fill-blank" style="width:40px;"> 個頂點、<input type="text" class="fill-blank" style="width:40px;"> 條棱</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十) 圓柱和圓錐的認識。6%</div>
+        <p style="margin-bottom:15px;"><strong>1.</strong> 下圖是圓柱的展開圖，每個小格是 1 cm²。求圓柱的表面積。（π ≈ 3.14）</p>
+        <div style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin:15px 0;">
+          <div style="text-align:center;">
+            <p style="color:#666;font-size:12px;">圓柱展開圖</p>
+            <svg width="140" height="100" viewBox="0 0 140 100">
+              <rect x="30" y="10" width="80" height="60" fill="#aed6f1" stroke="#3498db" stroke-width="2"/>
+              <text x="70" y="45" text-anchor="middle" fill="#3498db" font-size="10">高 = 10 cm</text>
+              <ellipse cx="70" cy="10" rx="40" ry="10" fill="#85c1e9" stroke="#3498db" stroke-width="2"/>
+              <ellipse cx="70" cy="70" rx="40" ry="10" fill="#85c1e9" stroke="#3498db" stroke-width="2"/>
+              <text x="115" y="35" text-anchor="middle" fill="#3498db" font-size="9">8 cm</text>
+              <text x="115" y="55" text-anchor="middle" fill="#3498db" font-size="9">8 cm</text>
+            </svg>
+          </div>
+        </div>
+        <p>圓柱的表面積 = <input type="text" class="fill-blank" style="width:80px;"> cm²（4%）</p>
+        
+        <p style="margin:25px 0 15px;"><strong>2.</strong> 圓柱和圓錐的相同之處和不同之處：</p>
+        <p style="margin-left:20px;">相同之處：兩者都有 <input type="text" class="fill-blank" style="width:80px;">（2%）</p>
+        <p style="margin-left:20px;margin-top:10px;">不同之處：圓柱有 <input type="text" class="fill-blank" style="width:80px;"> 個平面；圓錐有 <input type="text" class="fill-blank" style="width:80px;"> 個平面（2%）</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十一) 球的認識。5%</div>
+        <div class="shape-container">
+          <svg width="120" height="120" viewBox="0 0 120 120" style="margin:0 auto;">
+            <circle cx="60" cy="60" r="50" fill="#e8f6f3" stroke="#3498db" stroke-width="3"/>
+            <ellipse cx="60" cy="60" rx="50" ry="15" fill="none" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,3"/>
+            <text x="60" y="60" text-anchor="middle" fill="#3498db" font-size="12">球</text>
+          </svg>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 球有多少個面？<input type="text" class="fill-blank" style="width:50px;"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> 球有多少個頂點？<input type="text" class="fill-blank" style="width:50px;"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> 球有多少條棱？<input type="text" class="fill-blank" style="width:50px;"></p>
       </div>
 
       <div class="section-answer">

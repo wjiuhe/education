@@ -7,11 +7,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap');
     
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: 'Nunito', sans-serif;
@@ -21,13 +17,8 @@
       line-height: 1.7;
     }
     
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
     
-    /* Cover Page */
     .cover-page {
       background: #fff;
       border: 8px solid #E60012;
@@ -42,30 +33,13 @@
     .cover-page::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 10px;
-      background: repeating-linear-gradient(
-        90deg,
-        #E60012 0px,
-        #E60012 25px,
-        #FBD000 25px,
-        #FBD000 50px,
-        #049CD8 50px,
-        #049CD8 75px
-      );
+      background: repeating-linear-gradient(90deg, #E60012 0px, #E60012 25px, #FBD000 25px, #FBD000 50px, #049CD8 50px, #049CD8 75px);
     }
     
-    .mario-header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    .mario-icon {
-      font-size: 60px;
-      margin-bottom: 10px;
-    }
+    .mario-header { text-align: center; margin-bottom: 30px; }
+    .mario-icon { font-size: 60px; margin-bottom: 10px; }
     
     h1 {
       font-family: 'Fredoka', sans-serif;
@@ -84,7 +58,6 @@
       margin-bottom: 30px;
     }
     
-    /* Info Table */
     .info-table {
       width: 100%;
       border-collapse: collapse;
@@ -101,15 +74,8 @@
       font-size: 16px;
     }
     
-    .info-table th {
-      background: #E60012;
-      color: white;
-      font-weight: 700;
-    }
-    
-    .info-table td {
-      background: #fff5f5;
-    }
+    .info-table th { background: #E60012; color: white; font-weight: 700; }
+    .info-table td { background: #fff5f5; }
     
     .info-input {
       width: 100%;
@@ -121,7 +87,6 @@
       font-size: 16px;
     }
     
-    /* Instructions */
     .instructions {
       background: #fffbe6;
       border-left: 6px solid #FBD000;
@@ -130,22 +95,10 @@
       border-radius: 0 12px 12px 0;
     }
     
-    .instructions h3 {
-      color: #E60012;
-      margin-bottom: 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 20px;
-    }
+    .instructions h3 { color: #E60012; margin-bottom: 12px; font-family: 'Fredoka', sans-serif; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
     
-    .instructions ul {
-      margin-left: 25px;
-    }
-    
-    .instructions li {
-      margin: 8px 0;
-    }
-    
-    /* Section Styling */
     .section {
       background: #fff;
       border: 5px solid #E60012;
@@ -169,12 +122,8 @@
       gap: 12px;
     }
     
-    .section-header::before {
-      content: '🍄';
-      font-size: 28px;
-    }
+    .section-header::before { content: '🍄'; font-size: 28px; }
     
-    /* Question Styling */
     .question {
       margin: 25px 0;
       padding: 20px;
@@ -183,20 +132,9 @@
       border-left: 5px solid #049CD8;
     }
     
-    .question-number {
-      font-weight: 700;
-      color: #E60012;
-      font-size: 18px;
-      margin-bottom: 10px;
-      font-family: 'Fredoka', sans-serif;
-    }
+    .question-number { font-weight: 700; color: #E60012; font-size: 18px; margin-bottom: 10px; font-family: 'Fredoka', sans-serif; }
+    .question-text { margin-bottom: 15px; font-size: 16px; }
     
-    .question-text {
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-    
-    /* Word Bank */
     .word-bank {
       display: flex;
       flex-wrap: wrap;
@@ -217,7 +155,6 @@
       font-size: 15px;
     }
     
-    /* Input Fields */
     .answer-input {
       border: 3px solid #049CD8;
       border-radius: 8px;
@@ -246,12 +183,8 @@
       font-family: 'Nunito', sans-serif;
     }
     
-    .fill-blank:focus {
-      outline: none;
-      background: #FBD000;
-    }
+    .fill-blank:focus { outline: none; background: #FBD000; }
     
-    /* Radio Buttons */
     .mcq-option {
       display: flex;
       align-items: center;
@@ -264,16 +197,15 @@
       border: 2px solid transparent;
     }
     
-    .mcq-option:hover {
-      background: #e6f7ff;
-      border-color: #049CD8;
-    }
+    .mcq-option:hover { background: #e6f7ff; border-color: #049CD8; }
     
-    .mcq-option input[type="radio"] {
+    .mcq-option input[type="radio"],
+    .mcq-option input[type="checkbox"] {
       width: 22px;
       height: 22px;
       margin-right: 15px;
       accent-color: #E60012;
+      cursor: pointer;
     }
     
     .mcq-circle {
@@ -288,9 +220,9 @@
       font-weight: 700;
       color: #E60012;
       background: #fff;
+      flex-shrink: 0;
     }
     
-    /* Text Area */
     .short-answer {
       width: 100%;
       min-height: 100px;
@@ -303,7 +235,6 @@
       background: #fff;
     }
     
-    /* Dialogue Styling */
     .dialogue {
       background: #f0f9ff;
       border: 2px solid #049CD8;
@@ -320,12 +251,8 @@
       border-left: 4px solid #FBD000;
     }
     
-    .character-name {
-      font-weight: 700;
-      color: #E60012;
-    }
+    .character-name { font-weight: 700; color: #E60012; }
     
-    /* Submit Button */
     .submit-btn {
       display: block;
       width: 100%;
@@ -349,181 +276,96 @@
       box-shadow: 0 12px 35px rgba(230, 0, 18, 0.5);
     }
     
-    /* Answer Key Foldable Panel */
-    .answer-key-container {
-      margin: 40px 0;
-      border: 4px solid #43B047;
-      border-radius: 15px;
-      overflow: hidden;
-    }
+    .section-answer { margin-top: 20px; border: 3px solid #27AE60; border-radius: 10px; overflow: hidden; }
     
-    .answer-key-toggle {
+    .section-answer-toggle {
       width: 100%;
-      padding: 18px 25px;
-      background: linear-gradient(135deg, #43B047, #5dd162);
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #27AE60, #2ecc71);
       color: white;
       border: none;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      transition: all 0.3s;
-    }
-    
-    .answer-key-toggle:hover {
-      background: linear-gradient(135deg, #3a9a3e, #4fc354);
-    }
-    
-    #toggle-icon {
-      font-size: 18px;
-      transition: transform 0.3s;
-    }
-    
-    .key-badge {
-      background: #E60012;
-      padding: 5px 12px;
-      border-radius: 15px;
-      font-size: 14px;
-    }
-    
-    .answer-key-panel {
-      background: #f0fff0;
-      transition: max-height 0.5s ease, padding 0.3s;
-      overflow: hidden;
-    }
-    
-    .answer-key-panel.collapsed {
-      max-height: 0;
-      padding: 0;
-    }
-    
-    .answer-key-panel.expanded {
-      max-height: 5000px;
-      padding: 30px;
-    }
-    
-    .answer-key-title {
-      color: #43B047;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 22px;
-      margin: 25px 0 15px 0;
-      padding-bottom: 10px;
-      border-bottom: 3px solid #43B047;
-    }
-    
-    .answer-key-title:first-child {
-      margin-top: 0;
-    }
-    
-    .answer-section {
-      margin: 20px 0;
-    }
-    
-    .answer-section h4 {
-      color: #2d2d2d;
-      font-size: 17px;
-      margin-bottom: 12px;
-      font-weight: 700;
-    }
-    
-    .answer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 10px;
     }
     
-    .answer-item {
+    .section-answer-toggle:hover { background: linear-gradient(135deg, #229954, #27AE60); }
+    
+    .section-answer-panel {
+      background: #f0fff0;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s;
+    }
+    
+    .section-answer-panel.expanded { padding: 20px; max-height: 2000px; }
+    
+    .inline-answer {
       background: #fff;
-      padding: 12px 15px;
-      border-radius: 8px;
-      border-left: 4px solid #43B047;
-      font-size: 15px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border-left: 3px solid #27AE60;
+      margin: 5px 0;
+      font-size: 14px;
     }
     
-    .answer-item.long {
-      grid-column: 1 / -1;
-    }
+    .inline-answer strong { color: #E60012; }
     
-    .q-num {
-      font-weight: 700;
-      color: #E60012;
-      margin-right: 8px;
-    }
+    .mario-decoration { text-align: center; font-size: 30px; margin: 20px 0; letter-spacing: 10px; }
     
-    .answer-footer {
-      margin-top: 30px;
+    .reading-passage {
+      background: #fffbe6;
+      border: 2px solid #FBD000;
+      border-radius: 12px;
       padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      text-align: center;
-      border: 2px solid #43B047;
-    }
-    
-    /* Mario decorations */
-    .mario-decoration {
-      text-align: center;
-      font-size: 30px;
       margin: 20px 0;
-      letter-spacing: 10px;
+      line-height: 1.9;
     }
     
-    /* Responsive */
+    .reading-passage h4 { color: #E60012; margin-bottom: 15px; font-family: 'Fredoka', sans-serif; }
+    
+    .part-header {
+      background: linear-gradient(135deg, #9b59b6, #bb8fce);
+      color: white;
+      padding: 12px 20px;
+      margin: 0 -30px 20px -30px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
     @media (max-width: 600px) {
-      .cover-page, .section {
-        padding: 20px;
-      }
-      
-      h1 {
-        font-size: 24px;
-      }
-      
-      .section-header {
-        margin: -20px -20px 20px -20px;
-        font-size: 18px;
-      }
-      
-      .answer-grid {
-        grid-template-columns: 1fr;
-      }
+      .cover-page, .section { padding: 20px; }
+      h1 { font-size: 24px; }
+      .section-header { margin: -20px -20px 20px -20px; font-size: 18px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     
-    <!-- Cover Page -->
     <div class="cover-page">
       <div class="mario-header">
         <div class="mario-icon">🍄 🌟 👑</div>
         <h1>Mushroom Kingdom Primary School</h1>
-        <p class="subtitle">2025-2026 General English Examination</p>
+        <p class="subtitle">2025-2026 General English Examination (KET Level)</p>
       </div>
       
       <table class="info-table">
-        <tr>
-          <th>Class</th>
-          <th>Name</th>
-          <th>Student No.</th>
-          <th>Date</th>
-        </tr>
-        <tr>
-          <td>Primary 5</td>
-          <td><input type="text" class="info-input" placeholder="Your Name"></td>
-          <td><input type="text" class="info-input" placeholder="Number"></td>
-          <td><input type="text" class="info-input" placeholder="Date"></td>
-        </tr>
+        <tr><th>Class</th><th>Name</th><th>Student No.</th><th>Date</th></tr>
+        <tr><td>Primary 5</td><td><input type="text" class="info-input" placeholder="Your Name"></td><td><input type="text" class="info-input" placeholder="Number"></td><td><input type="text" class="info-input" placeholder="Date"></td></tr>
       </table>
       
       <div class="instructions">
         <h3>📝 Examination Instructions</h3>
         <ul>
-          <li>This paper consists of <b>3 sections</b> (Units 1-3)</li>
+          <li>This paper consists of <b>5 Parts</b> (Vocabulary, Grammar, Reading, Writing, Listening)</li>
           <li><b>Time allowed:</b> 60 minutes</li>
-          <li><b>Total marks:</b> 100%</li>
+          <li><b>Total marks:</b> 100 marks</li>
           <li>Answer ALL questions</li>
           <li>Write your answers in the spaces provided</li>
           <li>Use a pencil for multiple choice questions</li>
@@ -533,493 +375,259 @@
       <div class="mario-decoration">⭐ 🍄 🌟 🍄 ⭐</div>
     </div>
 
-    <!-- UNIT 1: Colourful Customs -->
     <div class="section">
-      <div class="section-header">Unit 1: Colourful Customs (35%)</div>
+      <div class="section-header">Part 1: Vocabulary (20 marks)</div>
       
-      <h3 style="color:#049CD8; margin:20px 0 15px;">Section A: Vocabulary - Chinese New Year 🧧</h3>
-      
-      <div class="word-bank">
-        <span class="word-bank-item">Fireworks</span>
-        <span class="word-bank-item">Red packets</span>
-        <span class="word-bank-item">Lion dance</span>
-        <span class="word-bank-item">Turnip cakes</span>
-        <span class="word-bank-item">Pinwheel</span>
-        <span class="word-bank-item">Candy box</span>
+      <div class="question">
+        <div class="question-number">Questions 1-4: Choose the correct answer.</div>
+        <p class="question-text"><strong>1.</strong> The children are very __________ when they receive red packets at Chinese New Year.</p>
+        <label class="mcq-option"><input type="radio" name="v1"> <span class="mcq-circle">A</span> excited</label>
+        <label class="mcq-option"><input type="radio" name="v1"> <span class="mcq-circle">B</span> bored</label>
+        <label class="mcq-option"><input type="radio" name="v1"> <span class="mcq-circle">C</span> tired</label>
+        <label class="mcq-option"><input type="radio" name="v1"> <span class="mcq-circle">D</span> sad</label>
       </div>
       
       <div class="question">
-        <div class="question-number">Question 1</div>
-        <p class="question-text">Look at the pictures. Fill in the blanks with the correct words from the box.</p>
-        <p>a) Children love receiving <input type="text" class="fill-blank"> during Chinese New Year.</p>
-        <p style="margin-top:12px;">b) The <input type="text" class="fill-blank"> brings good luck to houses.</p>
-        <p style="margin-top:12px;">c) We eat <input type="text" class="fill-blank"> during the festival.</p>
+        <p class="question-text"><strong>2.</strong> The __________ danced beautifully during the parade. Everyone clapped.</p>
+        <label class="mcq-option"><input type="radio" name="v2"> <span class="mcq-circle">A</span> dragons</label>
+        <label class="mcq-option"><input type="radio" name="v2"> <span class="mcq-circle">B</span> lions</label>
+        <label class="mcq-option"><input type="radio" name="v2"> <span class="mcq-circle">C</span> tigers</label>
+        <label class="mcq-option"><input type="radio" name="v2"> <span class="mcq-circle">D</span> bears</label>
       </div>
       
       <div class="question">
-        <div class="question-number">Question 2</div>
-        <p class="question-text">Match the words with their meanings. Write the correct letter.</p>
-        <table style="width:100%; margin:15px 0;">
-          <tr>
-            <td style="padding:10px;">1. Fireworks</td>
-            <td style="padding:10px;"><input type="text" class="fill-blank" style="width:60px;"></td>
-            <td style="padding:10px;">a) Money given in red envelopes</td>
-          </tr>
-          <tr>
-            <td style="padding:10px;">2. Red packets</td>
-            <td style="padding:10px;"><input type="text" class="fill-blank" style="width:60px;"></td>
-            <td style="padding:10px;">b) Colourful explosions in the sky</td>
-          </tr>
-          <tr>
-            <td style="padding:10px;">3. Turnip cakes</td>
-            <td style="padding:10px;"><input type="text" class="fill-blank" style="width:60px;"></td>
-            <td style="padding:10px;">c) A traditional New Year food</td>
-          </tr>
-        </table>
-      </div>
-
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section B: Grammar - "too + adjective" 🎯</h3>
-      
-      <div class="question">
-        <div class="question-number">Question 3</div>
-        <p class="question-text">Complete the sentences with "too + adjective" from the box.</p>
-        
-        <div class="word-bank">
-          <span class="word-bank-item">expensive</span>
-          <span class="word-bank-item">heavy</span>
-          <span class="word-bank-item">hot</span>
-          <span class="word-bank-item">spicy</span>
-          <span class="word-bank-item"> crowded</span>
-        </div>
-        
-        <div class="dialogue">
-          <div class="dialogue-line">
-            <span class="character-name">Mario:</span> The mushroom soup is <input type="text" class="fill-blank"> for me. I don't like it.
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Luigi:</span> This Power Star is <input type="text" class="fill-blank">. I cannot lift it.
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Peach:</span> The castle garden is <input type="text" class="fill-blank"> today. There are too many people.
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Toad:</span> The golden crown is <input type="text" class="fill-blank">. I cannot buy it.
-          </div>
-        </div>
-      </div>
-
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section C: Indefinite Pronouns 🔤</h3>
-      
-      <div class="question">
-        <div class="question-number">Question 4</div>
-        <p class="question-text">Fill in the blanks with: <b>everyone, someone, anyone, anything, nothing</b></p>
-        
-        <div class="dialogue">
-          <div class="dialogue-line">
-            <span class="character-name">Bowser:</span> Is there <input type="text" class="fill-blank"> in the castle?
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Koopa:</span> No, there is <input type="text" class="fill-blank"> here. It's empty.
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Bowser:</span> I need <input type="text" class="fill-blank"> to help me catch Mario.
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Koopa:</span> <input type="text" class="fill-blank"> is busy today. We have no free minions.
-          </div>
-        </div>
-      </div>
-
-      <div class="question">
-        <div class="question-number">Question 5</div>
-        <p class="question-text">Choose the correct answer.</p>
-        
-        <p>a) <b>Everything/Something</b> at the party is fun. (All things are fun)</p>
-        <div class="mcq-option">
-          <span class="mcq-circle">A</span> Everything
-        </div>
-        <div class="mcq-option">
-          <span class="mcq-circle">B</span> Something
-        </div>
-        <p style="margin-top:15px;">b) Is there <b>anyone/someone</b> in the dining room?</p>
-        <div class="mcq-option">
-          <span class="mcq-circle">A</span> anyone
-        </div>
-        <div class="mcq-option">
-          <span class="mcq-circle">B</span> someone
-        </div>
-      </div>
-
-      <!-- Answer Key Unit 1 -->
-      <div class="answer-key-container">
-        <button class="answer-key-toggle" onclick="toggleAnswerKey('unit1')">
-          <span id="toggle-icon-unit1">▶</span> 
-          Unit 1 Answer Key
-          <span class="key-badge">FOR TEACHERS</span>
-        </button>
-        
-        <div id="answer-key-panel-unit1" class="answer-key-panel collapsed">
-          <div class="answer-key-content">
-            <h4 class="answer-key-title">Section A: Vocabulary</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">1a.</span> red packets</div>
-              <div class="answer-item"><span class="q-num">1b.</span> lion dance</div>
-              <div class="answer-item"><span class="q-num">1c.</span> turnip cakes</div>
-              <div class="answer-item"><span class="q-num">2.</span> 1-b, 2-a, 3-c</div>
-            </div>
-
-            <h4 class="answer-key-title">Section B: Grammar - "too + adjective"</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">3a.</span> too spicy</div>
-              <div class="answer-item"><span class="q-num">3b.</span> too heavy</div>
-              <div class="answer-item"><span class="q-num">3c.</span> too crowded</div>
-              <div class="answer-item"><span class="q-num">3d.</span> too expensive</div>
-            </div>
-
-            <h4 class="answer-key-title">Section C: Indefinite Pronouns</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">4a.</span> anyone</div>
-              <div class="answer-item"><span class="q-num">4b.</span> nothing / no one</div>
-              <div class="answer-item"><span class="q-num">4c.</span> someone</div>
-              <div class="answer-item"><span class="q-num">4d.</span> Everyone</div>
-              <div class="answer-item"><span class="q-num">5a.</span> A (Everything)</div>
-              <div class="answer-item"><span class="q-num">5b.</span> A (anyone)</div>
-            </div>
-
-            <div class="answer-footer">
-              <p>📊 <strong>Unit 1 Total: 35 marks</strong></p>
-            </div>
-          </div>        </div>      </div>    </div>
-
-    <!-- UNIT 2: Be a Detective -->
-    <div class="section">
-      <div class="section-header">Unit 2: Be a Detective (35%)</div>
-      
-      <h3 style="color:#049CD8; margin:20px 0 15px;">Section A: Vocabulary - Appearance & Accessories 🕵️</h3>
-      
-      <div class="word-bank">
-        <span class="word-bank-item">striped</span>
-        <span class="word-bank-item">spotted</span>
-        <span class="word-bank-item">checked</span>
-        <span class="word-bank-item">floral</span>
-        <span class="word-bank-item">straight</span>
-        <span class="word-bank-item">curly</span>
+        <p class="question-text"><strong>3.</strong> Mario is wearing a __________ shirt. It has lines going across it.</p>
+        <label class="mcq-option"><input type="radio" name="v3"> <span class="mcq-circle">A</span> spotted</label>
+        <label class="mcq-option"><input type="radio" name="v3"> <span class="mcq-circle">B</span> floral</label>
+        <label class="mcq-option"><input type="radio" name="v3"> <span class="mcq-circle">C</span> checked</label>
+        <label class="mcq-option"><input type="radio" name="v3"> <span class="mcq-circle">D</span> striped</label>
       </div>
       
       <div class="question">
-        <div class="question-number">Question 6</div>
-        <p class="question-text">Look at the pictures. Choose the correct word to describe each person.</p>
-        
-        <p>a) Mario is wearing a <input type="text" class="fill-blank"> shirt. (lines going across)</p>
-        <p style="margin-top:12px;">b) Peach is wearing a <input type="text" class="fill-blank"> dress. (with flowers)</p>
-        <p style="margin-top:12px;">c) Luigi has <input type="text" class="fill-blank"> hair. (not curly)</p>
-      </div>
-      
-      <div class="question">
-        <div class="question-number">Question 7</div>
-        <p class="question-text">Match the accessories with the descriptions.</p>
-        
-        <table style="width:100%; margin:15px 0;">
-          <tr>
-            <td style="padding:10px;">1. Pearl necklace</td>
-            <td style="padding:10px;"><input type="text" class="fill-blank" style="width:60px;"></td>
-            <td style="padding:10px;">a) Worn on fingers</td>
-          </tr>
-          <tr>
-            <td style="padding:10px;">2. Silver earrings</td>
-            <td style="padding:10px;"><input type="text" class="fill-blank" style="width:60px;"></td>
-            <td style="padding:10px;">b) Around the neck</td>
-          </tr>
-          <tr>
-            <td style="padding:10px;">3. Diamond ring</td>
-            <td style="padding:10px;"><input type="text" class="fill-blank" style="width:60px;"></td>
-            <td style="padding:10px;">c) On the ears</td>
-          </tr>
-        </table>
+        <p class="question-text"><strong>4.</strong> Peach has __________ hair. It goes straight down to her waist.</p>
+        <label class="mcq-option"><input type="radio" name="v4"> <span class="mcq-circle">A</span> curly</label>
+        <label class="mcq-option"><input type="radio" name="v4"> <span class="mcq-circle">B</span> wavy</label>
+        <label class="mcq-option"><input type="radio" name="v4"> <span class="mcq-circle">C</span> straight</label>
+        <label class="mcq-option"><input type="radio" name="v4"> <span class="mcq-circle">D</span> short</label>
       </div>
 
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section B: Grammar - "in" and "with" 🎯</h3>
-      
-      <div class="question">
-        <div class="question-number">Question 8</div>
-        <p class="question-text">Fill in the blanks with "in" or "with".</p>
-        
-        <div class="dialogue">
-          <p><b>Remember:</b> in + clothes | with + accessories/appearance</p>
-          <br>
-          <div class="dialogue-line">
-            a) Mario is <input type="text" class="fill-blank" style="width:80px;"> a red hat.
-          </div>
-          <div class="dialogue-line">
-            b) Peach is <input type="text" class="fill-blank" style="width:80px;"> long blonde hair.
-          </div>
-          <div class="dialogue-line">
-            c) Toad is <input type="text" class="fill-blank" style="width:80px;"> a spotted mushroom cap.
-          </div>
-          <div class="dialogue-line">
-            d) Bowser is <input type="text" class="fill-blank" style="width:80px;"> a spiked shell.
-          </div>
-          <div class="dialogue-line">
-            e) Yoshi is <input type="text" class="fill-blank" style="width:80px;"> green skin and a long tongue.
-          </div>
-        </div>
-      </div>
-
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section C: Possessive Pronouns 👑</h3>
-      
-      <div class="question">
-        <div class="question-number">Question 9</div>
-        <p class="question-text">Fill in the blanks with possessive pronouns: <b>mine, yours, his, hers, ours, theirs</b></p>
-        
-        <div class="dialogue">
-          <div class="dialogue-line">
-            <span class="character-name">Mario:</span> Is this hammer yours, Luigi?
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Luigi:</span> No, it's not <input type="text" class="fill-blank">. Maybe it's <input type="text" class="fill-blank"> (Toad's).
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Toad:</span> Yes! It's <input type="text" class="fill-blank">! Thank you!
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Peach:</span> These crowns are beautiful. Are they <input type="text" class="fill-blank"> (the princesses')?
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Daisy:</span> Yes, they're <input type="text" class="fill-blank">!
-          </div>
-        </div>
-      </div>
-      
-      <div class="question">
-        <div class="question-number">Question 10</div>
-        <p class="question-text">Choose the correct possessive pronoun.</p>
-        
-        <p>a) Whose coins are these? They're <b>my/mine</b>.</p>
-        <div class="mcq-option"><span class="mcq-circle">A</span> my</div>
-        <div class="mcq-option"><span class="mcq-circle">B</span> mine</div>
-        
-        <p style="margin-top:15px;">b) This Power Star belongs to Mario. It's <b>his/him</b>.</p>
-        <div class="mcq-option"><span class="mcq-circle">A</span> his</div>
-        <div class="mcq-option"><span class="mcq-circle">B</span> him</div>
-      </div>
-
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section D: Reading Comprehension 📖</h3>
-      
-      <div class="dialogue" style="background:#fffbe6;">
-        <h4 style="color:#E60012; margin-bottom:15px;">The Missing Princess</h4>
-        <p>Princess Peach has disappeared from her castle! Detective Mario is investigating the case. He found three suspects:</p>
-        <br>
-        <p><b>Suspect 1 - Waluigi:</b> The man with a purple cap and a long mustache. He was wearing a striped shirt.</p>
-        <p><b>Suspect 2 - Wario:</b> The man with a yellow cap and a pointed mustache. He was in a checked shirt.</p>
-        <p><b>Suspect 3 - Bowser Jr.:</b> The young Koopa with a spotted bandana. He has a small shell on his back.</p>
-        <br>
-        <p>A witness said: "I saw someone with a striped shirt near the castle. He had something shiny in his hand - maybe a diamond ring!"</p>
-      </div>
-      
-      <div class="question">
-        <div class="question-number">Question 11</div>
-        <p class="question-text">Answer the following questions.</p>
-        
-        <p>a) Who is the main suspect according to the witness? <input type="text" class="fill-blank"></p>
-        <p style="margin-top:12px;">b) What was the suspect wearing? <input type="text" class="fill-blank"></p>
-        <p style="margin-top:12px;">c) What did the witness see in his hand? <input type="text" class="fill-blank"></p>
-      </div>
-
-      <!-- Answer Key Unit 2 -->
-      <div class="answer-key-container">
-        <button class="answer-key-toggle" onclick="toggleAnswerKey('unit2')">
-          <span id="toggle-icon-unit2">▶</span> 
-          Unit 2 Answer Key
-          <span class="key-badge">FOR TEACHERS</span>
-        </button>
-        
-        <div id="answer-key-panel-unit2" class="answer-key-panel collapsed">
-          <div class="answer-key-content">
-            <h4 class="answer-key-title">Section A: Vocabulary</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">6a.</span> striped</div>
-              <div class="answer-item"><span class="q-num">6b.</span> floral</div>
-              <div class="answer-item"><span class="q-num">6c.</span> straight</div>
-              <div class="answer-item"><span class="q-num">7.</span> 1-b, 2-c, 3-a</div>
-            </div>
-
-            <h4 class="answer-key-title">Section B: Grammar - "in" and "with"</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">8a.</span> in</div>
-              <div class="answer-item"><span class="q-num">8b.</span> with</div>
-              <div class="answer-item"><span class="q-num">8c.</span> in</div>
-              <div class="answer-item"><span class="q-num">8d.</span> in</div>
-              <div class="answer-item"><span class="q-num">8e.</span> with</div>
-            </div>
-
-            <h4 class="answer-key-title">Section C: Possessive Pronouns</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">9.</span> mine, his, mine, theirs, ours</div>
-              <div class="answer-item"><span class="q-num">10a.</span> B (mine)</div>
-              <div class="answer-item"><span class="q-num">10b.</span> A (his)</div>
-            </div>
-
-            <h4 class="answer-key-title">Section D: Reading Comprehension</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">11a.</span> Waluigi</div>
-              <div class="answer-item"><span class="q-num">11b.</span> a striped shirt</div>
-              <div class="answer-item"><span class="q-num">11c.</span> a diamond ring / something shiny</div>
-            </div>
-
-            <div class="answer-footer">
-              <p>📊 <strong>Unit 2 Total: 35 marks</strong></p>
-            </div>
-          </div>
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">📜 Part 1 Answers</button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> A (excited)</div>
+          <div class="inline-answer"><strong>2.</strong> B (lions)</div>
+          <div class="inline-answer"><strong>3.</strong> D (striped)</div>
+          <div class="inline-answer"><strong>4.</strong> C (straight)</div>
         </div>
       </div>
     </div>
 
-    <!-- UNIT 3: Dream Big -->
     <div class="section">
-      <div class="section-header">Unit 3: Dream Big (30%)</div>
+      <div class="section-header">Part 2: Grammar (25 marks)</div>
       
-      <h3 style="color:#049CD8; margin:20px 0 15px;">Section A: Vocabulary - Personality ⭐</h3>
-      
-      <div class="word-bank">
-        <span class="word-bank-item">brave</span>
-        <span class="word-bank-item">determined</span>
-        <span class="word-bank-item">creative</span>
-        <span class="word-bank-item">helpful</span>
-        <span class="word-bank-item">honest</span>
+      <div class="question">
+        <div class="question-number">Questions 5-7: Choose the correct option to complete each sentence.</div>
+        <p class="question-text"><strong>5.</strong> Mario __________ Peach since 1985. They have been friends for a long time.</p>
+        <label class="mcq-option"><input type="radio" name="g1"> <span class="mcq-circle">A</span> knows</label>
+        <label class="mcq-option"><input type="radio" name="g1"> <span class="mcq-circle">B</span> knew</label>
+        <label class="mcq-option"><input type="radio" name="g1"> <span class="mcq-circle">C</span> has known</label>
+        <label class="mcq-option"><input type="radio" name="g1"> <span class="mcq-circle">D</span> is knowing</label>
       </div>
       
       <div class="question">
-        <div class="question-number">Question 12</div>
-        <p class="question-text">Choose the correct word to describe each character.</p>
-        
-        <p>a) Mario always jumps into dangerous places to save Peach. He is <input type="text" class="fill-blank">.</p>
-        <p style="margin-top:12px;">b) Luigi never gives up, even when he's scared. He is <input type="text" class="fill-blank">.</p>
-        <p style="margin-top:12px;">c) Toad always helps others find their way. He is <input type="text" class="fill-blank">.</p>
+        <p class="question-text"><strong>6.</strong> If Bowser __________ the castle, he will be very angry.</p>
+        <label class="mcq-option"><input type="radio" name="g2"> <span class="mcq-circle">A</span> enters</label>
+        <label class="mcq-option"><input type="radio" name="g2"> <span class="mcq-circle">B</span> entered</label>
+        <label class="mcq-option"><input type="radio" name="g2"> <span class="mcq-circle">C</span> will enter</label>
+        <label class="mcq-option"><input type="radio" name="g2"> <span class="mcq-circle">D</span> has entered</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>7.</strong> The cake is __________ hot __________ I cannot eat it.</p>
+        <label class="mcq-option"><input type="radio" name="g3"> <span class="mcq-circle">A</span> too / to</label>
+        <label class="mcq-option"><input type="radio" name="g3"> <span class="mcq-circle">B</span> very / to</label>
+        <label class="mcq-option"><input type="radio" name="g3"> <span class="mcq-circle">C</span> so / that</label>
+        <label class="mcq-option"><input type="radio" name="g3"> <span class="mcq-circle">D</span> too / that</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">Questions 8-10: Fill in the blanks with the correct form of the words given.</div>
+        <p class="question-text"><strong>8.</strong> Mario is very __________. He always finishes his missions. (DETERMINE)</p>
+        <input type="text" class="fill-blank" style="width:200px;">
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>9.</strong> The princess lives in a __________ castle. It has many rooms. (HISTORY)</p>
+        <input type="text" class="fill-blank" style="width:200px;">
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>10.</strong> Yoshi is very __________. He helps everyone in the kingdom. (HELP)</p>
+        <input type="text" class="fill-blank" style="width:200px;">
       </div>
 
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section B: Present Perfect with since/for ⏰</h3>
-      
-      <div class="question">
-        <div class="question-number">Question 13</div>
-        <p class="question-text">Fill in the blanks with <b>since</b> or <b>for</b>.</p>
-        
-        <div class="dialogue">
-          <p><b>Remember:</b> since + point in time | for + period of time</p>
-          <br>
-          <div class="dialogue-line">
-            a) Mario has been a plumber <input type="text" class="fill-blank"> 1985.
-          </div>
-          <div class="dialogue-line">
-            b) Bowser has lived in his castle <input type="text" class="fill-blank"> many years.
-          </div>
-          <div class="dialogue-line">
-            c) Peach has been a princess <input type="text" class="fill-blank"> she was born.
-          </div>
-          <div class="dialogue-line">
-            d) Yoshi has been Mario's friend <input type="text" class="fill-blank"> over 30 years.
-          </div>
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">📜 Part 2 Answers</button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>5.</strong> C (has known)</div>
+          <div class="inline-answer"><strong>6.</strong> C (will enter)</div>
+          <div class="inline-answer"><strong>7.</strong> A (too / to)</div>
+          <div class="inline-answer"><strong>8.</strong> determined</div>
+          <div class="inline-answer"><strong>9.</strong> historical</div>
+          <div class="inline-answer"><strong>10.</strong> helpful</div>
         </div>
       </div>
-      
-      <div class="question">
-        <div class="question-number">Question 14</div>
-        <p class="question-text">Complete the interview with Chelsea Lung (famous singer).</p>
-        
-        <div class="dialogue">
-          <div class="dialogue-line">
-            <span class="character-name">Mario:</span> How long have you been a singer?
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Chelsea:</span> I've been a singer <input type="text" class="fill-blank"> 2006.
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Mario:</span> How long have you lived in Hong Kong?
-          </div>
-          <div class="dialogue-line">
-            <span class="character-name">Chelsea:</span> I've lived here <input type="text" class="fill-blank"> 35 years.
-          </div>
-        </div>
-      </div>
+    </div>
 
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section C: Simple Past vs Present Perfect 🎮</h3>
+    <div class="section">
+      <div class="section-header">Part 3: Reading Comprehension (25 marks)</div>
       
-      <div class="question">
-        <div class="question-number">Question 15</div>
-        <p class="question-text">Choose the correct verb form.</p>
-        
-        <p>a) Mario <b>saved/has saved</b> Princess Peach many times.</p>
-        <div class="mcq-option"><span class="mcq-circle">A</span> saved</div>
-        <div class="mcq-option"><span class="mcq-circle">B</span> has saved</div>
-        
-        <p style="margin-top:15px;">b) Mario <b>defeated/has defeated</b> Bowser yesterday.</p>
-        <div class="mcq-option"><span class="mcq-circle">A</span> defeated</div>
-        <div class="mcq-option"><span class="mcq-circle">B</span> has defeated</div>
-        
-        <p style="margin-top:15px;">c) We <b>visited/have visited</b> the Mushroom Kingdom before.</p>
-        <div class="mcq-option"><span class="mcq-circle">A</span> visited</div>
-        <div class="mcq-option"><span class="mcq-circle">B</span> have visited</div>
-      </div>
-
-      <h3 style="color:#049CD8; margin:30px 0 15px;">Section D: Writing ✍️</h3>
-      
-      <div class="question">
-        <div class="question-number">Question 16</div>
-        <p class="question-text">Write a short biography of Mario (about 50 words). Use the information below.</p>
+      <div class="reading-passage">
+        <h4>The Mushroom Kingdom Tournament</h4>
+        <p>Every year, the Mushroom Kingdom holds a exciting fighting tournament. Fighters from all over the world come to compete. This year, Mario, Luigi, and Princess Peach decided to enter the competition.</p>
         <br>
-        <ul style="margin-left:30px;">
-          <li>Name: Mario</li>
-          <li>Job: Plumber/Hero</li>
-          <li>First game: 1981 (Donkey Kong)</li>
-          <li>Brother: Luigi</li>
-          <li>Home: Mushroom Kingdom</li>
-          <li>Personality: brave, kind, determined</li>
+        <p>Mario has been training for three months. He wakes up at 6 o'clock every morning and runs five kilometers. "I want to win this year," he said in an interview yesterday. "I have practiced a lot since January."</p>
+        <br>
+        <p>Luigi is feeling nervous. He has never won a tournament before. "If I don't win this time, I will keep trying," he promised himself. His brother Mario is very supportive. "Don't worry," Mario told him. "You are a great fighter, and I believe in you."</p>
+        <br>
+        <p>Princess Peach is the defending champion. She won last year's tournament. "I have been preparing new techniques," she explained. "I will try my best to win again." The tournament will begin next Monday at the castle arena.</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">Questions 11-15: Choose the correct answer.</div>
+        <p class="question-text"><strong>11.</strong> How long has Mario been training?</p>
+        <label class="mcq-option"><input type="radio" name="r1"> <span class="mcq-circle">A</span> One month</label>
+        <label class="mcq-option"><input type="radio" name="r1"> <span class="mcq-circle">B</span> Two months</label>
+        <label class="mcq-option"><input type="radio" name="r1"> <span class="mcq-circle">C</span> Three months</label>
+        <label class="mcq-option"><input type="radio" name="r1"> <span class="mcq-circle">D</span> Six months</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>12.</strong> When did Mario start training?</p>
+        <label class="mcq-option"><input type="radio" name="r2"> <span class="mcq-circle">A</span> Last year</label>
+        <label class="mcq-option"><input type="radio" name="r2"> <span class="mcq-circle">B</span> This month</label>
+        <label class="mcq-option"><input type="radio" name="r2"> <span class="mcq-circle">C</span> January</label>
+        <label class="mcq-option"><input type="radio" name="r2"> <span class="mcq-circle">D</span> March</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>13.</strong> What does Luigi promise himself?</p>
+        <label class="mcq-option"><input type="radio" name="r3"> <span class="mcq-circle">A</span> He will give up</label>
+        <label class="mcq-option"><input type="radio" name="r3"> <span class="mcq-circle">B</span> He will stop training</label>
+        <label class="mcq-option"><input type="radio" name="r3"> <span class="mcq-circle">C</span> He will keep trying if he doesn't win</label>
+        <label class="mcq-option"><input type="radio" name="r3"> <span class="mcq-circle">D</span> He will ask Mario to fight for him</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>14.</strong> Who won last year's tournament?</p>
+        <label class="mcq-option"><input type="radio" name="r4"> <span class="mcq-circle">A</span> Mario</label>
+        <label class="mcq-option"><input type="radio" name="r4"> <span class="mcq-circle">B</span> Luigi</label>
+        <label class="mcq-option"><input type="radio" name="r4"> <span class="mcq-circle">C</span> Princess Peach</label>
+        <label class="mcq-option"><input type="radio" name="r4"> <span class="mcq-circle">D</span> Bowser</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>15.</strong> When will the tournament begin?</p>
+        <label class="mcq-option"><input type="radio" name="r5"> <span class="mcq-circle">A</span> Next week</label>
+        <label class="mcq-option"><input type="radio" name="r5"> <span class="mcq-circle">B</span> Next Monday</label>
+        <label class="mcq-option"><input type="radio" name="r5"> <span class="mcq-circle">C</span> Tomorrow</label>
+        <label class="mcq-option"><input type="radio" name="r5"> <span class="mcq-circle">D</span> Today</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">📜 Part 3 Answers</button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>11.</strong> C (Three months)</div>
+          <div class="inline-answer"><strong>12.</strong> C (January)</div>
+          <div class="inline-answer"><strong>13.</strong> C (He will keep trying if he doesn't win)</div>
+          <div class="inline-answer"><strong>14.</strong> C (Princess Peach)</div>
+          <div class="inline-answer"><strong>15.</strong> B (Next Monday)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">Part 4: Writing (15 marks)</div>
+      
+      <div class="question">
+        <div class="question-number">Question 16: Write a message (8 marks)</div>
+        <p class="question-text">You are Mario. Write a message to Luigi (about 30-40 words) to invite him to practice with you before the tournament. Include:</p>
+        <ul style="margin: 10px 0 10px 30px;">
+          <li>When you want to practice</li>
+          <li>Where you want to meet</li>
+          <li>Why practice is important</li>
         </ul>
-        <br>
-        <textarea class="short-answer" placeholder="Write your biography here..."></textarea>
+        <textarea class="short-answer" placeholder="Write your message here..."></textarea>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">Question 17: Complete the sentence (7 marks)</div>
+        <p class="question-text"><strong>Complete the second sentence so that it means the same as the first.</strong></p>
+        <p style="margin: 15px 0;"><strong>17a.</strong> Mario trains every morning. Mario never misses training. (ALWAYS)</p>
+        <input type="text" class="fill-blank" style="width:100%;">
+
+        <p style="margin: 15px 0;"><strong>17b.</strong> Peach is very talented. She can win the tournament. (SO...THAT)</p>
+        <input type="text" class="fill-blank" style="width:100%;">
+        
+        <p style="margin: 15px 0;"><strong>17c.</strong> Luigi didn't win last year. He will try again this year. (IF)</p>
+        <input type="text" class="fill-blank" style="width:100%;">
       </div>
 
-      <!-- Answer Key Unit 3 -->
-      <div class="answer-key-container">
-        <button class="answer-key-toggle" onclick="toggleAnswerKey('unit3')">
-          <span id="toggle-icon-unit3">▶</span> 
-          Unit 3 Answer Key
-          <span class="key-badge">FOR TEACHERS</span>
-        </button>
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">📜 Part 4 Answers</button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>16.</strong> (Sample) Dear Luigi, I want to practice with you tomorrow at the castle garden at 3pm. Practice is important because we need to be ready for the tournament. Let's train together! Your brother, Mario</div>
+          <div class="inline-answer"><strong>17a.</strong> Mario always trains. / Mario is always training.</div>
+          <div class="inline-answer"><strong>17b.</strong> Peach is so talented that she can win the tournament.</div>
+          <div class="inline-answer"><strong>17c.</strong> If Luigi doesn't win this year, he will try again.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">Part 5: Listening Practice (15 marks)</div>
+      
+      <div class="question">
+        <div class="question-number">Questions 18-20: Listen and choose the correct answer.</div>
+        <div class="dialogue">
+          <p style="background:#fffbe6;padding:15px;border-radius:8px;margin-bottom:15px;"><strong>🎧 Practice Listening Script:</strong></p>
+          <p><em> Mario: Hey Luigi, have you seen my red cap?</em></p>
+          <p><em> Luigi: Yes, I saw it in the kitchen this morning. You left it there after breakfast.</em></p>
+          <p><em> Mario: Thanks! Oh, by the way, the tournament is next week. Have you prepared your costume?</em></p>
+          <p><em> Luigi: Not yet. I've been very busy. I haven't had time to go shopping.</em></p>
+          <p><em> Mario: We should go together tomorrow. The shops will be less crowded in the morning.</em></p>
+          <p><em> Luigi: Good idea! Let's meet at 9 o'clock outside the castle.</em></p>
+        </div>
         
-        <div id="answer-key-panel-unit3" class="answer-key-panel collapsed">
-          <div class="answer-key-content">
-            <h4 class="answer-key-title">Section A: Vocabulary</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">12a.</span> brave</div>
-              <div class="answer-item"><span class="q-num">12b.</span> determined</div>
-              <div class="answer-item"><span class="q-num">12c.</span> helpful</div>
-            </div>
+        <p class="question-text"><strong>18.</strong> Where did Mario leave his cap?</p>
+        <label class="mcq-option"><input type="radio" name="l1"> <span class="mcq-circle">A</span> In the bedroom</label>
+        <label class="mcq-option"><input type="radio" name="l1"> <span class="mcq-circle">B</span> In the kitchen</label>
+        <label class="mcq-option"><input type="radio" name="l1"> <span class="mcq-circle">C</span> In the garden</label>
+        <label class="mcq-option"><input type="radio" name="l1"> <span class="mcq-circle">D</span> In the living room</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>19.</strong> Why hasn't Luigi prepared his costume?</p>
+        <label class="mcq-option"><input type="radio" name="l2"> <span class="mcq-circle">A</span> He lost his money</label>
+        <label class="mcq-option"><input type="radio" name="l2"> <span class="mcq-circle">B</span> He has been very busy</label>
+        <label class="mcq-option"><input type="radio" name="l2"> <span class="mcq-circle">C</span> He doesn't want to go</label>
+        <label class="mcq-option"><input type="radio" name="l2"> <span class="mcq-circle">D</span> He forgot about it</label>
+      </div>
+      
+      <div class="question">
+        <p class="question-text"><strong>20.</strong> When and where will they meet?</p>
+        <label class="mcq-option"><input type="radio" name="l3"> <span class="mcq-circle">A</span> Tomorrow at 9am at the castle</label>
+        <label class="mcq-option"><input type="radio" name="l3"> <span class="mcq-circle">B</span> Today at 10am outside the shop</label>
+        <label class="mcq-option"><input type="radio" name="l3"> <span class="mcq-circle">C</span> Next week at 9am at Mario's house</label>
+        <label class="mcq-option"><input type="radio" name="l3"> <span class="mcq-circle">D</span> Tomorrow at 8am at the garden</label>
+      </div>
 
-            <h4 class="answer-key-title">Section B: Present Perfect with since/for</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">13a.</span> since</div>
-              <div class="answer-item"><span class="q-num">13b.</span> for</div>
-              <div class="answer-item"><span class="q-num">13c.</span> since</div>
-              <div class="answer-item"><span class="q-num">13d.</span> for</div>
-              <div class="answer-item"><span class="q-num">14.</span> since, for</div>
-            </div>
-
-            <h4 class="answer-key-title">Section C: Simple Past vs Present Perfect</h4>
-            <div class="answer-grid">
-              <div class="answer-item"><span class="q-num">15a.</span> B (has saved)</div>
-              <div class="answer-item"><span class="q-num">15b.</span> A (defeated)</div>
-              <div class="answer-item"><span class="q-num">15c.</span> B (have visited)</div>
-            </div>
-
-            <h4 class="answer-key-title">Section D: Writing (Sample Answer)</h4>
-            <div class="answer-grid">
-              <div class="answer-item long"><span class="q-num">16.</span> Mario is a brave plumber and hero. He has been saving Princess Peach since 1981. He first appeared in Donkey Kong. His brother is Luigi. Mario lives in the Mushroom Kingdom. He is kind and determined. Everyone loves him!</div>
-            </div>
-
-            <div class="answer-footer">
-              <p>📊 <strong>Unit 3 Total: 30 marks</strong></p>
-            </div>
-          </div>
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">📜 Part 5 Answers</button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>18.</strong> B (In the kitchen)</div>
+          <div class="inline-answer"><strong>19.</strong> B (He has been very busy)</div>
+          <div class="inline-answer"><strong>20.</strong> A (Tomorrow at 9am at the castle)</div>
         </div>
       </div>
     </div>
@@ -1036,18 +644,12 @@
   </div>
 
   <script>
-    function toggleAnswerKey(unit) {
-      const panel = document.getElementById('answer-key-panel-' + unit);
-      const icon = document.getElementById('toggle-icon-' + unit);
-      
-      if (panel.classList.contains('collapsed')) {
-        panel.classList.remove('collapsed');
-        panel.classList.add('expanded');
-        icon.textContent = '▼';
-      } else {
-        panel.classList.add('collapsed');
+    function toggleSectionAnswer(btn) {
+      const panel = btn.nextElementSibling;
+      if (panel.classList.contains('expanded')) {
         panel.classList.remove('expanded');
-        icon.textContent = '▶';
+      } else {
+        panel.classList.add('expanded');
       }
     }
   </script>
