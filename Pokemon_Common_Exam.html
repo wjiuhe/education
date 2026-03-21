@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>寶可夢常識科考試 - 人體的神經系統與泌尿系統</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%); min-height: 100vh; color: #2d2d2d; line-height: 1.8; }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .cover-page { background: #fff; border: 8px solid #E74C3C; border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative; }
+    .cover-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 10px; background: repeating-linear-gradient(90deg, #E74C3C, #E74C3C 25px, #FFE66D 25px, #FFE66D 50px, #4ECDC4 50px, #4ECDC4 75px); }
+    .pokemon-header { text-align: center; margin-bottom: 30px; }
+    .pokemon-icon { font-size: 60px; margin-bottom: 10px; }
+    h1 { text-align: center; color: #E74C3C; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #FFE66D; }
+    .subtitle { text-align: center; color: #3498DB; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #E74C3C; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #E74C3C; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #E74C3C; color: white; font-weight: 700; }
+    .info-table td { background: #fff5f5; }
+    .info-input { width: 100%; border: 2px dashed #E74C3C; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .instructions { background: #fff5f5; border-left: 6px solid #FFE66D; padding: 20px; margin: 20px 0; border-radius: 0 12px 12px 0; }
+    .instructions h3 { color: #E74C3C; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+    .section { background: #fff; border: 5px solid #3498DB; border-radius: 16px; padding: 30px; margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); }
+    .section-header { background: linear-gradient(135deg, #3498DB, #2980B9); color: white; padding: 18px 25px; margin: -30px -30px 25px -30px; border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+    .section-header::before { content: '⚡'; font-size: 28px; }
+    .question { margin: 25px 0; padding: 20px; background: #f8f9ff; border-radius: 12px; border-left: 5px solid #3498DB; }
+    .question-number { font-weight: 700; color: #E74C3C; font-size: 18px; margin-bottom: 10px; }
+    .question-text { margin-bottom: 15px; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 12px; padding: 20px; background: #fff5f5; border-radius: 12px; margin: 15px 0; border: 3px dashed #FFE66D; }
+    .word-bank-item { background: #3498DB; color: white; padding: 10px 18px; border-radius: 25px; font-weight: 600; font-size: 15px; }
+    .answer-input { border: 3px solid #3498DB; border-radius: 8px; padding: 10px 15px; font-size: 16px; background: #fff; transition: all 0.3s; }
+    .answer-input:focus { outline: none; border-color: #E74C3C; box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.15); }
+    .fill-blank { border: none; border-bottom: 3px solid #E74C3C; background: #fff5f5; padding: 8px 15px; font-size: 16px; min-width: 100px; text-align: center; border-radius: 6px 6px 0 0; }
+    .fill-blank:focus { outline: none; background: #FFE66D; }
+    .mcq-option { display: flex; align-items: center; margin: 10px 0; padding: 12px 18px; background: #fff; border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
+    .mcq-option:hover { background: #ffe6f0; border-color: #E74C3C; }
+    .mcq-circle { width: 28px; height: 28px; border: 3px solid #E74C3C; border-radius: 50%; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: #E74C3C; background: #fff; font-size: 14px; }
+    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .data-table th, .data-table td { border: 2px solid #3498DB; padding: 12px; text-align: center; }
+    .data-table th { background: #3498DB; color: white; }
+    .data-table td { background: #f8f9ff; }
+    .short-answer { width: 100%; min-height: 80px; border: 3px solid #3498DB; border-radius: 10px; padding: 15px; font-size: 16px; font-family: 'Noto Sans TC', sans-serif; resize: vertical; background: #fff; }
+    .submit-btn { display: block; width: 100%; max-width: 350px; margin: 50px auto; padding: 18px 35px; background: linear-gradient(135deg, #E74C3C, #FF6B6B); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4); }
+    .submit-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(231, 76, 60, 0.5); }
+    .answer-key-container { margin: 40px 0; border: 4px solid #27AE60; border-radius: 15px; overflow: hidden; }
+    .answer-key-toggle { width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #27AE60, #2ECC71); color: white; border: none; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px; }
+    .answer-key-toggle:hover { background: linear-gradient(135deg, #229954, #27AE60); }
+    .key-badge { background: #E74C3C; padding: 5px 12px; border-radius: 15px; font-size: 14px; }
+    .answer-key-panel { background: #f0fff0; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden; }
+    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
+    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
+    .answer-key-title { color: #27AE60; font-size: 20px; margin: 20px 0 10px 0; padding-bottom: 8px; border-bottom: 3px solid #27AE60; }
+    .answer-key-title:first-child { margin-top: 0; }
+    .answer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+    .answer-item { background: #fff; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #27AE60; font-size: 14px; }
+    .answer-item.long { grid-column: 1 / -1; }
+    .q-num { font-weight: 700; color: #E74C3C; margin-right: 6px; }
+    .answer-footer { margin-top: 25px; padding: 15px; background: #fff; border-radius: 10px; text-align: center; border: 2px solid #27AE60; }
+    .pokemon-decoration { text-align: center; font-size: 30px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box { background: #e6f7ff; border-left: 4px solid #3498DB; padding: 12px 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+    .news-box { background: #fffbe6; border: 2px solid #FFE66D; border-radius: 12px; padding: 20px; margin: 20px 0; }
+    .news-title { color: #E74C3C; font-weight: 700; font-size: 18px; margin-bottom: 10px; }
+    .scenario-box { background: #ffe6f0; border: 2px solid #E74C3C; border-radius: 12px; padding: 20px; margin: 20px 0; }
+    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } .answer-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="pokemon-header">
+        <div class="pokemon-icon">⚡ 🔋 💧 🧠</div>
+        <h1>皮卡皮卡市小學 2025-2026年度 常識科考試</h1>
+        <p class="subtitle">寶可夢 Pokemon Themed Examination</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" placeholder="學號"></td><td><input type="text" class="info-input" placeholder="日期"></td></tr>
+      </table>
+      <div class="instructions">
+        <h3>📝 考生須知</h3>
+        <ul>
+          <li>本卷共分<b>四部分</b>：神經系統基礎、人體協調、泌尿系統、保護身體系統</li>
+          <li><b>考試時間：</b>45分鐘</li>
+          <li><b>總分：</b>100分</li>
+          <li>選擇題請用鉛筆把正確選項前的圓圈塗黑及塗滿</li>
+          <li>填充題請在橫線上填寫正確答案</li>
+        </ul>
+      </div>
+      <div class="pokemon-decoration">⚡ 🔋 💧 🧠 🔋 ⚡</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：神經系統基礎 (25分)</div>
+      <div class="tip-box">
+        <p><strong>⚡ 皮卡丘小知識：</strong>就像皮卡丘的尾巴能感應電力一樣，我們的身體也有感應系統——這就是神經系統！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(一) 選填：選出最適當的答案填在橫線上，每選項只可使用一次。14% @2%</div>
+        <div class="word-bank">
+          <span class="word-bank-item">腦</span>
+          <span class="word-bank-item">脊髓</span>
+          <span class="word-bank-item">神經</span>
+          <span class="word-bank-item">記憶</span>
+          <span class="word-bank-item">思考</span>
+          <span class="word-bank-item">協調動作</span>
+        </div>
+        <p style="margin-top:15px;"><strong>1.</strong> 神經系統包括 <input type="text" class="fill-blank" style="width:80px;">、<input type="text" class="fill-blank" style="width:80px;"> 和 <input type="text" class="fill-blank" style="width:80px;"> 。</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 神經系統有三大功能：<input type="text" class="fill-blank" style="width:100px;">、<input type="text" class="fill-blank" style="width:100px;"> 和 <input type="text" class="fill-blank" style="width:100px;"> 。</p>
+        <p style="margin-top:15px;"><strong>3.</strong> 當小智背誦神奇寶貝的名字時，他運用了神經系統的 <input type="text" class="fill-blank" style="width:100px;"> 功能。</p>
+        <p style="margin-top:15px;"><strong>4.</strong> 當皮卡丘計算要吃多少能量方塊時，它運用了神經系統的 <input type="text" class="fill-blank" style="width:100px;"> 功能。</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(二) 情境分析題。3%</div>
+        <div class="scenario-box">
+          <p><strong>情境：</strong>小霞在海邊玩耍時，不小心踩到了一隻派拉斯（寄生蟲神奇寶貝）！她的腳立刻縮了回去，還來不及想就已經跳開了。</p>
+        </div>
+        <p><strong>問題：</strong>為甚麼小霞來不及想就已經跳開了？這與神經系統的哪個部分有關？</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(三) 選擇題：選出正確答案。12% @2%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 神經系統中，負責發出指令的部分是？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 肌肉</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 皮膚</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 腦</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 心臟</div>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 下列哪項不是神經系統的功能？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 記憶</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 思考</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 協調動作</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 消化食物</div>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 反射動作的特點是？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 需要經過腦部思考</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 由脊髓直接處理，反應更快</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 需要較長時間才能完成</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 只會發生在手臂</div>
+        
+        <p style="margin:20px 0 10px;"><strong>4.</strong> 保護神經系統的正確做法是？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 玩電子遊戲玩一整天</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 騎單車時佩戴頭盔</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 從高處跳下不用注意</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 熬夜不睡覺</div>
+        
+        <p style="margin:20px 0 10px;"><strong>5.</strong> 人體的指揮中心在哪裡？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 心臟</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 肺</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 腦</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 胃</div>
+        
+        <p style="margin:20px 0 10px;"><strong>6.</strong> 當不小心碰到燙手的東西時，反射動作的好處是？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 可以練習忍耐</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 反應更快，可以及時保護身體避免受傷</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 可以冷靜思考</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 讓人更快睡着</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：人體協調與反應 (30分)</div>
+      <div class="tip-box">
+        <p><strong>🧠 皮卡丘小知識：</strong>就像小智下棋時要思考每一步，神經系統也在協調我們的每一個動作！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(四) 實驗題：根據以下實驗，把答案填在橫線上。11%</div>
+        <div class="scenario-box">
+          <p><strong>實驗材料：</strong>膝蓋反射測試器（模擬神奇寶貝健身器）</p>
+          <p><strong>實驗步驟：</strong>坐在椅子上，一隻腿自然下垂，用橡膠錘輕輕敲擊膝蓋下的韌帶，觀察腿的運動。</p>
+        </div>
+        <table class="data-table">
+          <tr><th>實驗情況</th><th>觀察結果</th></tr>
+          <tr><td>用橡膠錘輕輕敲擊韌帶</td><td>小腿自然向前踢起</td></tr>
+          <tr><td>敲擊後的反應時間</td><td><input type="text" class="fill-blank" style="width:150px;"></td></tr>
+        </table>
+        <p style="margin-top:15px;"><strong>1.</strong> 這個反射動作是否經過腦部思考？ <input type="text" class="fill-blank" style="width:80px;"> （是/否）</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 反射動作主要由哪個部分處理？ <input type="text" class="fill-blank" style="width:100px;"></p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(五) 配對題：把答案填在橫線上。20% @2%</div>
+        <p style="margin-bottom:15px;"><strong>1. 神經系統各部分的功能：</strong></p>
+        <table class="data-table">
+          <tr><th>組成部分</th><th>答案</th><th>功能</th></tr>
+          <tr><td>A. 腦</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>發出指令，負責思考和記憶</td></tr>
+          <tr><td>B. 脊髓</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>傳遞信息和處理反射動作</td></tr>
+          <tr><td>C. 周圍神經</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>連接腦、脊髓與身體各部分</td></tr>
+        </table>
+        
+        <p style="margin-top:20px; margin-bottom:15px;"><strong>2. 協調動作的過程：</strong></p>
+        <table class="data-table">
+          <tr><th>步驟</th><th>答案</th><th>負責器官</th></tr>
+          <tr><td>看見障礙物</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>眼睛</td></tr>
+          <tr><td>信息傳送到腦</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>視覺神經</td></tr>
+          <tr><td>發出指令</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>腦</td></tr>
+          <tr><td>指令傳送到肌肉</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>運動神經</td></tr>
+        </table>
+        
+        <p style="margin-top:20px; margin-bottom:15px;"><strong>3. 隨意動作和反射動作的比較：</strong></p>
+        <table class="data-table">
+          <tr><th>動作類型</th><th>答案</th><th>特點</th></tr>
+          <tr><td>隨意動作</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>經過腦部思考</td></tr>
+          <tr><td>反射動作</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>不經過腦部思考</td></tr>
+        </table>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(六) 問答題：以完整句子作答。4%</div>
+        <p><strong>問題：</strong>小智騎著摩托鼠躲避障礙物時，神經系統是怎樣協調他的身體完成這個動作的？</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：泌尿系統 (25分)</div>
+      <div class="tip-box">
+        <p><strong>💧 皮卡丘小知識：</strong>就像可達鴨有時會頭疼（水分過多），我們的身體也需要排出多餘的水分——這就是泌尿系統的工作！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(七) 看圖判斷：在正確答案的括號內加「✓」，不正確的加「×」。10% @2%</div>
+        <p style="margin-bottom:15px;"><strong>1. 以下哪些是泌尿系統的組成部分？</strong></p>
+        <table class="data-table">
+          <tr><th>器官</th><th>判斷</th></tr>
+          <tr><td>腎臟</td><td><input type="text" class="fill-blank" style="width:60px;"></td></tr>
+          <tr><td>肝臟</td><td><input type="text" class="fill-blank" style="width:60px;"></td></tr>
+          <tr><td>膀胱</td><td><input type="text" class="fill-blank" style="width:60px;"></td></tr>
+          <tr><td>心臟</td><td><input type="text" class="fill-blank" style="width:60px;"></td></tr>
+          <tr><td>輸尿管</td><td><input type="text" class="fill-blank" style="width:60px;"></td></tr>
+        </table>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(八) 判斷題：選出正確答案。10% @2%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 關於泌尿系統功能的描述，哪些是正確的？（可選多項）</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 排出體內多餘的水分</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 排出血液中的廢物</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 幫助消化食物</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 維持體內水分平衡</div>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 關於腎臟功能的描述，哪些是正確的？（可選多項）</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 過濾血液中的廢物</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 储存尿液</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 將多餘水分形成尿液</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 輸送尿液到膀胱</div>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 關於膀胱的描述，哪些是正確的？（可選多項）</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 储存尿液</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 過濾血液</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 當膀胱充滿時需要排尿</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 通過尿道排出尿液</div>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(九) 序列題：把英文字母填在括號內。2%</div>
+        <p style="margin-bottom:15px;"><strong>1.</strong> 尿液形成和排出的過程，按正確次序排列：</p>
+        <p>A. 膀胱儲存尿液　B. 腎臟形成尿液　C. 輸尿管輸送尿液　D. 尿道排出尿液　E. 血液流入腎臟</p>
+        <p style="margin-top:15px;">答案：( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> )</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第四部分：保護身體系統與健康 (20分)</div>
+      <div class="tip-box">
+        <p><strong>🔋 皮卡丘小知識：</strong>就像皮卡丘需要小心用電，我們也要好好保護自己的神經系統和泌尿系統！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(十) 簡答：把答案填在橫線上。4% @2%</div>
+        <p style="margin-bottom:15px;"><strong>1.</strong> 寫出一項保護神經系統的正確方法。</p>
+        <p>答：<input type="text" class="fill-blank" style="width:150px;"></p>
+        <p style="margin-top:20px; margin-bottom:15px;"><strong>2.</strong> 寫出一項保護泌尿系統的正確方法。</p>
+        <p>答：<input type="text" class="fill-blank" style="width:150px;"></p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十一) 時事新聞題：選出正確答案。2% @1%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞：香港小學生健康普查結果</div>
+          <p>【本報訊】2025年，香港衛生署公佈小學生健康普查結果。調查發現，過半數學生每日飲水量不足，建議學生每天喝六至八杯清水。同時，長時間使用電子產品會影響神經系統，建議家長留意子女的使用時間。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 衛生署建議學生每日喝多少杯清水？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 二至四杯</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 四至六杯</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 六至八杯</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 十至十二杯</div>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 調查發現長時間使用電子產品會影響哪個系統？</p>
+        <div class="mcq-option"><span class="mcq-circle">A</span> 消化系統</div>
+        <div class="mcq-option"><span class="mcq-circle">B</span> 骨骼系統</div>
+        <div class="mcq-option"><span class="mcq-circle">C</span> 神經系統</div>
+        <div class="mcq-option"><span class="mcq-circle">D</span> 循環系統</div>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十二) 填空題：把正確答案填在橫線上。14%</div>
+        <div class="word-bank">
+          <span class="word-bank-item">腦</span>
+          <span class="word-bank-item">脊髓</span>
+          <span class="word-bank-item">腎臟</span>
+          <span class="word-bank-item">膀胱</span>
+          <span class="word-bank-item">輸尿管</span>
+          <span class="word-bank-item">尿道</span>
+          <span class="word-bank-item">反射動作</span>
+        </div>
+        <p style="margin-top:15px;"><strong>1.</strong> 人體的指揮中心是 <input type="text" class="fill-blank" style="width:100px;"> 。</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 神經系統由 <input type="text" class="fill-blank" style="width:100px;">、<input type="text" class="fill-blank" style="width:100px;"> 和神經組成。</p>
+        <p style="margin-top:15px;"><strong>3.</strong> 泌尿系統的主要器官是 <input type="text" class="fill-blank" style="width:100px;"> ，它能過濾血液中的廢物。</p>
+        <p style="margin-top:15px;"><strong>4.</strong> 尿液從腎臟通過 <input type="text" class="fill-blank" style="width:100px;"> 流入膀胱储存。</p>
+        <p style="margin-top:15px;"><strong>5.</strong> 當膀胱充滿時，尿液通過 <input type="text" class="fill-blank" style="width:100px;"> 排出體外。</p>
+        <p style="margin-top:15px;"><strong>6.</strong> 碰到燙手東西時身體會作出 <input type="text" class="fill-blank" style="width:100px;"> ，這是不經過腦部思考的快速反應。</p>
+        <p style="margin-top:15px;"><strong>7.</strong> 我們每天應該喝適量的 <input type="text" class="fill-blank" style="width:100px;"> 來維持身體正常運作。</p>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#E74C3C; font-weight:bold; margin:40px 0; font-size:20px;">~ 全卷完 ~</div>
+
+    <button class="submit-btn" onclick="alert('考試已提交！感謝參與皮卡皮卡市小學常識科考試！⚡')">提交考試 Submit</button>
+
+    <div class="pokemon-decoration">⚡ 🔋 💧 🧠 🔋 ⚡ 🔋 💧</div>
+
+    <div class="answer-key-container">
+      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
+        <span id="toggle-icon">▶</span> 
+        答案匙 Answer Key
+        <span class="key-badge">教師專用</span>
+      </button>
+      
+      <div id="answer-key-panel" class="answer-key-panel collapsed">
+        <h3 class="answer-key-title">第一部分：神經系統基礎 (25分)</h3>
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">1.</span> 腦；脊髓；神經</div>
+          <div class="answer-item"><span class="q-num">2.</span> 記憶；思考；協調動作</div>
+          <div class="answer-item"><span class="q-num">3.</span> 記憶</div>
+          <div class="answer-item"><span class="q-num">4.</span> 思考</div>
+          <div class="answer-item long"><span class="q-num">情境</span> 因為這是反射動作，由脊髓直接處理，不需要經過腦部思考，所以反應更快，可以及時保護身體避免受傷。</div>
+          <div class="answer-item"><span class="q-num">MCQ 1.</span> C (腦)</div>
+          <div class="answer-item"><span class="q-num">MCQ 2.</span> D (消化食物)</div>
+          <div class="answer-item"><span class="q-num">MCQ 3.</span> B (由脊髓直接處理，反應更快)</div>
+          <div class="answer-item"><span class="q-num">MCQ 4.</span> B (騎單車時佩戴頭盔)</div>
+          <div class="answer-item"><span class="q-num">MCQ 5.</span> C (腦)</div>
+          <div class="answer-item"><span class="q-num">MCQ 6.</span> B (反應更快，可以及時保護身體避免受傷)</div>
+        </div>
+
+        <h3 class="answer-key-title">第二部分：人體協調與反應 (30分)</h3>
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">實驗1.</span> 否</div>
+          <div class="answer-item"><span class="q-num">實驗2.</span> 脊髓</div>
+          <div class="answer-item"><span class="q-num">配對1.</span> A-發出指令；B-傳遞信息；C-連接各部分</div>
+          <div class="answer-item"><span class="q-num">配對2.</span> A-眼睛；B-視覺神經；C-腦；D-運動神經</div>
+          <div class="answer-item"><span class="q-num">配對3.</span> 經過腦部思考；不經過腦部思考</div>
+          <div class="answer-item long"><span class="q-num">問答</span> 眼睛看見障礙物，信息通過視覺神經傳送到腦，腦接收信息後發出指令，指令通過脊髓和運動神經傳送到相關肌肉，肌肉收縮使身體作出躲避動作。</div>
+        </div>
+
+        <h3 class="answer-key-title">第三部分：泌尿系統 (25分)</h3>
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">判斷1.</span> ✓ × ✓ × ✓</div>
+          <div class="answer-item"><span class="q-num">判斷2.</span> A、C (過濾血液中的廢物；將多餘水分形成尿液)</div>
+          <div class="answer-item"><span class="q-num">判斷3.</span> A、C、D (储存尿液；當膀胱充滿時需要排尿；通過尿道排出尿液)</div>
+          <div class="answer-item"><span class="q-num">序列</span> E → B → C → A → D</div>
+        </div>
+
+        <h3 class="answer-key-title">第四部分：保護身體系統與健康 (20分)</h3>
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">簡答1.</span> 騎單車時佩戴頭盔/保持正確坐姿/避免長時間使用電子產品/保持充足睡眠</div>
+          <div class="answer-item"><span class="q-num">簡答2.</span> 每天喝適量的水/少吃高鹽分食物/不強忍小便</div>
+          <div class="answer-item"><span class="q-num">時事1.</span> C (六至八杯)</div>
+          <div class="answer-item"><span class="q-num">時事2.</span> C (神經系統)</div>
+          <div class="answer-item"><span class="q-num">填空1.</span> 腦</div>
+          <div class="answer-item"><span class="q-num">填空2.</span> 腦、脊髓</div>
+          <div class="answer-item"><span class="q-num">填空3.</span> 腎臟</div>
+          <div class="answer-item"><span class="q-num">填空4.</span> 輸尿管</div>
+          <div class="answer-item"><span class="q-num">填空5.</span> 尿道</div>
+          <div class="answer-item"><span class="q-num">填空6.</span> 反射動作</div>
+          <div class="answer-item"><span class="q-num">填空7.</span> 水/清水</div>
+        </div>
+
+        <div class="answer-footer">
+          <p>📊 <strong>總分：100分</strong></p>
+          <p>⏱️ <strong>建議作答時間：45分鐘</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleAnswerKey() {
+        const panel = document.getElementById('answer-key-panel');
+        const icon = document.getElementById('toggle-icon');
+        if (panel.classList.contains('collapsed')) {
+          panel.classList.remove('collapsed');
+          panel.classList.add('expanded');
+          icon.textContent = '▼';
+        } else {
+          panel.classList.add('collapsed');
+          panel.classList.remove('expanded');
+          icon.textContent = '▶';
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>五年級趣味考試 - Themed Quiz Navigation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      color: #fff;
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
+      font-size: 18px;
+    }
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    .quiz-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 30px;
+      border: 2px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .quiz-card:hover {
+      transform: translateY(-5px);
+      border-color: #60a5fa;
+      box-shadow: 0 10px 40px rgba(96, 165, 250, 0.3);
+    }
+    .quiz-card.mario { border-color: #e74c3c; }
+    .quiz-card.mario:hover { box-shadow: 0 10px 40px rgba(231, 76, 60, 0.3); }
+    .quiz-card.pokemon { border-color: #f59e0b; }
+    .quiz-card.pokemon:hover { box-shadow: 0 10px 40px rgba(245, 158, 11, 0.3); }
+    .quiz-card.kirby { border-color: #ec4899; }
+    .quiz-card.kirby:hover { box-shadow: 0 10px 40px rgba(236, 72, 153, 0.3); }
+    .quiz-card.minecraft { border-color: #5D8C31; }
+    .quiz-card.minecraft:hover { box-shadow: 0 10px 40px rgba(93, 140, 49, 0.3); }
+    .quiz-icon { font-size: 48px; margin-bottom: 15px; }
+    .quiz-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .quiz-desc { color: #94a3b8; font-size: 14px; margin-bottom: 15px; }
+    .quiz-subject { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+    .quiz-card.mario .quiz-subject { background: #e74c3c; }
+    .quiz-card.pokemon .quiz-subject { background: #f59e0b; }
+    .quiz-card.kirby .quiz-subject { background: #ec4899; }
+    .quiz-card.minecraft .quiz-subject { background: #5D8C31; }
+    .info-section {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 40px;
+    }
+    .info-section h2 { margin-bottom: 15px; font-size: 24px; }
+    .info-section p { color: #94a3b8; }
+    @media (max-width: 600px) {
+      h1 { font-size: 28px; }
+      .quiz-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 五年級趣味考試 🎮</h1>
+    <p class="subtitle">Themed Interactive Quiz Papers for P5 Students</p>
+    
+    <div class="quiz-grid">
+      <a href="SuperMario_English_Exam.html" class="quiz-card mario" style="text-decoration:none; color:inherit;">
+        <div class="quiz-icon">🍄</div>
+        <div class="quiz-title">超級瑪利歐英語科</div>
+        <div class="quiz-desc">跟隨瑪利歐一起探索城堡，學習英語動詞時態和語法！</div>
+        <span class="quiz-subject">English 英语</span>
+      </a>
+      
+      <a href="Pokemon_Common_Exam.html" class="quiz-card pokemon" style="text-decoration:none; color:inherit;">
+        <div class="quiz-icon">⚡</div>
+        <div class="quiz-title">寶可夢常識科</div>
+        <div class="quiz-desc">成為寶可夢訓練師，探索人類身體的神經系統和泌尿系統！</div>
+        <span class="quiz-subject">General Studies 常識</span>
+      </a>
+      
+      <a href="Kirby_Common_Exam.html" class="quiz-card kirby" style="text-decoration:none; color:inherit;">
+        <div class="quiz-icon">💜</div>
+        <div class="quiz-title">卡比常识科</div>
+        <div class="quiz-desc">與卡比一起漫遊星辰，了解地球、月球和太陽系的奧秘！</div>
+        <span class="quiz-subject">General Studies 常識</span>
+      </a>
+      
+      <a href="Minecraft_Chinese_Exam.html" class="quiz-card minecraft" style="text-decoration:none; color:inherit;">
+        <div class="quiz-icon">⛏️</div>
+        <div class="quiz-title">我的世界中文科</div>
+        <div class="quiz-desc">在方塊世界中挖礦、交易、探索，學習中文成語和語法！</div>
+        <span class="quiz-subject">Chinese 中文</span>
+      </a>
+    </div>
+    
+    <div class="info-section">
+      <h2>📋 關於這些考試</h2>
+      <p>這些趣味考試卷專為五年級學生設計，採用學生喜愛的遊戲角色和主題，讓學習變得更有趣。所有試卷內容均为原创，测试相同的词汇、语法和知识点。</p>
+    </div>
+  </div>
+</body>
+</html>

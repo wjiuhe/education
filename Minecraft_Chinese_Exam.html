@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft 中文科考試 - 方塊世界語文測驗</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #5D8C31 0%, #8B7355 100%); min-height: 100vh; color: #2d2d2d; line-height: 1.8; }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .cover-page { background: #fff; border: 8px solid #5D8C31; border-radius: 16px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; }
+    .cover-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(90deg, #5D8C31 0px, #5D8C31 20px, #8B7355 20px, #8B7355 40px); }
+    .minecraft-icon { text-align: center; font-size: 64px; margin-bottom: 10px; }
+    h1 { text-align: center; color: #5D8C31; font-size: 28px; margin-bottom: 10px; text-shadow: 2px 2px 0 #3d5a1f; }
+    .subtitle { text-align: center; color: #8B7355; font-size: 18px; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 3px solid #5D8C31; }
+    .info-table td, .info-table th { border: 2px solid #5D8C31; padding: 12px; text-align: center; }
+    .info-table th { background: #5D8C31; color: white; }
+    .info-table td { background: #f5f5f5; }
+    .info-input { width: 100%; border: none; background: transparent; text-align: center; font-size: 16px; padding: 5px; }
+    .score-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 3px solid #8B7355; }
+    .score-table td, .score-table th { border: 2px solid #8B7355; padding: 12px; text-align: center; }
+    .score-table th { background: #8B7355; color: white; }
+    .instructions { background: #e8f5e9; border-left: 5px solid #5D8C31; padding: 15px 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+    .instructions h3 { color: #5D8C31; margin-bottom: 10px; }
+    .instructions ul { margin-left: 20px; }
+    .section { background: #fff; border: 4px solid #5D8C31; border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+    .section-header { background: linear-gradient(135deg, #5D8C31, #7ab54a); color: white; padding: 15px 25px; margin: -30px -30px 25px -30px; border-radius: 8px 8px 0 0; font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+    .section-header::before { content: '⛏️'; font-size: 24px; }
+    .part-header { background: #8B7355; color: white; padding: 12px 20px; margin: 0 -30px 20px -30px; font-size: 18px; font-weight: bold; }
+    .passage { background: #fafafa; border: 2px dashed #8B7355; padding: 25px; margin: 20px 0; border-radius: 10px; line-height: 2; }
+    .passage-title { font-size: 20px; font-weight: bold; color: #5D8C31; text-align: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #5D8C31; }
+    .question { margin: 25px 0; padding: 20px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid #5D8C31; }
+    .question-number { font-weight: bold; color: #5D8C31; font-size: 16px; margin-bottom: 10px; }
+    .question-text { margin-bottom: 15px; }
+    .answer-input { border: 2px solid #8B7355; border-radius: 6px; padding: 8px 12px; font-size: 16px; background: #fff; transition: all 0.3s; }
+    .answer-input:focus { outline: none; border-color: #5D8C31; box-shadow: 0 0 0 3px rgba(93, 140, 49, 0.2); }
+    .fill-blank { border: none; border-bottom: 2px solid #5D8C31; background: transparent; padding: 5px 10px; font-size: 16px; min-width: 120px; text-align: center; }
+    .fill-blank:focus { outline: none; background: #e8f5e9; }
+    .mcq-option { display: flex; align-items: center; margin: 10px 0; padding: 10px 15px; background: #fff; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+    .mcq-option:hover { background: #e8f5e9; }
+    .mcq-option input[type="radio"] { width: 20px; height: 20px; margin-right: 12px; accent-color: #5D8C31; cursor: pointer; }
+    .mcq-option:has(input:checked) { background: #e8f5e9; border-color: #5D8C31; }
+    .mcq-circle { width: 24px; height: 24px; border: 2px solid #5D8C31; border-radius: 50%; margin-right: 12px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; color: #5D8C31; flex-shrink: 0; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: #e8f5e9; border-radius: 10px; margin: 15px 0; }
+    .word-bank-item { background: #5D8C31; color: white; padding: 8px 15px; border-radius: 20px; font-size: 14px; }
+    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .data-table th, .data-table td { border: 2px solid #8B7355; padding: 12px; text-align: center; }
+    .data-table th { background: #5D8C31; color: white; }
+    .data-table td { background: #fafafa; }
+    .short-answer { width: 100%; min-height: 80px; border: 2px solid #8B7355; border-radius: 8px; padding: 12px; font-size: 16px; font-family: inherit; resize: vertical; }
+    .submit-btn { display: block; width: 100%; max-width: 300px; margin: 40px auto; padding: 15px 30px; background: linear-gradient(135deg, #5D8C31, #7ab54a); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(93, 140, 49, 0.4); }
+    .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(93, 140, 49, 0.5); }
+    .answer-key-container { margin: 40px 0; border: 4px solid #27AE60; border-radius: 15px; overflow: hidden; }
+    .answer-key-toggle { width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #27AE60, #2ECC71); color: white; border: none; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px; }
+    .answer-key-toggle:hover { background: linear-gradient(135deg, #229954, #27AE60); }
+    .key-badge { background: #E74C3C; padding: 5px 12px; border-radius: 15px; font-size: 14px; }
+    .answer-key-panel { background: #f0fff0; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden; }
+    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
+    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
+    .answer-key-title { color: #27AE60; font-size: 20px; margin: 20px 0 10px 0; padding-bottom: 8px; border-bottom: 3px solid #27AE60; }
+    .answer-key-title:first-child { margin-top: 0; }
+    .answer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+    .answer-item { background: #fff; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #27AE60; font-size: 14px; }
+    .answer-item.long { grid-column: 1 / -1; }
+    .q-num { font-weight: 700; color: #E74C3C; margin-right: 6px; }
+    .answer-footer { margin-top: 25px; padding: 15px; background: #fff; border-radius: 10px; text-align: center; border: 2px solid #27AE60; }
+    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 22px; } .section-header { margin: -20px -20px 20px -20px; font-size: 16px; } .answer-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="minecraft-icon">⛏️ 🟫 🟩 💎</div>
+      <h1>方塊世界學校 2025-2026年度 五年級中文科考試</h1>
+      <p class="subtitle">Minecraft Themed Chinese Language Examination</p>
+      
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>班別</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" placeholder="學號"></td><td>5A</td></tr>
+      </table>
+      
+      <table class="score-table">
+        <tr><th>卷別</th><th>估分</th><th>得分</th></tr>
+        <tr><td>甲部：閱讀理解</td><td>50%</td><td><input type="text" class="info-input" style="width:60px"></td></tr>
+        <tr><td>乙部：語文基礎知識</td><td>50%</td><td><input type="text" class="info-input" style="width:60px"></td></tr>
+        <tr><td><strong>總分</strong></td><td><strong>100%</strong></td><td><input type="text" class="info-input" style="width:60px"></td></tr>
+      </table>
+      
+      <div class="instructions">
+        <h3>📝 考生須知</h3>
+        <ul>
+          <li>本卷共分<b>甲、乙兩部分</b></li>
+          <li><b>甲部</b>作答時限為<b>30分鐘</b>，佔50%</li>
+          <li><b>乙部</b>作答時限為<b>25分鐘</b>，佔50%</li>
+          <li>選擇題請用鉛筆把正確選項前的圓圈塗黑及塗滿</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">甲部 閱讀理解 (50%)</div>
+      <div style="text-align:center; color:#5D8C31; font-weight:bold; margin-bottom:20px;">
+        &lt; 作答時限為30分鐘 佔50% &gt;
+      </div>
+      
+      <h3 style="color:#8B7355; margin-bottom:15px;">篇章一：挖掘鑽石礦 🟩 (18%)</h3>
+      
+      <div class="passage">
+        <div class="passage-title">史提夫的礦坑探險</div>
+        <p>今天，史提夫決定去探索一個廢棄的礦坑。他帶齊了火把、鎬子和食物，興致勃勃地走進礦坑入口。只見礦坑裏黑漆漆的，只有火把的光芒照亮着前方的路。</p>
+        <br>
+        <p>沿着礦道走了不久，史提夫發現前方的岩壁上閃爍着點點光芒。他走近一看，竟然是一大片鑽石矿！史提夫個個摩拳擦掌，躍躍欲試，迫不及待地拿起鎬子開始開採。</p>
+        <br>
+        <p>「叮！」的一聲，第一塊鑽石被開採出來。只見那鑽石在火把的照耀下折射出美麗的光芒，閃閃發亮。隨着開採的進行，愈來愈多的鑽石被發現，成就感也愈來愈強烈。</p>
+        <br>
+        <p>正當史提夫滿心歡喜時，遠處突然傳來陣陣低沉的咆哮聲。回頭一看，一隻苦力怕正悄悄逼近！史提夫立刻轉身逃跑，一路狂奔，終於逃出了礦坑。</p>
+        <br>
+        <p>這次礦坑探險讓史提夫明白，凡事都要小心謹慎，才能避免危險。</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第1-2題</div>
+        <p class="question-text">從文中找出最適當的詞語，填在橫線上，使句子的意思完整。</p>
+        <p><strong>1.</strong> 史提夫帶齊工具， <input type="text" class="fill-blank"> 十足地走進礦坑。</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 看到滿滿的鑽石礦，史提夫心裏格外 <input type="text" class="fill-blank">。</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第3題</div>
+        <p class="question-text">本文第 <input type="text" class="fill-blank" style="width:60px;"> 段運用了排比手法？（提示：找出有「愈來愈」或結構相似的句子）</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第4題</div>
+        <p class="question-text">請在文中找出一句比喻句，然後抄寫在下面的橫線上。</p>
+        <textarea class="short-answer" placeholder="請在此寫下比喻句..."></textarea>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第5題</div>
+        <p class="question-text">「那鑽石在火把的照耀下折射出美麗的光芒」這句運用了哪種修辭手法？</p>
+        <label class="mcq-option"><input type="radio" name="q5"> <span class="mcq-circle">A</span> 擬人</label>
+        <label class="mcq-option"><input type="radio" name="q5"> <span class="mcq-circle">B</span> 排比</label>
+        <label class="mcq-option"><input type="radio" name="q5"> <span class="mcq-circle">C</span> 比喻</label>
+        <label class="mcq-option"><input type="radio" name="q5"> <span class="mcq-circle">D</span> 誇張</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第6題</div>
+        <p class="question-text">第二段「摩拳擦掌，躍躍欲試」運用了哪種描寫手法？</p>
+        <label class="mcq-option"><input type="radio" name="q6"> <span class="mcq-circle">A</span> 語言描寫</label>
+        <label class="mcq-option"><input type="radio" name="q6"> <span class="mcq-circle">B</span> 動作描寫</label>
+        <label class="mcq-option"><input type="radio" name="q6"> <span class="mcq-circle">C</span> 心理描寫</label>
+        <label class="mcq-option"><input type="radio" name="q6"> <span class="mcq-circle">D</span> 環境描寫</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第7題</div>
+        <p class="question-text">根據文章內容，史提夫為什麼能夠發現鑽石礦？</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第8題</div>
+        <p class="question-text">根據文章內容，史提夫遇到了什麼危險？他最後是怎樣脫險的？</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 style="color:#8B7355; margin-bottom:15px;">篇章二：村民的交易 🏘️ (16%)</h3>
+      
+      <div class="passage">
+        <div class="passage-title">村民的神秘寶物</div>
+        <p>今天，史提夫來到村莊找村民交易。村民的商店外表破破爛爛，但聽說裏面藏着各種珍貴的寶物。</p>
+        <br>
+        <p>走進商店，只見村民坐在高大的書架旁，面前擺放着一個展示箱。展示箱裏陳列着各式各樣的物品，有綠寶石、附魔金蘋果，還有一些我叫不出名字的稀有物品。</p>
+        <br>
+        <p>「你要用綠寶石來交換嗎？」村民問道。史提夫點點頭，把背包裏的綠寶石一個個拿出來。村民接過綠寶石後，發出「呼呼」的聲音，看起來十分滿意。</p>
+        <br>
+        <p>交易完成後，村民從箱子裏拿出一件閃閃發亮的物品——那是一本附魔書！史提夫興奮地接過附魔書，只見書面散發着紫色的光芒。</p>
+        <br>
+        <p>這次交易讓史提夫明白，只要善用資源，就能換取心儀的東西。</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第9題</div>
+        <p class="question-text">從文中找出最適當的詞語，填在橫線上。</p>
+        <p>村民的商店外表 <input type="text" class="fill-blank">，但聽說裏面藏着珍貴的寶物。</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第10題</div>
+        <p class="question-text">文中哪一個詞語的意思是「樣子不好看」？</p>
+        <input type="text" class="answer-input" style="width:100%; margin-top:10px;" placeholder="請作答...">
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第11題</div>
+        <p class="question-text">史提夫用什麼物品和村民交易？(4%)</p>
+        <label class="mcq-option"><input type="radio" name="q11"> <span class="mcq-circle">A</span> 鑽石</label>
+        <label class="mcq-option"><input type="radio" name="q11"> <span class="mcq-circle">B</span> 綠寶石</label>
+        <label class="mcq-option"><input type="radio" name="q11"> <span class="mcq-circle">C</span> 金塊</label>
+        <label class="mcq-option"><input type="radio" name="q11"> <span class="mcq-circle">D</span> 鐵塊</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第12題</div>
+        <p class="question-text">村民最後給了史提夫什麼東西？</p>
+        <label class="mcq-option"><input type="radio" name="q12"> <span class="mcq-circle">A</span> 綠寶石</label>
+        <label class="mcq-option"><input type="radio" name="q12"> <span class="mcq-circle">B</span> 附魔書</label>
+        <label class="mcq-option"><input type="radio" name="q12"> <span class="mcq-circle">C</span> 附魔金蘋果</label>
+        <label class="mcq-option"><input type="radio" name="q12"> <span class="mcq-circle">D</span> 鐵劍</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第13題</div>
+        <p class="question-text">請在文中找出一句運用「把」字的句子，然後抄寫在下面。</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第14題</div>
+        <p class="question-text">根據文章內容，商店裏有哪些物品？（寫出兩項）</p>
+        <p>a. <input type="text" class="answer-input" style="width:80%;"></p>
+        <p style="margin-top:10px;">b. <input type="text" class="answer-input" style="width:80%;"></p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第15題</div>
+        <p class="question-text">這篇文章主要說明了什麼？</p>
+        <label class="mcq-option"><input type="radio" name="q15"> <span class="mcq-circle">A</span> 村民很貪心</label>
+        <label class="mcq-option"><input type="radio" name="q15"> <span class="mcq-circle">B</span> 善用資源就能換取想要的東西</label>
+        <label class="mcq-option"><input type="radio" name="q15"> <span class="mcq-circle">C</span> 村莊很危險</label>
+        <label class="mcq-option"><input type="radio" name="q15"> <span class="mcq-circle">D</span> 附魔書很珍貴</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 style="color:#8B7355; margin-bottom:15px;">篇章三：與苦力怕的故事 💚 (16%)</h3>
+      
+      <div class="passage">
+        <div class="passage-title">誤會了苦力怕</div>
+        <p>那是一個晴朗的下午，史提夫在草原上悠閒地散步。忽然，一隻苦力怕悄悄出現在他背後，史提夫一轉身，正好與牠四目交投。</p>
+        <br>
+        <p>「你這個怪物！」史提夫生氣地叫道，立刻拔出劍來。苦力怕發出「嘶嘶」的聲音，慢慢向前邁進。史提夫以為牠要攻擊，於是率先出劍攻擊。</p>
+        <br>
+        <p>但出乎意料的是，苦力怕並沒有反擊，而是從身上掉落了幾樣東西——那是幾塊煤炭和一根木棍！原來苦力怕是想把這些東西送給史提夫。</p>
+        <br>
+        <p>史提夫十分後悔，後悔自己太衝動，誤會了苦力怕的好意。他蹲下來，輕輕地拍了拍苦力怕，表示歉意。苦力怕似乎接受了道歉，又蹦蹦跳跳地走開了。</p>
+        <br>
+        <p>這次經歷讓史提夫明白，見到事情不要急着下判斷，否則可能會錯怪好人。</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第16-17題</div>
+        <p class="question-text">從文中找出最適當的詞語，填在橫線上。</p>
+        <p><strong>16.</strong> 史提夫在草原上 <input type="text" class="fill-blank"> 地散步，心情很輕鬆。</p>
+        <p style="margin-top:15px;"><strong>17.</strong> 史提夫 <input type="text" class="fill-blank"> 了自己太衝動，錯怪了苦力怕。</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第18題</div>
+        <p class="question-text">「四目交投」這個詞語的意思是</p>
+        <label class="mcq-option"><input type="radio" name="q18"> <span class="mcq-circle">A</span> 互相看着對方</label>
+        <label class="mcq-option"><input type="radio" name="q18"> <span class="mcq-circle">B</span> 打架</label>
+        <label class="mcq-option"><input type="radio" name="q18"> <span class="mcq-circle">C</span> 追逐</label>
+        <label class="mcq-option"><input type="radio" name="q18"> <span class="mcq-circle">D</span> 逃跑</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第19題</div>
+        <p class="question-text">苦力怕本來的意圖是什麼？</p>
+        <label class="mcq-option"><input type="radio" name="q19"> <span class="mcq-circle">A</span> 攻擊史提夫</label>
+        <label class="mcq-option"><input type="radio" name="q19"> <span class="mcq-circle">B</span> 送禮物給史提夫</label>
+        <label class="mcq-option"><input type="radio" name="q19"> <span class="mcq-circle">C</span> 邀請史提夫玩耍</label>
+        <label class="mcq-option"><input type="radio" name="q19"> <span class="mcq-circle">D</span> 問路</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第20題</div>
+        <p class="question-text">史提夫後來做了什麼來表示歉意？</p>
+        <label class="mcq-option"><input type="radio" name="q20"> <span class="mcq-circle">A</span> 送綠寶石</label>
+        <label class="mcq-option"><input type="radio" name="q20"> <span class="mcq-circle">B</span> 輕輕拍了拍苦力怕</label>
+        <label class="mcq-option"><input type="radio" name="q20"> <span class="mcq-circle">C</span> 送食物</label>
+        <label class="mcq-option"><input type="radio" name="q20"> <span class="mcq-circle">D</span> 建房子給牠</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第21題</div>
+        <p class="question-text">這篇文章告訴我們什麼道理？</p>
+        <label class="mcq-option"><input type="radio" name="q21"> <span class="mcq-circle">A</span> 苦力怕都很危險</label>
+        <label class="mcq-option"><input type="radio" name="q21"> <span class="mcq-circle">B</span> 不要急着下判斷，否則可能錯怪別人</label>
+        <label class="mcq-option"><input type="radio" name="q21"> <span class="mcq-circle">C</span> 草原上很危險</label>
+        <label class="mcq-option"><input type="radio" name="q21"> <span class="mcq-circle">D</span> 苦力怕會攻擊人</label>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">第22題</div>
+        <p class="question-text">根據文章內容，苦力怕掉落了哪些東西？</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+      
+      <div style="text-align:center; color:#5D8C31; font-weight:bold; margin:30px 0;">~甲部完~</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">乙部 語文基礎知識 (50%)</div>
+      <div style="text-align:center; color:#8B7355; font-weight:bold; margin-bottom:20px;">
+        &lt; 作答時限為25分鐘 佔50% &gt;
+      </div>
+      
+      <div class="part-header">（一）供詞填充：選出最正確的詞語，填在橫線上。5% @1%</div>
+      
+      <div class="word-bank">
+        <span class="word-bank-item">蜿蜒</span>
+        <span class="word-bank-item">監察</span>
+        <span class="word-bank-item">無奈</span>
+        <span class="word-bank-item">自告奮勇</span>
+        <span class="word-bank-item">成羣結隊</span>
+        <span class="word-bank-item">叮嚀</span>
+        <span class="word-bank-item">羨慕</span>
+        <span class="word-bank-item">悶悶不樂</span>
+        <span class="word-bank-item">雄才偉略</span>
+        <span class="word-bank-item">馬不停蹄</span>
+      </div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 媽媽再三 <input type="text" class="fill-blank"> 我：「探索礦坑時要注意安全。」</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 礦道 <input type="text" class="fill-blank"> 向前延伸，看不到盡頭。</p>
+        <p style="margin-top:15px;"><strong>3.</strong> 看到同伴有困難，小明 <input type="text" class="fill-blank"> 地站出來幫忙。</p>
+        <p style="margin-top:15px;"><strong>4.</strong> 比賽即將開始，選手們 <input type="text" class="fill-blank"> 地加緊練習。</p>
+        <p style="margin-top:15px;"><strong>5.</strong> 看到別人有更好的裝備，我不禁投以 <input type="text" class="fill-blank"> 的目光。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（二）不供詞填充：在橫線上填上適當的詞語。2% @1%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 我們每天挖礦，不僅能收集資源，還能 <input type="text" class="fill-blank"> 經驗。</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 弟弟說我破壞了他的建築，我趕緊解釋，原來是苦力怕炸的，這是一場 <input type="text" class="fill-blank">。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（三）改寫句子：依照括號內的要求改寫句子。4% @2%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 這張地圖很有用，我一口氣探索完了。</p>
+        <p>（利用「……不得不……」改寫成雙重否定句）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請在此作答..."></textarea>
+      </div>
+      
+      <div class="question">
+        <p><strong>2.</strong> 我們要挖礦。我們需要帶火把。</p>
+        <p>（利用「除非……否則……」改寫成條件複句）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請在此作答..."></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（四）文化題：回答問題。2%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 王昌齡的《出塞》中，「不教胡馬度陰山」的「胡馬」指的是什麼？</p>
+        <label class="mcq-option"><input type="radio" name="q_b4_1"> <span class="mcq-circle">A</span> 王昌齡南下的馬</label>
+        <label class="mcq-option"><input type="radio" name="q_b4_1"> <span class="mcq-circle">B</span> 李廣將軍的馬</label>
+        <label class="mcq-option"><input type="radio" name="q_b4_1"> <span class="mcq-circle">C</span> 敵人南下的軍隊</label>
+        <label class="mcq-option"><input type="radio" name="q_b4_1"> <span class="mcq-circle">D</span> 陰山的野馬</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（五）標點符號：在段落中適當的位置上填上六個標點符號。6% @1%</div>
+      
+      <div class="question">
+        <p>方塊世界裏有各種各樣的生物雞牛羊豬和馬各類動物都有自己的特色就像喜歡建築的史提夫最懷念小時候和村民交易的時光上茶樓坐下就大喝一聲來一杯綠寶石奶茶</p>
+        <p style="margin-top:15px; color:#8B7355;">提示：需要填入的標點為：， 、 、 、 ， 、 「 」</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（六）修辭辨析：把正確選項前的圓圈塗黑及塗滿。3% @1%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 苦力怕發出嘶嘶的響聲，像在唱着歌。</p>
+        <label class="mcq-option"><input type="radio" name="q_b6_1"> <span class="mcq-circle">A</span> 排比</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_1"> <span class="mcq-circle">B</span> 擬人</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_1"> <span class="mcq-circle">C</span> 明喻</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_1"> <span class="mcq-circle">D</span> 對比</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>2.</strong> 白天挖礦忙，晚上建房子忙。</p>
+        <label class="mcq-option"><input type="radio" name="q_b6_2"> <span class="mcq-circle">A</span> 排比</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_2"> <span class="mcq-circle">B</span> 對偶</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_2"> <span class="mcq-circle">C</span> 比喻</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_2"> <span class="mcq-circle">D</span> 誇張</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>3.</strong> 苦力怕走過來，碰碰史提夫的腿，搖搖尾巴。</p>
+        <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">A</span> 排比</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">B</span> 對偶</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">C</span> 擬人</label>
+        <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">D</span> 暗喻</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（七）成語運用：把正確選項前的圓圈塗黑及塗滿。4% @1%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 即使遇到苦力怕，史提夫仍 <input type="text" class="fill-blank" style="width:100px;"> 地冷靜應對。</p>
+        <label class="mcq-option"><input type="radio" name="q_b7_1"> <span class="mcq-circle">A</span> 隨心所欲</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_1"> <span class="mcq-circle">B</span> 瞻前顧後</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_1"> <span class="mcq-circle">C</span> 廢寢忘餐</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_1"> <span class="mcq-circle">D</span> 不遺餘力</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>2.</strong> 師父請徒弟教他建造技巧，徒弟說要學習師父 <input type="text" class="fill-blank" style="width:100px;"> 的精神。</p>
+        <label class="mcq-option"><input type="radio" name="q_b7_2"> <span class="mcq-circle">A</span> 深入淺出</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_2"> <span class="mcq-circle">B</span> 一氣呵成</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_2"> <span class="mcq-circle">C</span> 不恥下問</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_2"> <span class="mcq-circle">D</span> 紙上談兵</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>3.</strong> 為了 <input type="text" class="fill-blank" style="width:100px;">，小明每天都練習採礦技巧。</p>
+        <label class="mcq-option"><input type="radio" name="q_b7_3"> <span class="mcq-circle">A</span> 力爭上游</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_3"> <span class="mcq-circle">B</span> 臨渴掘井</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_3"> <span class="mcq-circle">C</span> 手不釋卷</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_3"> <span class="mcq-circle">D</span> 盲人摸象</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>4.</strong> 妹妹看見苦力怕搖尾巴就大聲叫，哥哥說她 <input type="text" class="fill-blank" style="width:100px;">。</p>
+        <label class="mcq-option"><input type="radio" name="q_b7_4"> <span class="mcq-circle">A</span> 晴天霹靂</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_4"> <span class="mcq-circle">B</span> 大驚小怪</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_4"> <span class="mcq-circle">C</span> 如願以償</label>
+        <label class="mcq-option"><input type="radio" name="q_b7_4"> <span class="mcq-circle">D</span> 觸景生情</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（八）造句：運用下列詞語造句。4% @2%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 羨慕</p>
+        <textarea class="short-answer" placeholder="請在此造句..."></textarea>
+      </div>
+      
+      <div class="question">
+        <p><strong>2.</strong> 蜿蜒</p>
+        <textarea class="short-answer" placeholder="請在此造句..."></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（九）拼音知識：拼讀音節，把詞語寫在橫線上。4% @1%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> dǎ zhuàn → <input type="text" class="fill-blank"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> zhī yuán → <input type="text" class="fill-blank"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> shuǎng cuì → <input type="text" class="fill-blank"></p>
+        <p style="margin-top:15px;"><strong>4.</strong> jiàn zhù → <input type="text" class="fill-blank"></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（十）句子仿作：仿照例句，寫作通順完整的句子。4% @2%</div>
+      
+      <div class="question">
+        <p><strong>例：</strong>我只要努力練習，就能成為採礦高手。</p>
+        <p>……只要……就……</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請在此作答..."></textarea>
+      </div>
+      
+      <div class="question">
+        <p><strong>例：</strong>怪不得他挖到那麼多鑽石，原來是找到了礦脈。</p>
+        <p>怪不得……，原來……</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請在此作答..."></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（十一）句義辨析：把正確選項前的圓圈塗黑及塗滿。2%</div>
+      
+      <div class="question">
+        <p><strong>原文：</strong>挖礦能讓人變得更有耐心，建造能讓人變得更有創意。可見 Minecraft 能訓練人的品格。</p>
+        <p style="margin-top:15px;"><strong>1.</strong> 這段文字主要說明</p>
+        <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">A</span> 挖礦很累</label>
+        <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">B</span> 不同活動有不同的好處</label>
+        <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">C</span> Minecraft 能訓練人的品格</label>
+        <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">D</span> 建造比挖礦好</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（十二）排句成段：把下列句子排成一段通順的文字。2%</div>
+      
+      <div class="question">
+        <table class="data-table">
+          <tr><th>選項</th><th>句子</th></tr>
+          <tr><td>A</td><td>我會報名參加</td></tr>
+          <tr><td>B</td><td>但過程讓我成長不少</td></tr>
+          <tr><td>C</td><td>如果下次再有這樣的探險活動</td></tr>
+          <tr><td>D</td><td>雖然這次探險只有短短幾天</td></tr>
+          <tr><td>E</td><td>我不但學會了採礦技巧</td></tr>
+          <tr><td>F</td><td>還學會了與隊友合作的本領</td></tr>
+        </table>
+        <p style="margin-top:15px;"><strong>答案：</strong>( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> )</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（十三）段意辨析：把正確選項前的圓圈塗黑及塗滿。2%</div>
+      
+      <div class="question">
+        <p><strong>原文：</strong>清晨，太陽公公伸個懶腰，慢慢爬上山坡；小鳥在枝頭唱着歌，迎接新的一天；小花張開花瓣，貪婪地吸收着陽光；小溪叮叮咚咚地流淌，唱着歡快的歌謠。</p>
+        <p style="margin-top:15px;"><strong>1.</strong> 這段文字主要描寫</p>
+        <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">A</span> 人們早晨的活動</label>
+        <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">B</span> 太陽和小鳥</label>
+        <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">C</span> 大自然清晨的景象</label>
+        <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">D</span> 小花和小溪</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（十四）關聯詞辨析：把正確選項前的圓圈塗黑及塗滿。4% @1%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 這間礦坑(　)在伺服器有名，(　)吸引了很多玩家前來探索。</p>
+        <label class="mcq-option"><input type="radio" name="q_b14_1"> <span class="mcq-circle">A</span> 即使　也不</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_1"> <span class="mcq-circle">B</span> 雖然　但是</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_1"> <span class="mcq-circle">C</span> 不只　更</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_1"> <span class="mcq-circle">D</span> 要不是　也不</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>2.</strong> (　)天黑了，玩家(　)需要回家了。</p>
+        <label class="mcq-option"><input type="radio" name="q_b14_2"> <span class="mcq-circle">A</span> 如果　就</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_2"> <span class="mcq-circle">B</span> 除非　否則</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_2"> <span class="mcq-circle">C</span> 與其　不如</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_2"> <span class="mcq-circle">D</span> 即使　也</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>3.</strong> (　)你怎麼勸說，苦力怕(　)不肯離開。</p>
+        <label class="mcq-option"><input type="radio" name="q_b14_3"> <span class="mcq-circle">A</span> 不是　就是</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_3"> <span class="mcq-circle">B</span> 寧可　也不</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_3"> <span class="mcq-circle">C</span> 與其　不如</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_3"> <span class="mcq-circle">D</span> 不管　總</label>
+      </div>
+      
+      <div class="question">
+        <p><strong>4.</strong> (　)是挖礦還是建造，玩家(　)能從中獲得樂趣。</p>
+        <label class="mcq-option"><input type="radio" name="q_b14_4"> <span class="mcq-circle">A</span> 寧可　也不</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_4"> <span class="mcq-circle">B</span> 無論　都</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_4"> <span class="mcq-circle">C</span> 與其　不如</label>
+        <label class="mcq-option"><input type="radio" name="q_b14_4"> <span class="mcq-circle">D</span> 不是　就是</label>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#5D8C31; font-weight:bold; margin:40px 0; font-size:18px;">~全卷完~</div>
+
+    <button class="submit-btn" onclick="alert('考試已提交！感謝參與方塊世界中文科考試！⛏️')">提交考試 Submit</button>
+
+    <div class="answer-key-container">
+      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
+        <span id="toggle-icon">▶</span> 
+        答案匙 Answer Key
+        <span class="key-badge">教師專用</span>
+      </button>
+      
+      <div id="answer-key-panel" class="answer-key-panel collapsed">
+        <h3 class="answer-key-title">甲部 閱讀理解答案</h3>
+        
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">1.</span> 興致勃勃</div>
+          <div class="answer-item"><span class="q-num">2.</span> 興奮</div>
+          <div class="answer-item"><span class="q-num">3.</span> 三（如「愈來愈多的鑽石...成就感也愈來愈強烈」）</div>
+          <div class="answer-item long"><span class="q-num">4.</span> 「只見那鑽石在火把的照耀下折射出美麗的光芒」</div>
+          <div class="answer-item"><span class="q-num">5.</span> C（比喻）</div>
+          <div class="answer-item"><span class="q-num">6.</span> B（動作描寫）</div>
+          <div class="answer-item long"><span class="q-num">7.</span> 因為他沿着礦道走，發現岩壁上有閃爍的光芒</div>
+          <div class="answer-item long"><span class="q-num">8.</span> 遇到苦力怕逼近，最後轉身逃跑，一路狂奔逃出了礦坑</div>
+          <div class="answer-item"><span class="q-num">9.</span> 破破爛爛</div>
+          <div class="answer-item"><span class="q-num">10.</span> 破破爛爛</div>
+          <div class="answer-item"><span class="q-num">11.</span> B（綠寶石）</div>
+          <div class="answer-item"><span class="q-num">12.</span> B（附魔書）</div>
+          <div class="answer-item long"><span class="q-num">13.</span> 「把背包裏的綠寶石一個個拿出來」</div>
+          <div class="answer-item long"><span class="q-num">14.</span> a. 綠寶石 b. 附魔金蘋果</div>
+          <div class="answer-item"><span class="q-num">15.</span> B</div>
+          <div class="answer-item"><span class="q-num">16.</span> 悠閒</div>
+          <div class="answer-item"><span class="q-num">17.</span> 後悔</div>
+          <div class="answer-item"><span class="q-num">18.</span> A（互相看着對方）</div>
+          <div class="answer-item"><span class="q-num">19.</span> B（送禮物給史提夫）</div>
+          <div class="answer-item"><span class="q-num">20.</span> B（輕輕拍了拍苦力怕）</div>
+          <div class="answer-item"><span class="q-num">21.</span> B</div>
+          <div class="answer-item long"><span class="q-num">22.</span> 幾塊煤炭和一根木棍</div>
+        </div>
+
+        <h3 class="answer-key-title">乙部 語文基礎知識答案</h3>
+        
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">一1.</span> 叮嚀</div>
+          <div class="answer-item"><span class="q-num">一2.</span> 蜿蜒</div>
+          <div class="answer-item"><span class="q-num">一3.</span> 自告奮勇</div>
+          <div class="answer-item"><span class="q-num">一4.</span> 馬不停蹄</div>
+          <div class="answer-item"><span class="q-num">一5.</span> 羨慕</div>
+          <div class="answer-item"><span class="q-num">二1.</span> 累積/增加</div>
+          <div class="answer-item"><span class="q-num">二2.</span> 誤會</div>
+          <div class="answer-item long"><span class="q-num">三1.</span> 這張地圖很有用，我不得不一口氣探索完。</div>
+          <div class="answer-item long"><span class="q-num">三2.</span> 除非我們要挖礦，否則我們需要帶火把。</div>
+          <div class="answer-item"><span class="q-num">四1.</span> C</div>
+          <div class="answer-item long"><span class="q-num">五</span> 方塊世界裏有各種各樣的生物<b>，</b>雞<b>、</b>牛<b>、</b>羊<b>、</b>豬<b>和</b>馬<b>，</b>各類動物都有自己的特色<b>。</b>就像喜歡建築的史提夫<b>，</b>最懷念小時候和村民交易的時光<b>，</b>上茶樓<b>，</b>坐下就大喝一聲<b>：「</b>來一杯綠寶石奶茶<b！」</b></div>
+          <div class="answer-item"><span class="q-num">六1.</span> B（擬人）</div>
+          <div class="answer-item"><span class="q-num">六2.</span> B（對偶）</div>
+          <div class="answer-item"><span class="q-num">六3.</span> A（排比）</div>
+          <div class="answer-item"><span class="q-num">七1.</span> D（不遺餘力）</div>
+          <div class="answer-item"><span class="q-num">七2.</span> C（不恥下問）</div>
+          <div class="answer-item"><span class="q-num">七3.</span> A（力爭上游）</div>
+          <div class="answer-item"><span class="q-num">七4.</span> B（大驚小怪）</div>
+          <div class="answer-item"><span class="q-num">八1.</span> 造句合理即可</div>
+          <div class="answer-item"><span class="q-num">八2.</span> 造句合理即可</div>
+          <div class="answer-item"><span class="q-num">九1.</span> 打轉</div>
+          <div class="answer-item"><span class="q-num">九2.</span> 支援</div>
+          <div class="answer-item"><span class="q-num">九3.</span> 爽脆</div>
+          <div class="answer-item"><span class="q-num">九4.</span> 建築</div>
+          <div class="answer-item long"><span class="q-num">十1.</span> 造句合理即可（用「只要...就...」）</div>
+          <div class="answer-item long"><span class="q-num">十2.</span> 造句合理即可（用「怪不得...原來...」）</div>
+          <div class="answer-item"><span class="q-num">十一1.</span> C</div>
+          <div class="answer-item"><span class="q-num">十二</span> D → E → F → B → C → A</div>
+          <div class="answer-item"><span class="q-num">十三1.</span> C</div>
+          <div class="answer-item"><span class="q-num">十四1.</span> C</div>
+          <div class="answer-item"><span class="q-num">十四2.</span> A</div>
+          <div class="answer-item"><span class="q-num">十四3.</span> D</div>
+          <div class="answer-item"><span class="q-num">十四4.</span> B</div>
+        </div>
+
+        <div class="answer-footer">
+          <p>📊 <strong>總分：100分</strong></p>
+          <p>⏱️ <strong>甲部：30分鐘 | 乙部：25分鐘</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleAnswerKey() {
+        const panel = document.getElementById('answer-key-panel');
+        const icon = document.getElementById('toggle-icon');
+        if (panel.classList.contains('collapsed')) {
+          panel.classList.remove('collapsed');
+          panel.classList.add('expanded');
+          icon.textContent = '▼';
+        } else {
+          panel.classList.add('collapsed');
+          panel.classList.remove('expanded');
+          icon.textContent = '▶';
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>
