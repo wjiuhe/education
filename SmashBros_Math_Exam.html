@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大亂鬥數學科考試 - 圓與分數</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #2d2d2d; line-height: 1.8; }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .cover-page { background: #fff; border: 8px solid #e74c3c; border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
+    .cover-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px; background: repeating-linear-gradient(90deg, #e74c3c 0px, #e74c3c 20px, #f39c12 20px, #f39c12 40px, #3498db 40px, #3498db 60px, #9b59b6 60px, #9b59b6 80px); }
+    .smash-header { text-align: center; margin-bottom: 30px; }
+    .smash-icon { font-size: 60px; margin-bottom: 10px; }
+    h1 { text-align: center; color: #e74c3c; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #f39c12; }
+    .subtitle { text-align: center; color: #3498db; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #e74c3c; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #e74c3c; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #e74c3c; color: white; font-weight: 700; }
+    .info-table td { background: #fef9e7; }
+    .info-input { width: 100%; border: 2px dashed #e74c3c; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .instructions { background: #fef9e7; border-left: 6px solid #f39c12; padding: 20px; margin: 20px 0; border-radius: 0 12px 12px 0; }
+    .instructions h3 { color: #e74c3c; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+    .section { background: #fff; border: 5px solid #3498db; border-radius: 16px; padding: 30px; margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); }
+    .section-header { background: linear-gradient(135deg, #3498db, #5dade2); color: white; padding: 18px 25px; margin: -30px -30px 25px -30px; border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+    .section-header::before { content: '🎮'; font-size: 28px; }
+    .part-header { background: linear-gradient(135deg, #9b59b6, #bb8fce); color: white; padding: 12px 20px; margin: 0 -30px 20px -30px; font-size: 18px; font-weight: bold; }
+    .question { margin: 25px 0; padding: 20px; background: #fef9e7; border-radius: 12px; border-left: 5px solid #3498db; }
+    .question-number { font-weight: 700; color: #e74c3c; font-size: 18px; margin-bottom: 10px; }
+    .question-text { margin-bottom: 15px; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 12px; padding: 20px; background: #e8f6f3; border-radius: 12px; margin: 15px 0; border: 3px dashed #1abc9c; }
+    .word-bank-item { background: #3498db; color: white; padding: 10px 18px; border-radius: 25px; font-weight: 600; font-size: 15px; }
+    .answer-input { border: 3px solid #3498db; border-radius: 8px; padding: 10px 15px; font-size: 16px; background: #fff; transition: all 0.3s; }
+    .answer-input:focus { outline: none; border-color: #e74c3c; box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.15); }
+    .fill-blank { border: none; border-bottom: 3px solid #e74c3c; background: #fef9e7; padding: 8px 15px; font-size: 16px; min-width: 80px; text-align: center; border-radius: 6px 6px 0 0; }
+    .fill-blank:focus { outline: none; background: #fadbd8; }
+    .mcq-option { display: flex; align-items: center; margin: 10px 0; padding: 12px 18px; background: #fff; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+    .mcq-option:hover { background: #e8f6f3; border-color: #1abc9c; }
+    .mcq-option input[type="radio"], .mcq-option input[type="checkbox"] { width: 22px; height: 22px; margin-right: 15px; accent-color: #e74c3c; cursor: pointer; }
+    .mcq-option:has(input:checked) { background: #fef9e7; border-color: #e74c3c; }
+    .mcq-circle { width: 28px; height: 28px; border: 3px solid #e74c3c; border-radius: 50%; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: #e74c3c; background: #fff; font-size: 14px; flex-shrink: 0; }
+    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .data-table th, .data-table td { border: 2px solid #3498db; padding: 12px; text-align: center; }
+    .data-table th { background: #3498db; color: white; }
+    .data-table td { background: #fef9e7; }
+    .short-answer { width: 100%; min-height: 80px; border: 3px solid #3498db; border-radius: 10px; padding: 15px; font-size: 16px; font-family: 'Noto Sans TC', sans-serif; resize: vertical; background: #fff; }
+    .submit-btn { display: block; width: 100%; max-width: 350px; margin: 50px auto; padding: 18px 35px; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4); }
+    .submit-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(231, 76, 60, 0.5); }
+    .section-answer { margin-top: 20px; border: 3px solid #27ae60; border-radius: 10px; overflow: hidden; }
+    .section-answer-toggle { width: 100%; padding: 12px 20px; background: linear-gradient(135deg, #27ae60, #2ecc71); color: white; border: none; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .section-answer-toggle:hover { background: linear-gradient(135deg, #229954, #27ae60); }
+    .section-answer-panel { background: #eafaf1; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .section-answer-panel.expanded { padding: 20px; max-height: 2000px; }
+    .inline-answer { background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #27ae60; margin: 5px 0; font-size: 14px; }
+    .inline-answer strong { color: #e74c3c; }
+    .smash-decoration { text-align: center; font-size: 30px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box { background: #e8f6f3; border-left: 4px solid #1abc9c; padding: 12px 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+    .formula-box { background: #fef9e7; border: 2px solid #f39c12; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; font-size: 18px; }
+    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="smash-header">
+        <div class="smash-icon">🎮 ⚔️ 🏆</div>
+        <h1>對戰競技場小學 2025-2026年度 數學科考試</h1>
+        <p class="subtitle">大亂鬥主題數學挑戰 Super Smash Bros Math Challenge</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" placeholder="學號"></td><td><input type="text" class="info-input" placeholder="日期"></td></tr>
+      </table>
+      <div class="instructions">
+        <h3>📝 考生須知</h3>
+        <ul>
+          <li>本卷共分<b>四部分</b>：圓的認識、分數除法、立體圖形、綜合應用</li>
+          <li><b>考試時間：</b>50分鐘</li>
+          <li><b>總分：</b>100分</li>
+          <li>選擇題請用鉛筆把正確選項前的圓圈塗黑及塗滿</li>
+          <li>填充題請在橫線上填寫正確答案</li>
+        </ul>
+      </div>
+      <div class="smash-decoration">🎮 ⚔️ 🏆 ⚔️ 🎮 🏆 ⚔️</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：圓的認識 (25分)</div>
+      <div class="tip-box">
+        <p><strong>🎮 瑬琥小知識：</strong>就像瑬琥的爆炸攻擊範圍是圓形一樣，圓形是非常特別的圖形！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(一) 選詞填充題。8% @2%</div>
+        <div class="word-bank">
+          <span class="word-bank-item">圓心</span>
+          <span class="word-bank-item">圓周</span>
+          <span class="word-bank-item">半徑</span>
+          <span class="word-bank-item">直徑</span>
+        </div>
+        <p style="margin-top:15px;"><strong>1.</strong> 圓上所有點跟 <input type="text" class="fill-blank" style="width:80px;"> 距離都相同。</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 連接圓心和圓上任何一點的線段稱為 <input type="text" class="fill-blank" style="width:80px;"> 。</p>
+        <p style="margin-top:15px;"><strong>3.</strong> 連接圓上任何兩點且經過圓心的線段稱為 <input type="text" class="fill-blank" style="width:80px;"> 。</p>
+        <p style="margin-top:15px;"><strong>4.</strong> 直徑的長度是半徑的 <input type="text" class="fill-blank" style="width:80px;"> 倍。</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(二) 計算題。9%</div>
+        <div class="formula-box">
+          <p><strong>重要公式：</strong></p>
+          <p>圓周 = π × 直徑 = πd</p>
+          <p>圓面積 = π × 半徑² = πr²</p>
+          <p>（π ≈ 3.14）</p>
+        </div>
+        <p style="margin-top:15px;"><strong>1.</strong> 如果圓的半徑是 7 cm，直徑是 <input type="text" class="fill-blank" style="width:80px;"> cm。（2%）</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 如果圓的直徑是 10 m，圓周是 <input type="text" class="fill-blank" style="width:80px;"> m。（取 π ≈ 3.14）（3%）</p>
+        <p style="margin-top:15px;"><strong>3.</strong> 如果圓的半徑是 5 cm，圓面積是 <input type="text" class="fill-blank" style="width:80px;"> cm²。（取 π ≈ 3.14）（4%）</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(三) 選擇題。8% @2%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 以下哪個是圓的性質？</p>
+        <label class="mcq-option"><input type="radio" name="q1"> <span class="mcq-circle">A</span> 圓上所有點跟圓心的距離都相同</label>
+        <label class="mcq-option"><input type="radio" name="q1"> <span class="mcq-circle">B</span> 圓的面積比周長大</label>
+        <label class="mcq-option"><input type="radio" name="q1"> <span class="mcq-circle">C</span> 直徑比半徑短</label>
+        <label class="mcq-option"><input type="radio" name="q1"> <span class="mcq-circle">D</span> 圓有邊</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 一個圓的半徑是 8 cm，它的面積是多少？（取 π ≈ 3.14）</p>
+        <label class="mcq-option"><input type="radio" name="q2"> <span class="mcq-circle">A</span> 50.24 cm²</label>
+        <label class="mcq-option"><input type="radio" name="q2"> <span class="mcq-circle">B</span> 200.96 cm²</label>
+        <label class="mcq-option"><input type="radio" name="q2"> <span class="mcq-circle">C</span> 25.12 cm²</label>
+        <label class="mcq-option"><input type="radio" name="q2"> <span class="mcq-circle">D</span> 100.48 cm²</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 如果圓的直徑是 12 cm，圓周是多少？（取 π ≈ 3.14）</p>
+        <label class="mcq-option"><input type="radio" name="q3"> <span class="mcq-circle">A</span> 18.84 cm</label>
+        <label class="mcq-option"><input type="radio" name="q3"> <span class="mcq-circle">B</span> 37.68 cm</label>
+        <label class="mcq-option"><input type="radio" name="q3"> <span class="mcq-circle">C</span> 376.8 cm</label>
+        <label class="mcq-option"><input type="radio" name="q3"> <span class="mcq-circle">D</span> 3.14 cm</label>
+        
+        <p style="margin:20px 0 10px;"><strong>4.</strong> 以下哪個說法是錯誤的？</p>
+        <label class="mcq-option"><input type="radio" name="q4"> <span class="mcq-circle">A</span> 一個圓有无限多條直徑</label>
+        <label class="mcq-option"><input type="radio" name="q4"> <span class="mcq-circle">B</span> 直徑 = 2 × 半徑</label>
+        <label class="mcq-option"><input type="radio" name="q4"> <span class="mcq-circle">C</span> 半徑 = 2 × 直徑</label>
+        <label class="mcq-option"><input type="radio" name="q4"> <span class="mcq-circle">D</span> 所有直徑的長度都相同</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第一部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>選詞 1.</strong> 圓心</div>
+          <div class="inline-answer"><strong>選詞 2.</strong> 半徑</div>
+          <div class="inline-answer"><strong>選詞 3.</strong> 直徑</div>
+          <div class="inline-answer"><strong>選詞 4.</strong> 2</div>
+          <div class="inline-answer"><strong>計算 1.</strong> 14 cm</div>
+          <div class="inline-answer"><strong>計算 2.</strong> 31.4 m</div>
+          <div class="inline-answer"><strong>計算 3.</strong> 78.5 cm²</div>
+          <div class="inline-answer"><strong>選擇 1.</strong> A</div>
+          <div class="inline-answer"><strong>選擇 2.</strong> B</div>
+          <div class="inline-answer"><strong>選擇 3.</strong> B</div>
+          <div class="inline-answer"><strong>選擇 4.</strong> C</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：分數除法 (35分)</div>
+      <div class="tip-box">
+        <p><strong>🧮 壞蘋獸小知識：</strong>就像分數可以把東西平均分開，分數除法在日常生活中非常有用！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(四) 分數除以整數。8% @2%</div>
+        <p style="margin-bottom:10px;"><strong>計算下列各題。（答案以最簡分數表示）</strong></p>
+        <p style="margin-top:15px;"><strong>1.</strong> $\frac{1}{4} \div 3 = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> $\frac{6}{7} \div 2 = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> $3\frac{1}{3} \div 4 = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>4.</strong> $\frac{14}{15} \div 21 = $<input type="text" class="fill-blank" style="width:100px;"></p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(五) 整數除以分數。8% @2%</div>
+        <p style="margin-bottom:10px;"><strong>計算下列各題。（答案以最簡分數表示）</strong></p>
+        <p style="margin-top:15px;"><strong>1.</strong> $8 \div \frac{2}{3} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> $7 \div 2\frac{4}{5} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> $1 \div 2\frac{2}{5} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>4.</strong> $20 \div 3\frac{3}{4} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(六) 分數除以分數。10% @2%</div>
+        <p style="margin-bottom:10px;"><strong>計算下列各題。（答案以最簡分數表示）</strong></p>
+        <p style="margin-top:15px;"><strong>1.</strong> $\frac{3}{5} \div \frac{1}{10} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> $\frac{3}{5} \div \frac{3}{10} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> $\frac{4}{7} \div \frac{2}{7} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>4.</strong> $1\frac{4}{5} \div \frac{9}{20} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+        <p style="margin-top:15px;"><strong>5.</strong> $\frac{8}{9} \div 1\frac{1}{3} = $<input type="text" class="fill-blank" style="width:100px;"></p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(七) 應用題。9% @3%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 瑬琥有 $3\frac{1}{5}$ 公斤糖果，平均分成 4 包。每包糖果有多少公斤？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 壞蘋獸的爸爸買了 $6\frac{1}{4}$ 升果汁，每 $\frac{5}{8}$ 升裝成一瓶。可以裝成多少瓶？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 索尼克有 $5\frac{1}{2}$ 盒能量方塊，做一個招式需用 $\frac{1}{8}$ 盒。最多可以做多少個招式？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第二部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>四 1.</strong> $\frac{1}{12}$</div>
+          <div class="inline-answer"><strong>四 2.</strong> $\frac{3}{7}$</div>
+          <div class="inline-answer"><strong>四 3.</strong> $\frac{5}{6}$</div>
+          <div class="inline-answer"><strong>四 4.</strong> $\frac{2}{45}$</div>
+          <div class="inline-answer"><strong>五 1.</strong> 12</div>
+          <div class="inline-answer"><strong>五 2.</strong> $2\frac{1}{2}$</div>
+          <div class="inline-answer"><strong>五 3.</strong> $\frac{5}{12}$</div>
+          <div class="inline-answer"><strong>五 4.</strong> $5\frac{1}{3}$</div>
+          <div class="inline-answer"><strong>六 1.</strong> 6</div>
+          <div class="inline-answer"><strong>六 2.</strong> 2</div>
+          <div class="inline-answer"><strong>六 3.</strong> 2</div>
+          <div class="inline-answer"><strong>六 4.</strong> 4</div>
+          <div class="inline-answer"><strong>六 5.</strong> $\frac{2}{3}$</div>
+          <div class="inline-answer"><strong>應用 1.</strong> $\frac{4}{5}$ 公斤</div>
+          <div class="inline-answer"><strong>應用 2.</strong> 10 瓶</div>
+          <div class="inline-answer"><strong>應用 3.</strong> 44 個招式</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：立體圖形 (25分)</div>
+      <div class="tip-box">
+        <p><strong>🔷 磚塊小知識：</strong>就像俄洛斯方塊是由許多小方塊組成一樣，立體圖形也有它們特別的性質！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(八) 立體圖形的截面配對。6% @2%</div>
+        <p style="margin-bottom:10px;"><strong>以下立體圖形可以切出什麼截面？請把正確答案的字母填在橫線上：</strong></p>
+        <table class="data-table">
+          <tr><th>立體圖形</th><th>答案</th><th>截面形狀</th></tr>
+          <tr><td>1. 圓柱</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>長方形</td></tr>
+          <tr><td>2. 角柱</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>三角形</td></tr>
+          <tr><td>3. 圓錐</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>橢圓形</td></tr>
+        </table>
+        <p style="margin-top:15px; color:#666;">答案選項：A. 平行四邊形　B. 圓形　C. 三角形　D. 長方形</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(九) 正方體和長方體的認識。8% @2%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 正方體有多少個面？<input type="text" class="fill-blank" style="width:50px;"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> 正方體有多少個頂點？<input type="text" class="fill-blank" style="width:50px;"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> 長方體有多少條棱？<input type="text" class="fill-blank" style="width:50px;"></p>
+        <p style="margin-top:15px;"><strong>4.</strong> 以下哪個不是正方體的展開圖？（）</p>
+        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">A</span> 六個相同正方形組成的十字形</label>
+        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">B</span> 六個相同正方形組成的T形</label>
+        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">C</span> 六個相同正方形組成的田字形</label>
+        <label class="mcq-option"><input type="radio" name="q9_4"> <span class="mcq-circle">D</span> 六個不相同長方形組成的形狀</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十) 球的認識。6% @2%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 球有多少個面？<input type="text" class="fill-blank" style="width:50px;"></p>
+        <p style="margin-top:15px;"><strong>2.</strong> 用一個平面切球，截面是什麼形狀？<input type="text" class="fill-blank" style="width:80px;"></p>
+        <p style="margin-top:15px;"><strong>3.</strong> 球有多少個頂點？<input type="text" class="fill-blank" style="width:50px;"></p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十一) 選擇題。5%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 以下哪個立體圖形沒有頂點？</p>
+        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">A</span> 正方體</label>
+        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">B</span> 長方體</label>
+        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">C</span> 圓柱</label>
+        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">D</span> 角錐</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 圓柱有多少條曲面？</p>
+        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">A</span> 0</label>
+        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">B</span> 1</label>
+        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">C</span> 2</label>
+        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">D</span> 3</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第三部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>配對 1.</strong> D（長方形）</div>
+          <div class="inline-answer"><strong>配對 2.</strong> C（三角形）</div>
+          <div class="inline-answer"><strong>配對 3.</strong> B（圓形）</div>
+          <div class="inline-answer"><strong>正方體 1.</strong> 6 個面</div>
+          <div class="inline-answer"><strong>正方體 2.</strong> 8 個頂點</div>
+          <div class="inline-answer"><strong>長方體 3.</strong> 12 條棱</div>
+          <div class="inline-answer"><strong>選擇 4.</strong> D</div>
+          <div class="inline-answer"><strong>球 1.</strong> 1 個曲面（沒有平面）</div>
+          <div class="inline-answer"><strong>球 2.</strong> 圓形</div>
+          <div class="inline-answer"><strong>球 3.</strong> 0 個頂點</div>
+          <div class="inline-answer"><strong>選擇 1.</strong> C（圓柱）</div>
+          <div class="inline-answer"><strong>選擇 2.</strong> B（1）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第四部分：綜合應用 (15分)</div>
+      <div class="tip-box">
+        <p><strong>🎯 大亂鬥小知識：</strong>就像對戰時要靈活運用各種招式，數學也要靈活運用各種知識！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(十二) 綜合計算題。15% @3%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 瑬琥的爆炸攻擊範圍是一個圓，半徑是 15 米。攻擊範圍的面積是多少平方米？（取 π ≈ 3.14）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 壞蘋獸有 $4\frac{2}{5}$ 公斤岩石，想分給 8 個小怪獸，平均每個小怪獸可以得到多少公斤？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 索尼克的速度是 $\frac{9}{10}$ 公里，跑了 $2\frac{1}{3}$ 小時。總共跑了多少公里？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+        
+        <p style="margin:20px 0 10px;"><strong>4.</strong> 一個長方體的長、寬、高分别是 $3\frac{1}{2}$ cm、$2$ cm 和 $4$ cm。這個長方體的體積是多少 cm³？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+        
+        <p style="margin:20px 0 10px;"><strong>5.</strong> 如果把 $7\frac{1}{2}$ 升果汁每 $\frac{3}{4}$ 升裝一瓶，可以裝多少瓶？還餘多少升？</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請列式計算..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第四部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>計算 1.</strong> 706.5 平方米</div>
+          <div class="inline-answer"><strong>計算 2.</strong> $\frac{11}{20}$ 公斤</div>
+          <div class="inline-answer"><strong>計算 3.</strong> $\frac{21}{10} = 2\frac{1}{10}$ 公里</div>
+          <div class="inline-answer"><strong>計算 4.</strong> 28 cm³</div>
+          <div class="inline-answer"><strong>計算 5.</strong> 10 瓶，餘 $\frac{1}{2}$ 升</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#e74c3c; font-weight:bold; margin:40px 0; font-size:20px;">~ 全卷完 ~</div>
+
+    <button class="submit-btn" onclick="alert('考試已提交！恭喜你完成大亂鬥數學挑戰！🎮')">提交考試 Submit</button>
+
+    <div class="smash-decoration">🎮 ⚔️ 🏆 ⚔️ 🎮 ⚔️ 🏆</div>
+
+    <script>
+      function toggleSectionAnswer(btn) {
+        const panel = btn.nextElementSibling;
+        if (panel.classList.contains('expanded')) {
+          panel.classList.remove('expanded');
+        } else {
+          panel.classList.add('expanded');
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>

@@ -49,26 +49,22 @@
     .short-answer { width: 100%; min-height: 80px; border: 3px solid #4169E1; border-radius: 10px; padding: 15px; font-size: 16px; font-family: 'Noto Sans TC', sans-serif; resize: vertical; background: #fff; }
     .submit-btn { display: block; width: 100%; max-width: 350px; margin: 50px auto; padding: 18px 35px; background: linear-gradient(135deg, #FF69B4, #FFB6C1); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4); }
     .submit-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(255, 105, 180, 0.5); }
-    .answer-key-container { margin: 40px 0; border: 4px solid #32CD32; border-radius: 15px; overflow: hidden; }
-    .answer-key-toggle { width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #32CD32, #90EE90); color: white; border: none; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px; }
-    .answer-key-toggle:hover { background: linear-gradient(135deg, #228B22, #32CD32); }
-    .key-badge { background: #FF69B4; padding: 5px 12px; border-radius: 15px; font-size: 14px; }
-    .answer-key-panel { background: #f0fff0; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden; }
-    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
-    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
-    .answer-key-title { color: #32CD32; font-size: 20px; margin: 20px 0 10px 0; padding-bottom: 8px; border-bottom: 3px solid #32CD32; }
-    .answer-key-title:first-child { margin-top: 0; }
-    .answer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
-    .answer-item { background: #fff; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #32CD32; font-size: 14px; }
-    .answer-item.long { grid-column: 1 / -1; }
-    .q-num { font-weight: 700; color: #FF69B4; margin-right: 6px; }
-    .answer-footer { margin-top: 25px; padding: 15px; background: #fff; border-radius: 10px; text-align: center; border: 2px solid #32CD32; }
+    .section-answer { margin-top: 20px; border: 3px solid #32CD32; border-radius: 10px; overflow: hidden; }
+    .section-answer-toggle { width: 100%; padding: 12px 20px; background: linear-gradient(135deg, #32CD32, #90EE90); color: white; border: none; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .section-answer-toggle:hover { background: linear-gradient(135deg, #228B22, #32CD32); }
+    .section-answer-panel { background: #f0fff0; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .section-answer-panel.expanded { padding: 20px; max-height: 2000px; }
+    .inline-answer { background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #32CD32; margin: 5px 0; font-size: 14px; }
+    .inline-answer strong { color: #FF69B4; }
     .kirby-decoration { text-align: center; font-size: 30px; margin: 20px 0; letter-spacing: 10px; }
     .tip-box { background: #e6f7ff; border-left: 4px solid #4169E1; padding: 12px 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
     .news-box { background: #fffbe6; border: 2px solid #FFB0D0; border-radius: 12px; padding: 20px; margin: 20px 0; }
     .news-title { color: #FF69B4; font-weight: 700; font-size: 18px; margin-bottom: 10px; }
     .scenario-box { background: #ffe6f0; border: 2px solid #FF69B4; border-radius: 12px; padding: 20px; margin: 20px 0; }
-    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } .answer-grid { grid-template-columns: 1fr; } }
+    .match-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    .match-table th, .match-table td { border: 2px solid #4169E1; padding: 10px; text-align: left; }
+    .match-table th { background: #4169E1; color: white; }
+    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } }
   </style>
 </head>
 <body>
@@ -86,8 +82,8 @@
       <div class="instructions">
         <h3>📝 考生須知</h3>
         <ul>
-          <li>本卷共分<b>四部分</b>：地球探索、月球奧秘、太陽系、宇宙</li>
-          <li><b>考試時間：</b>45分鐘</li>
+          <li>本卷共分<b>四部分</b>：地球探索、月球奧秘、太陽系與宇宙、香港時事</li>
+          <li><b>考試時間：</b>50分鐘</li>
           <li><b>總分：</b>100分</li>
           <li>選擇題請用鉛筆把正確選項前的圓圈塗黑及塗滿</li>
           <li>填充題請在橫線上填寫正確答案</li>
@@ -165,16 +161,35 @@
         <label class="mcq-option"><input type="radio" name="q6"> <span class="mcq-circle">C</span> 月球遮擋太陽</label>
         <label class="mcq-option"><input type="radio" name="q6"> <span class="mcq-circle">D</span> 太陽的光線強度不同</label>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第一部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>選填 1.</strong> 自轉；日夜交替</div>
+          <div class="inline-answer"><strong>選填 2.</strong> 公轉；季節變化</div>
+          <div class="inline-answer"><strong>選填 3.</strong> 直射</div>
+          <div class="inline-answer"><strong>選填 4.</strong> 斜射</div>
+          <div class="inline-answer"><strong>情境分析</strong> 因為地球自轉，不同地區依次面對太陽。當正午時影子短，早晚時光線斜射影子長。</div>
+          <div class="inline-answer"><strong>MCQ 1.</strong> B (24小時)</div>
+          <div class="inline-answer"><strong>MCQ 2.</strong> C (13時)</div>
+          <div class="inline-answer"><strong>MCQ 3.</strong> D (冬天)</div>
+          <div class="inline-answer"><strong>MCQ 4.</strong> C (約365天)</div>
+          <div class="inline-answer"><strong>MCQ 5.</strong> B (23.5度)</div>
+          <div class="inline-answer"><strong>MCQ 6.</strong> B (地球自轉，不同地區依次面對太陽)</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-header">第二部分：月球奧秘 (30分)</div>
+      <div class="section-header">第二部分：月球奧秘 (25分)</div>
       <div class="tip-box">
         <p><strong>🌙 卡比小知識：</strong>就像卡比有時變成不同形態，月球也會呈現不同形狀——這就是月相！</p>
       </div>
       
       <div class="question">
-        <div class="question-number">(四) 實驗題：根據以下實驗，把答案填在橫線上。11%</div>
+        <div class="question-number">(四) 實驗題：根據以下實驗，把答案填在橫線上。8%</div>
         <div class="scenario-box">
           <p><strong>實驗材料：</strong>手電筒（代表太陽）、網球（代表月球）</p>
           <p><strong>實驗步驟：</strong>在黑暗房間中，打開手電筒照射網球，觀察不同角度的亮度變化。</p>
@@ -190,7 +205,7 @@
       </div>
 
       <div class="question">
-        <div class="question-number">(五) 配對題：把答案填在橫線上。20% @2%</div>
+        <div class="question-number">(五) 配對題：把答案填在橫線上。12% @2%</div>
         <p style="margin-bottom:15px;"><strong>1. 月球表面的特點：</strong></p>
         <table class="data-table">
           <tr><th>特點</th><th>答案</th><th>描述</th></tr>
@@ -205,20 +220,26 @@
           <tr><td>日蝕</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>月球在太陽和地球之間</td></tr>
           <tr><td>月蝕</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>地球在太陽和月球之間</td></tr>
         </table>
-        
-        <p style="margin-top:20px; margin-bottom:15px;"><strong>3. 月球的自轉和公轉：</strong></p>
-        <table class="data-table">
-          <tr><th>週期</th><th>答案</th><th>數值</th></tr>
-          <tr><td>自轉週期</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>約27.3天</td></tr>
-          <tr><td>公轉週期</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>約27.3天</td></tr>
-        </table>
-        <p style="margin-top:20px;"><strong>4.</strong> 因為月球自轉和公轉週期相同，所以我們從地球看到的總是月球的 <input type="text" class="fill-blank" style="width:100px;"> 面。</p>
       </div>
 
       <div class="question">
-        <div class="question-number">(六) 問答題：以完整句子作答。4%</div>
+        <div class="question-number">(六) 問答題：以完整句子作答。5%</div>
         <p><strong>問題：</strong>月相（滿月、弦月等）為甚麼會不斷變化？</p>
         <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第二部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>實驗1.</strong> 看不清楚/看不見網球</div>
+          <div class="inline-answer"><strong>實驗2.</strong> 不能</div>
+          <div class="inline-answer"><strong>實驗3.</strong> 反射</div>
+          <div class="inline-answer"><strong>配對1.</strong> A-C, B-B, C-A</div>
+          <div class="inline-answer"><strong>配對2.</strong> 日蝕：月球在太陽和地球之間；月蝕：地球在太陽和月球之間</div>
+          <div class="inline-answer"><strong>問答</strong> 月球本身不發光，我們看到的是它反射的太陽光。當月球繞地球運行時，太陽光照在月球不同的部分，從地球看到被照亮的區域不同，所以月相會不斷變化。</div>
+        </div>
       </div>
     </div>
 
@@ -262,48 +283,33 @@
       </div>
 
       <div class="question">
-        <div class="question-number">(九) 序列題：把英文字母填在括號內。2%</div>
+        <div class="question-number">(九) 序列題：把英文字母填在括號內。5%</div>
         <p style="margin-bottom:15px;"><strong>1.</strong> 從太陽系形成到地球生命出現的過程，按先後次序排列：</p>
         <p>A. 太陽形成　B. 地球冷卻形成固體表面　C. 原始星雲收縮　D. 最早的生命出現　E. 液態水出現</p>
         <p style="margin-top:15px;">答案：( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> ) → ( <input type="text" class="fill-blank" style="width:50px;"> )</p>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第三部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>判斷1.</strong> ✓ ✓ × ✓ ✓</div>
+          <div class="inline-answer"><strong>判斷2.</strong> A、B (恆星自己能發光；行星環繞恆星運行)</div>
+          <div class="inline-answer"><strong>判斷3.</strong> A (水星、金星、地球、火星、木星、土星、天王星、海王星)</div>
+          <div class="inline-answer"><strong>序列</strong> C → A → B → E → D</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-header">第四部分：宇宙探索與時事 (20分)</div>
+      <div class="section-header">第四部分：宇宙探索與天體認識 (15分)</div>
       <div class="tip-box">
         <p><strong>⭐ 卡比小知識：</strong>就像夢之國很大很大，宇宙更加廣闊，包含了無數星系！</p>
       </div>
       
       <div class="question">
-        <div class="question-number">(十) 簡答：把答案填在橫線上。4% @2%</div>
-        <p style="margin-bottom:15px;"><strong>1.</strong> 我們所在的星系叫甚麼？</p>
-        <p>答：<input type="text" class="fill-blank" style="width:150px;"></p>
-        <p style="margin-top:20px; margin-bottom:15px;"><strong>2.</strong> 太陽系位於哪個星系內？</p>
-        <p>答：<input type="text" class="fill-blank" style="width:150px;"></p>
-      </div>
-
-      <div class="question">
-        <div class="question-number">(十一) 時事新聞題：選出正確答案。2% @1%</div>
-        <div class="news-box">
-          <div class="news-title">📰 新聞：香港航天科技發展</div>
-          <p>【本報訊】2025年，香港積極參與國家航天事業。香港青少年航天科普計劃舉辦多場講座，讓學生了解中國太空站「天宮」的運作。有學生表示希望日後能夠成為太空人，參與火星探測任務。</p>
-        </div>
-        <p style="margin-bottom:10px;"><strong>1.</strong> 中國太空站的名字叫甚麼？</p>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">A</span> 天宮</label>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">B</span> 天和</label>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">C</span> 問天</label>
-        <label class="mcq-option"><input type="radio" name="q11_1"> <span class="mcq-circle">D</span> 飛天</label>
-        
-        <p style="margin:20px 0 10px;"><strong>2.</strong> 香港學生有機會參與哪個星球的探測任務？</p>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">A</span> 月球</label>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">B</span> 火星</label>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">C</span> 金星</label>
-        <label class="mcq-option"><input type="radio" name="q11_2"> <span class="mcq-circle">D</span> 木星</label>
-      </div>
-
-      <div class="question">
-        <div class="question-number">(十二) 填空題：把正確答案填在橫線上。14%</div>
+        <div class="question-number">(十) 填空題：把正確答案填在橫線上。8%</div>
         <div class="word-bank">
           <span class="word-bank-item">恆星</span>
           <span class="word-bank-item">行星</span>
@@ -316,10 +322,117 @@
         <p style="margin-top:15px;"><strong>1.</strong> <input type="text" class="fill-blank" style="width:100px;"> 能自己發光發熱，如太陽。</p>
         <p style="margin-top:15px;"><strong>2.</strong> <input type="text" class="fill-blank" style="width:100px;"> 不發光，環繞恆星運行，如地球。</p>
         <p style="margin-top:15px;"><strong>3.</strong> <input type="text" class="fill-blank" style="width:100px;"> 不發光，環繞行星運行，如月球。</p>
-        <p style="margin-top:15px;"><strong>4.</strong> <input type="text" class="fill-blank" style="width:100px;"> 包含數千億顆恆星，如我們的銀河。</p>
-        <p style="margin-top:15px;"><strong>5.</strong> <input type="text" class="fill-blank" style="width:100px;"> 如冥王星，環繞太陽運行但質量不足以清除軌道附近其他物體。</p>
-        <p style="margin-top:15px;"><strong>6.</strong> <input type="text" class="fill-blank" style="width:100px;"> 環繞太陽運行的小型岩石天體，如位於火星和木星之間的小行星帶。</p>
-        <p style="margin-top:15px;"><strong>7.</strong> <input type="text" class="fill-blank" style="width:100px;"> 俗稱「掃帚星」，接近太陽時會出現長長的尾巴。</p>
+        <p style="margin-top:15px;"><strong>4.</strong> <input type="text" class="fill-blank" style="width:100px;"> 如冥王星，環繞太陽運行但質量不足以清除軌道附近其他物體。</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十一) 簡答題。7%</div>
+        <p style="margin-bottom:15px;"><strong>1.</strong> 我們所在的星系叫甚麼？（2%）</p>
+        <p>答：<input type="text" class="fill-blank" style="width:150px;"></p>
+        <p style="margin-top:20px; margin-bottom:15px;"><strong>2.</strong> 太陽系位於哪個星系內？（2%）</p>
+        <p>答：<input type="text" class="fill-blank" style="width:150px;"></p>
+        <p style="margin-top:20px; margin-bottom:15px;"><strong>3.</strong> 請列舉兩種太陽系中的小天體。（3%）</p>
+        <p>答：<input type="text" class="answer-input" style="width:100%;" placeholder="請作答..."></p>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第四部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>填空1.</strong> 恆星</div>
+          <div class="inline-answer"><strong>填空2.</strong> 行星</div>
+          <div class="inline-answer"><strong>填空3.</strong> 衛星</div>
+          <div class="inline-answer"><strong>填空4.</strong> 矮行星</div>
+          <div class="inline-answer"><strong>簡答1.</strong> 銀河系</div>
+          <div class="inline-answer"><strong>簡答2.</strong> 銀河系</div>
+          <div class="inline-answer"><strong>簡答3.</strong> 小行星、彗星、流星等（任何兩個正確即可）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第五部分：香港時事與航天科普 (15分)</div>
+      <div class="tip-box">
+        <p><strong>🌟 卡比小知識：</strong>就像卡比不斷學習新本領，我們也要關心香港和國家的最新發展！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(十二) 香港航天科技新聞題。6% @2%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞一：香港青少年航天科普計劃</div>
+          <p>【本報訊】2025年，香港積極參與國家航天事業。香港青少年航天科普計劃舉辦多場講座，讓學生了解中國太空站「天宮」的運作。有學生表示希望日後能夠成為太空人，參與火星探測任務。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 中國太空站的名字叫甚麼？</p>
+        <label class="mcq-option"><input type="radio" name="q12_1"> <span class="mcq-circle">A</span> 天宮</label>
+        <label class="mcq-option"><input type="radio" name="q12_1"> <span class="mcq-circle">B</span> 天和</label>
+        <label class="mcq-option"><input type="radio" name="q12_1"> <span class="mcq-circle">C</span> 問天</label>
+        <label class="mcq-option"><input type="radio" name="q12_1"> <span class="mcq-circle">D</span> 飛天</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 香港學生有機會參與哪個星球的探測任務？</p>
+        <label class="mcq-option"><input type="radio" name="q12_2"> <span class="mcq-circle">A</span> 月球</label>
+        <label class="mcq-option"><input type="radio" name="q12_2"> <span class="mcq-circle">B</span> 火星</label>
+        <label class="mcq-option"><input type="radio" name="q12_2"> <span class="mcq-circle">C</span> 金星</label>
+        <label class="mcq-option"><input type="radio" name="q12_2"> <span class="mcq-circle">D</span> 木星</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 香港青少年航天科普計劃的目的是什麼？</p>
+        <label class="mcq-option"><input type="radio" name="q12_3"> <span class="mcq-circle">A</span> 讓學生學習外語</label>
+        <label class="mcq-option"><input type="radio" name="q12_3"> <span class="mcq-circle">B</span> 讓學生了解國家航天事業</label>
+        <label class="mcq-option"><input type="radio" name="q12_3"> <span class="mcq-circle">C</span> 讓學生參與商業活動</label>
+        <label class="mcq-option"><input type="radio" name="q12_3"> <span class="mcq-circle">D</span> 讓學生學習游泳</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十三) 香港環保與能源時事題。6% @2%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞二：香港碳中和目標</div>
+          <p>【本報訊】香港特區政府宣布力争2035年碳排放量較2005年減少50%，2050年前實現碳中和。環保署推出「綠色學校」計劃，鼓勵學校減少碳排放，推廣環保教育。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 香港目標在什麼年份前實現碳中和？</p>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">A</span> 2030年</label>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">B</span> 2040年</label>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">C</span> 2050年</label>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">D</span> 2060年</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 「綠色學校」計劃的主要目的是什麼？</p>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">A</span> 增加學校建築</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">B</span> 減少碳排放，推廣環保教育</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">C</span> 提高學費</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">D</span> 減少作業</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 香港計劃在2035年碳排放量較2005年減少多少？</p>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">A</span> 30%</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">B</span> 50%</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">C</span> 70%</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">D</span> 90%</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十四) 香港基建與科技發展時事題。3%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞三：香港數碼港與創科發展</div>
+          <p>【本報訊】香港數碼港積極發展人工智能及大數據產業，吸引多家科技巨頭進駐。特區政府投放資源支持創新科技發展，培育本地科技人才。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 數碼港重點發展哪些產業？（可選多項）</p>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">A</span> 人工智能</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">B</span> 大數據</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">C</span> 餐飲業</label>
+        <label class="mcq-option"><input type="checkbox"> <span class="mcq-circle">D</span> 金融科技</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第五部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>時事題1.</strong> A (天宮)</div>
+          <div class="inline-answer"><strong>時事題2.</strong> B (火星)</div>
+          <div class="inline-answer"><strong>時事題3.</strong> B (讓學生了解國家航天事業)</div>
+          <div class="inline-answer"><strong>時事題4.</strong> C (2050年)</div>
+          <div class="inline-answer"><strong>時事題5.</strong> B (減少碳排放，推廣環保教育)</div>
+          <div class="inline-answer"><strong>時事題6.</strong> B (50%)</div>
+          <div class="inline-answer"><strong>時事題7.</strong> A、B、D (人工智能、大數據、金融科技)</div>
+        </div>
       </div>
     </div>
 
@@ -329,83 +442,13 @@
 
     <div class="kirby-decoration">🩷 ⭐ 🌙 🚀 ⭐ 🩷 ⭐ 🌙</div>
 
-    <div class="answer-key-container">
-      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
-        <span id="toggle-icon">▶</span> 
-        答案匙 Answer Key
-        <span class="key-badge">教師專用</span>
-      </button>
-      
-      <div id="answer-key-panel" class="answer-key-panel collapsed">
-        <h3 class="answer-key-title">第一部分：地球探索 (25分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">1.</span> 自轉；日夜交替</div>
-          <div class="answer-item"><span class="q-num">2.</span> 公轉；季節變化</div>
-          <div class="answer-item"><span class="q-num">3.</span> 直射</div>
-          <div class="answer-item"><span class="q-num">4.</span> 斜射</div>
-          <div class="answer-item long"><span class="q-num">情境</span> 因為地球自轉，不同地區依次面對太陽。當正午時影子短，早晚時光線斜射影子長。</div>
-          <div class="answer-item"><span class="q-num">MCQ 1.</span> B (24小時)</div>
-          <div class="answer-item"><span class="q-num">MCQ 2.</span> C (13時)</div>
-          <div class="answer-item"><span class="q-num">MCQ 3.</span> D (冬天)</div>
-          <div class="answer-item"><span class="q-num">MCQ 4.</span> C (約365天)</div>
-          <div class="answer-item"><span class="q-num">MCQ 5.</span> B (23.5度)</div>
-          <div class="answer-item"><span class="q-num">MCQ 6.</span> B (地球自轉，不同地區依次面對太陽)</div>
-        </div>
-
-        <h3 class="answer-key-title">第二部分：月球奧秘 (30分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">實驗1.</span> 看不清楚/看不見網球</div>
-          <div class="answer-item"><span class="q-num">實驗2.</span> 不能</div>
-          <div class="answer-item"><span class="q-num">實驗3.</span> 反射</div>
-          <div class="answer-item"><span class="q-num">配對1.</span> A-C, B-B, C-A</div>
-          <div class="answer-item"><span class="q-num">配對2.</span> 日蝕：月球在太陽和地球之間；月蝕：地球在太陽和月球之間</div>
-          <div class="answer-item"><span class="q-num">配對3.</span> 自轉週期；公轉週期</div>
-          <div class="answer-item"><span class="q-num">配對4.</span> 同一</div>
-          <div class="answer-item long"><span class="q-num">問答</span> 月球本身不發光，我們看到的是它反射的太陽光。當月球繞地球運行時，太陽光照在月球不同的部分，從地球看到被照亮的區域不同，所以月相會不斷變化。</div>
-        </div>
-
-        <h3 class="answer-key-title">第三部分：太陽系家族 (25分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">判斷1.</span> ✓ ✓ × ✓ ✓</div>
-          <div class="answer-item"><span class="q-num">判斷2.</span> A、B (恆星自己能發光；行星環繞恆星運行)</div>
-          <div class="answer-item"><span class="q-num">判斷3.</span> A (水星、金星、地球、火星、木星、土星、天王星、海王星)</div>
-          <div class="answer-item"><span class="q-num">序列</span> C → A → B → E → D</div>
-        </div>
-
-        <h3 class="answer-key-title">第四部分：宇宙探索與時事 (20分)</h3>
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">簡答1.</span> 銀河系</div>
-          <div class="answer-item"><span class="q-num">簡答2.</span> 銀河系</div>
-          <div class="answer-item"><span class="q-num">時事1.</span> A (天宮)</div>
-          <div class="answer-item"><span class="q-num">時事2.</span> B (火星)</div>
-          <div class="answer-item"><span class="q-num">天體1.</span> 恆星</div>
-          <div class="answer-item"><span class="q-num">天體2.</span> 行星</div>
-          <div class="answer-item"><span class="q-num">天體3.</span> 衛星</div>
-          <div class="answer-item"><span class="q-num">天體4.</span> 宇宙/星系</div>
-          <div class="answer-item"><span class="q-num">天體5.</span> 矮行星</div>
-          <div class="answer-item"><span class="q-num">天體6.</span> 小行星</div>
-          <div class="answer-item"><span class="q-num">天體7.</span> 彗星</div>
-        </div>
-
-        <div class="answer-footer">
-          <p>📊 <strong>總分：100分</strong></p>
-          <p>⏱️ <strong>建議作答時間：45分鐘</strong></p>
-        </div>
-      </div>
-    </div>
-
     <script>
-      function toggleAnswerKey() {
-        const panel = document.getElementById('answer-key-panel');
-        const icon = document.getElementById('toggle-icon');
-        if (panel.classList.contains('collapsed')) {
-          panel.classList.remove('collapsed');
-          panel.classList.add('expanded');
-          icon.textContent = '▼';
-        } else {
-          panel.classList.add('collapsed');
+      function toggleSectionAnswer(btn) {
+        const panel = btn.nextElementSibling;
+        if (panel.classList.contains('expanded')) {
           panel.classList.remove('expanded');
-          icon.textContent = '▶';
+        } else {
+          panel.classList.add('expanded');
         }
       }
     </script>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>植物大戰殭屍常識科考試 - 太空探索任務</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #4A7C23 0%, #2D5016 50%, #1a3009 100%); min-height: 100vh; color: #2d2d2d; line-height: 1.8; }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    .cover-page { background: #fff; border: 8px solid #4A7C23; border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
+    .cover-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px; background: repeating-linear-gradient(90deg, #4A7C23 0px, #4A7C23 20px, #8BC34A 20px, #8BC34A 40px, #CDDC39 40px, #CDDC39 60px); }
+    .pvz-header { text-align: center; margin-bottom: 30px; }
+    .pvz-icon { font-size: 60px; margin-bottom: 10px; }
+    h1 { text-align: center; color: #4A7C23; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #8BC34A; }
+    .subtitle { text-align: center; color: #F57C00; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #4A7C23; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #4A7C23; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #4A7C23; color: white; font-weight: 700; }
+    .info-table td { background: #f1f8e9; }
+    .info-input { width: 100%; border: 2px dashed #4A7C23; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .instructions { background: #f1f8e9; border-left: 6px solid #8BC34A; padding: 20px; margin: 20px 0; border-radius: 0 12px 12px 0; }
+    .instructions h3 { color: #4A7C23; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+    .section { background: #fff; border: 5px solid #F57C00; border-radius: 16px; padding: 30px; margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.15); }
+    .section-header { background: linear-gradient(135deg, #F57C00, #FFB74D); color: white; padding: 18px 25px; margin: -30px -30px 25px -30px; border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+    .section-header::before { content: '🌻'; font-size: 28px; }
+    .question { margin: 25px 0; padding: 20px; background: #fff8e1; border-radius: 12px; border-left: 5px solid #F57C00; }
+    .question-number { font-weight: 700; color: #F57C00; font-size: 18px; margin-bottom: 10px; }
+    .question-text { margin-bottom: 15px; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 12px; padding: 20px; background: #f1f8e9; border-radius: 12px; margin: 15px 0; border: 3px dashed #8BC34A; }
+    .word-bank-item { background: #F57C00; color: white; padding: 10px 18px; border-radius: 25px; font-weight: 600; font-size: 15px; }
+    .answer-input { border: 3px solid #F57C00; border-radius: 8px; padding: 10px 15px; font-size: 16px; background: #fff; transition: all 0.3s; }
+    .answer-input:focus { outline: none; border-color: #4A7C23; box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15); }
+    .fill-blank { border: none; border-bottom: 3px solid #F57C00; background: #fff8e1; padding: 8px 15px; font-size: 16px; min-width: 100px; text-align: center; border-radius: 6px 6px 0 0; }
+    .fill-blank:focus { outline: none; background: #FFECB3; }
+    .mcq-option { display: flex; align-items: center; margin: 10px 0; padding: 12px 18px; background: #fff; border-radius: 10px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+    .mcq-option:hover { background: #e8f5e9; border-color: #4A7C23; }
+    .mcq-option input[type="radio"], .mcq-option input[type="checkbox"] { width: 22px; height: 22px; margin-right: 15px; accent-color: #4A7C23; cursor: pointer; }
+    .mcq-option:has(input:checked) { background: #e8f5e9; border-color: #4A7C23; }
+    .mcq-circle { width: 28px; height: 28px; border: 3px solid #F57C00; border-radius: 50%; margin-right: 15px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: #F57C00; background: #fff; font-size: 14px; flex-shrink: 0; }
+    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .data-table th, .data-table td { border: 2px solid #F57C00; padding: 12px; text-align: center; }
+    .data-table th { background: #F57C00; color: white; }
+    .data-table td { background: #fff8e1; }
+    .short-answer { width: 100%; min-height: 80px; border: 3px solid #F57C00; border-radius: 10px; padding: 15px; font-size: 16px; font-family: 'Noto Sans TC', sans-serif; resize: vertical; background: #fff; }
+    .submit-btn { display: block; width: 100%; max-width: 350px; margin: 50px auto; padding: 18px 35px; background: linear-gradient(135deg, #4A7C23, #8BC34A); color: white; border: none; border-radius: 15px; font-size: 22px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); }
+    .submit-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5); }
+    .section-answer { margin-top: 20px; border: 3px solid #4A7C23; border-radius: 10px; overflow: hidden; }
+    .section-answer-toggle { width: 100%; padding: 12px 20px; background: linear-gradient(135deg, #4A7C23, #8BC34A); color: white; border: none; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .section-answer-toggle:hover { background: linear-gradient(135deg, #2E7D32, #4A7C23); }
+    .section-answer-panel { background: #f1f8e9; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .section-answer-panel.expanded { padding: 20px; max-height: 2000px; }
+    .inline-answer { background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #4A7C23; margin: 5px 0; font-size: 14px; }
+    .inline-answer strong { color: #F57C00; }
+    .pvz-decoration { text-align: center; font-size: 30px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box { background: #e8f5e9; border-left: 4px solid #4A7C23; padding: 12px 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+    .news-box { background: #fff8e1; border: 2px solid #F57C00; border-radius: 12px; padding: 20px; margin: 20px 0; }
+    .news-title { color: #F57C00; font-weight: 700; font-size: 18px; margin-bottom: 10px; }
+    .timeline-box { background: #f1f8e9; border: 2px solid #8BC34A; border-radius: 12px; padding: 20px; margin: 20px 0; }
+    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 24px; } .section-header { margin: -20px -20px 20px -20px; font-size: 18px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="pvz-header">
+        <div class="pvz-icon">🌻 🧟 🚀 🌙</div>
+        <h1>陽光鎮小學 2025-2026年度 常識科考試</h1>
+        <p class="subtitle">植物大戰殭屍太空任務 Plants vs Zombies Space Mission</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" placeholder="學號"></td><td><input type="text" class="info-input" placeholder="日期"></td></tr>
+      </table>
+      <div class="instructions">
+        <h3>📝 考生須知</h3>
+        <ul>
+          <li>本卷共分<b>四部分</b>：太空探索理由、觀測太空工具、火箭與升空、太空科技應用</li>
+          <li><b>考試時間：</b>50分鐘</li>
+          <li><b>總分：</b>100分</li>
+          <li>選擇題請用鉛筆把正確選項前的圓圈塗黑及塗滿</li>
+          <li>填充題請在橫線上填寫正確答案</li>
+        </ul>
+      </div>
+      <div class="pvz-decoration">🌻 🚀 🧟 🌙 🧠 🌻 🚀</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：人類為何要探索太空？(20分)</div>
+      <div class="tip-box">
+        <p><strong>🌻 植物小知識：</strong>就像向日葵需要陽光生長，人類也需要不斷探索未知的世界！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(一) 選詞填充：選出最適當的答案。8% @2%</div>
+        <div class="word-bank">
+          <span class="word-bank-item">保護人類安全</span>
+          <span class="word-bank-item">開採資源</span>
+          <span class="word-bank-item">研發新科技</span>
+          <span class="word-bank-item">發掘可居住星體</span>
+        </div>
+        <p style="margin-top:15px;"><strong>1.</strong> 人類探索太空的原因包括：<input type="text" class="fill-blank" style="width:150px;">、研發新科技、开採資源等。</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 科學家利用人造衛星監測北冰洋冰面面積的變化，這是為了 <input type="text" class="fill-blank" style="width:150px;">。</p>
+        <p style="margin-top:15px;"><strong>3.</strong> 移居火星計劃是為了在未來能 <input type="text" class="fill-blank" style="width:150px;">。</p>
+        <p style="margin-top:15px;"><strong>4.</strong> 小行星含豐富資源，人類計劃加以 <input type="text" class="fill-blank" style="width:150px;">。</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(二) 閱讀理解：根據報導回答問題。6%</div>
+        <div class="news-box">
+          <div class="news-title">📰 新聞：隕石墜落 逾千人受傷</div>
+          <p>【本報訊】2月15日，一顆直徑約18米、重約1萬噸的流星體，以每秒18公里的速度進入地球，形成一顆明亮的火球，最後在高空爆炸，碎片跌落俄羅斯車里雅賓斯克州。事發前，無人探測到這顆流星體。估計爆炸所釋放的能量比1945年在廣島爆發的原子彈高30倍，令附近建築物損毀嚴重，造成逾千人受傷。</p>
+          <p style="margin-top:10px; color:#666;">資料來源：2013年2月17日報章報道</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 隕石事件有没有預報？（2%）</p>
+        <label class="mcq-option"><input type="radio" name="q1_1"> <span class="mcq-circle">A</span> 有</label>
+        <label class="mcq-option"><input type="radio" name="q1_1"> <span class="mcq-circle">B</span> 沒有</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 這事件帶給我們什麼啟示？（4%）</p>
+        <label class="mcq-option"><input type="radio" name="q1_2"> <span class="mcq-circle">A</span> 人類不應該探索太空</label>
+        <label class="mcq-option"><input type="radio" name="q1_2"> <span class="mcq-circle">B</span> 需要加強對太空天體的監測和預報</label>
+        <label class="mcq-option"><input type="radio" name="q1_2"> <span class="mcq-circle">C</span> 隕石不會造成傷害</label>
+        <label class="mcq-option"><input type="radio" name="q1_2"> <span class="mcq-circle">D</span> 人類應該放棄城市建設</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(三) 問答題：以完整句子作答。6%</div>
+        <p style="margin-bottom:10px;"><strong>問題：</strong>人類探索太空的五個主要原因是什么？（請列舉至少四個）</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第一部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>選詞 1.</strong> 保護人類安全</div>
+          <div class="inline-answer"><strong>選詞 2.</strong> 保護人類安全</div>
+          <div class="inline-answer"><strong>選詞 3.</strong> 發掘可居住星體</div>
+          <div class="inline-answer"><strong>選詞 4.</strong> 開採資源</div>
+          <div class="inline-answer"><strong>閱讀 1.</strong> B（沒有）</div>
+          <div class="inline-answer"><strong>閱讀 2.</strong> B（需要加強對太空天體的監測和預報）</div>
+          <div class="inline-answer"><strong>問答</strong> 人類探索太空的原因包括：1. 保護人類安全；2. 研發新科技；3. 開採資源；4. 加深對地球變化的認識；5. 加強對宇宙和科學的認識；6. 發掘可以居住的其他星體（任何四個正確即可）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：人類怎樣觀測太空？(20分)</div>
+      <div class="tip-box">
+        <p><strong>🔭 植物小知識：</strong>就像碗豆射手能看清楚遠處的殭屍，科學家也需要更好的工具來觀測太空！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(四) 配對題：把正確答案的字母填在橫線上。10% @2%</div>
+        <table class="data-table">
+          <tr><th>天文儀器/望遠鏡</th><th>答案</th><th>特點</th></tr>
+          <tr><td>1. 折射式望遠鏡</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>可以觀測太陽及較光亮的行星和衛星</td></tr>
+          <tr><td>2. 反射式望遠鏡</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>利用光的反射，造出較輕巧和便宜的望遠鏡</td></tr>
+          <tr><td>3. 射電望遠鏡</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>觀測肉眼看不到的宇宙變化</td></tr>
+          <tr><td>4. 太空望遠鏡</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>在大氣層之上運行，能獲得更清晰的影像</td></tr>
+          <tr><td>5. 渾儀</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>中國古代天文儀器</td></tr>
+        </table>
+        <p style="margin-top:15px; color:#666;">答案選項：A. 伽利略製作　B. 牛頓發明　C. 探測無線電波　D. 哈勃　E. 中國古代</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(五) 選擇題：選出正確答案。6% @2%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 科學家為什麼要不断改良望遠鏡？</p>
+        <label class="mcq-option"><input type="radio" name="q5_1"> <span class="mcq-circle">A</span> 望遠鏡太貴</label>
+        <label class="mcq-option"><input type="radio" name="q5_1"> <span class="mcq-circle">B</span> 為了觀測更遠和更清晰的宇宙</label>
+        <label class="mcq-option"><input type="radio" name="q5_1"> <span class="mcq-circle">C</span> 舊望遠鏡容易壞</label>
+        <label class="mcq-option"><input type="radio" name="q5_1"> <span class="mcq-circle">D</span> 為了美觀</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 太空望遠鏡有什麼優勢？</p>
+        <label class="mcq-option"><input type="radio" name="q5_2"> <span class="mcq-circle">A</span> 可以載人</label>
+        <label class="mcq-option"><input type="radio" name="q5_2"> <span class="mcq-circle">B</span> 能避免大氣層干擾，獲得更清晰和穩定的星體影像</label>
+        <label class="mcq-option"><input type="radio" name="q5_2"> <span class="mcq-circle">C</span> 可以直接在太空中維修</label>
+        <label class="mcq-option"><input type="radio" name="q5_2"> <span class="mcq-circle">D</span> 成本較低</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 以下哪個不是天文望遠鏡的類型？</p>
+        <label class="mcq-option"><input type="radio" name="q5_3"> <span class="mcq-circle">A</span> 折射式望遠鏡</label>
+        <label class="mcq-option"><input type="radio" name="q5_3"> <span class="mcq-circle">B</span> 反射式望遠鏡</label>
+        <label class="mcq-option"><input type="radio" name="q5_3"> <span class="mcq-circle">C</span> 透視式望遠鏡</label>
+        <label class="mcq-option"><input type="radio" name="q5_3"> <span class="mcq-circle">D</span> 射電望遠鏡</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(六) 填空題。4%</div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 科學家不斷研製和利用天文望遠鏡觀測太空，增加對太空的認識，這是為了人類的 <input type="text" class="fill-blank" style="width:100px;"> 和未來發展作出貢獻。（2%）</p>
+        <p style="margin-top:15px;"><strong>2.</strong> 伽利略製作的折射式望遠鏡可以觀測太陽及較光亮的 <input type="text" class="fill-blank" style="width:100px;"> 和衛星。（2%）</p>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第二部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>配對 1.</strong> A</div>
+          <div class="inline-answer"><strong>配對 2.</strong> B</div>
+          <div class="inline-answer"><strong>配對 3.</strong> C</div>
+          <div class="inline-answer"><strong>配對 4.</strong> D</div>
+          <div class="inline-answer"><strong>配對 5.</strong> E</div>
+          <div class="inline-answer"><strong>選擇 1.</strong> B（為了觀測更遠和更清晰的宇宙）</div>
+          <div class="inline-answer"><strong>選擇 2.</strong> B（能避免大氣層干擾，獲得更清晰和穩定的星體影像）</div>
+          <div class="inline-answer"><strong>選擇 3.</strong> C（透視式望遠鏡）</div>
+          <div class="inline-answer"><strong>填空 1.</strong> 人類的安全</div>
+          <div class="inline-answer"><strong>填空 2.</strong> 行星</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：火箭升空與太空探索歷史 (30分)</div>
+      <div class="tip-box">
+        <p><strong>🚀 植物小知識：</strong>就像堅果牆能保護植物，火箭的推進器保護太空船升空！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(七) 實驗題：回答有關火箭發射原理的問題。8%</div>
+        <div class="news-box">
+          <div class="news-title">🔬 模擬活動：氣球火箭實驗</div>
+          <p><strong>步驟：</strong></p>
+          <p>1. 往氣球吹氣</p>
+          <p>2. 把穿上繩子的吸管，穿氣球貼在氣球上</p>
+          <p>3. 一人把繩子的一端固定在地上，並把繩子拉直；另一人把氣球放到地面上，然後放手</p>
+          <p style="margin-top:10px;"><strong>觀察結果：</strong></p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 氣球內的空氣向上還是向下排放？（2%）</p>
+        <p>答：<input type="text" class="fill-blank" style="width:100px;"></p>
+        
+        <p style="margin-top:15px; margin-bottom:10px;"><strong>2.</strong> 排氣的方向和氣球移動的方向有什麼關係？（2%）</p>
+        <label class="mcq-option"><input type="radio" name="q7_2"> <span class="mcq-circle">A</span> 相同</label>
+        <label class="mcq-option"><input type="radio" name="q7_2"> <span class="mcq-circle">B</span> 相反</label>
+        
+        <p style="margin-top:15px; margin-bottom:10px;"><strong>3.</strong> 這個實驗說明了什麼原理？（4%）</p>
+        <label class="mcq-option"><input type="radio" name="q7_3"> <span class="mcq-circle">A</span> 浮力原理</label>
+        <label class="mcq-option"><input type="radio" name="q7_3"> <span class="mcq-circle">B</span> 牛頓第三定律（作用力與反作用力）</label>
+        <label class="mcq-option"><input type="radio" name="q7_3"> <span class="mcq-circle">C</span> 重力原理</label>
+        <label class="mcq-option"><input type="radio" name="q7_3"> <span class="mcq-circle">D</span> 壓力原理</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(八) 排列題：把太空船發射過程按順序排列。6%</div>
+        <p style="margin-bottom:15px;">以下是太空船發射升空的過程，請把正確順序填在橫線上：</p>
+        <div style="background:#f1f8e9; padding:15px; border-radius:8px;">
+          <p>A. 助推器的燃料耗盡，然後分離</p>
+          <p>B. 太空船展開太陽能板，在太空運行</p>
+          <p>C. 火箭由助推器推進發射升空</p>
+          <p>D. 返回艙分離，準備返回地球</p>
+          <p>E. 第二節火箭的燃料耗盡，然後分離</p>
+        </div>
+        <p style="margin-top:15px;">順序：( <input type="text" class="fill-blank" style="width:40px;"> ) → ( <input type="text" class="fill-blank" style="width:40px;"> ) → ( <input type="text" class="fill-blank" style="width:40px;"> ) → ( <input type="text" class="fill-blank" style="width:40px;"> ) → ( <input type="text" class="fill-blank" style="width:40px;"> )</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(九) 太空探索歷史時間線。10% @1%</div>
+        <div class="timeline-box">
+          <p><strong>請把年份與事件配對：</strong></p>
+        </div>
+        <table class="data-table">
+          <tr><th>年份</th><th>答案</th><th>事件</th></tr>
+          <tr><td>1957年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>世界首顆人造衛星進入地球軌道</td></tr>
+          <tr><td>1961年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>第一位進入太空的人</td></tr>
+          <tr><td>1969年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>太空人首次登陸月球</td></tr>
+          <tr><td>2003年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>中國首名太空人進入太空</td></tr>
+          <tr><td>2013年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>中國探月車登月</td></tr>
+          <tr><td>2014年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>印度成功把火星探測器送入火星軌道</td></tr>
+          <tr><td>1970年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>中國第一顆人造衛星發射成功</td></tr>
+          <tr><td>1981年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>世界首架太空穿梭機發射</td></tr>
+          <tr><td>2011年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>中國首個太空實驗室升空</td></tr>
+          <tr><td>2005年</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>日本隼鳥號成功在小行星登陸</td></tr>
+        </table>
+        <p style="margin-top:15px; color:#666;">答案選項： A. 史普尼克一號　B. 加加林　C. 阿波羅11號（岩士唐）　D. 楊利偉　E. 玉兔號　F. 印度火星探測器　G. 東方紅一號　H. 哥倫比亞號　I. 天宮一號　J. 隼鳥號</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十) 問答題。6%</div>
+        <p style="margin-bottom:10px;"><strong>問題：</strong>中國在航天科技上有什麼成就？請列舉三項。</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第三部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>實驗 1.</strong> 向下</div>
+          <div class="inline-answer"><strong>實驗 2.</strong> B（相反）</div>
+          <div class="inline-answer"><strong>實驗 3.</strong> B（牛頓第三定律）</div>
+          <div class="inline-answer"><strong>排列</strong> C → A → E → B → D</div>
+          <div class="inline-answer"><strong>時間線</strong> 1957-A, 1961-B, 1969-C, 2003-D, 2013-E, 2014-F, 1970-G, 1981-H, 2011-I, 2005-J</div>
+          <div class="inline-answer"><strong>問答</strong> 中國航天科技成就包括：1. 神舟五號飛船，楊利偉成為中國首名進入太空的人；2. 天宮一號太空實驗室升空；3. 玉兔號月球車成功登月；4. 東方紅一號發射成功（任何三項正確即可）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第四部分：太空科技與生活 (30分)</div>
+      <div class="tip-box">
+        <p><strong>💡 植物小知識：</strong>就像寒冰射手可以減慢殭屍，很多太空科技也應用在我們的日常生活中！</p>
+      </div>
+      
+      <div class="question">
+        <div class="question-number">(十一) 太空科技產品配對題。8% @2%</div>
+        <p style="margin-bottom:15px;"><strong>太空科技產品如何幫助太空人適應太空環境？請把正確的數字填在括號內：</strong></p>
+        <table class="data-table">
+          <tr><th>太空科技產品</th><th>答案</th><th>功能</th></tr>
+          <tr><td>1. 面罩的濾層</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>把壓力平均分布，減輕升空時的衝力</td></tr>
+          <tr><td>2. 太空鞋的防震技術</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>保護太空人在凹凸不平的星體上行走</td></tr>
+          <tr><td>3. 擠壓式設計</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>防止飲品在太空艙中飄浮</td></tr>
+          <tr><td>4. 座墊的物料</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>阻隔輻射，又可防塵、防刮損</td></tr>
+        </table>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十二) 日常生活應用配對題。6% @2%</div>
+        <p style="margin-bottom:15px;"><strong>這些太空科技產品應用在我們的日常生活中的哪些東西？請把正確的數字填在括號內：</strong></p>
+        <table class="data-table">
+          <tr><th>生活用品</th><th>答案</th><th>太空科技來源</th></tr>
+          <tr><td>A. 氣墊鞋</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>太空鞋的防震技術</td></tr>
+          <tr><td>B. 記憶枕</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>座墊的物料</td></tr>
+          <tr><td>C. 防刮擦鏡片</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>面罩的濾層技術</td></tr>
+        </table>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十三) 太空養蠶與太空育種閱讀題。6% @2%</div>
+        <div class="news-box">
+          <div class="news-title">🧬 新聞一：太空養蠶</div>
+          <p>【本報訊】由香港中學生設計的「太空養蠶」計劃得到科學家的認同。科學家把蠶蟲帶到太空，在太空的失重環境下進行研究。結果發現蠶蟲在太空都能吐絲結繭，而吐出的蠶絲比地球的蠶絲堅韌。</p>
+        </div>
+        <div class="news-box">
+          <div class="news-title">🌱 新聞二：太空育種</div>
+          <p>【本報訊】科學家把農作物的種子送上太空。在沒有空氣的環境影響下，基因出現變化。把這些種子帶返地球，繼續培育數代後，篩選鑒定出一些有較高營養價值的新品種，例如太空青椒的維生素C含量比一般青椒高百分之二十，產量也增加百分之二十五。</p>
+        </div>
+        <p style="margin-bottom:10px;"><strong>1.</strong> 太空蠶絲和地球蠶絲比較有什麼不同？</p>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">A</span> 更柔軟</label>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">B</span> 更堅韌</label>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">C</span> 更輕</label>
+        <label class="mcq-option"><input type="radio" name="q13_1"> <span class="mcq-circle">D</span> 一樣</label>
+        
+        <p style="margin:20px 0 10px;"><strong>2.</strong> 太空青椒比一般青椒維生素C含量高多少？</p>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">A</span> 10%</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">B</span> 20%</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">C</span> 30%</label>
+        <label class="mcq-option"><input type="radio" name="q13_2"> <span class="mcq-circle">D</span> 50%</label>
+        
+        <p style="margin:20px 0 10px;"><strong>3.</strong> 太空育種為什麼能夠產生新品種？</p>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">A</span> 失重環境使基因出現變化</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">B</span> 太空溫度太低</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">C</span> 太空輻射太強</label>
+        <label class="mcq-option"><input type="radio" name="q13_3"> <span class="mcq-circle">D</span> 農民種植技術更好</label>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十四) 人造衛星功能配對題。6% @1%</div>
+        <table class="data-table">
+          <tr><th>衛星類型</th><th>答案</th><th>功用</th></tr>
+          <tr><td>1. 氣象衛星</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>氣象預報</td></tr>
+          <tr><td>2. 導航衛星</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>導航系統</td></tr>
+          <tr><td>3. 地球觀測衛星</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>地球觀測圖像</td></tr>
+          <tr><td>4. 通訊衛星</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>打破地域阻隔，令信息傳播更快捷</td></tr>
+          <tr><td>5. 軍事衛星</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>發射衛星、蒐集情報、研發導彈</td></tr>
+          <tr><td>6. 偵察衛星</td><td><input type="text" class="fill-blank" style="width:50px;"></td><td>監測敵方軍事設施</td></tr>
+        </table>
+        <p style="margin-top:15px; color:#666;">答案選項：A. GPS導航　B. 天氣預報　C. 谷歌地圖　D. 手機通話　E. 國防安全　F. 戰略情報</p>
+      </div>
+
+      <div class="question">
+        <div class="question-number">(十五) 太空垃圾問答題。4%</div>
+        <p style="margin-bottom:10px;"><strong>問題：</strong>太空垃圾是什麼？它會對人類造成什麼影響？</p>
+        <textarea class="short-answer" placeholder="請在此作答..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 第四部分 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>配對 1.</strong> 4</div>
+          <div class="inline-answer"><strong>配對 2.</strong> 2</div>
+          <div class="inline-answer"><strong>配對 3.</strong> 3</div>
+          <div class="inline-answer"><strong>配對 4.</strong> 1</div>
+          <div class="inline-answer"><strong>生活應用</strong> A-2, B-4, C-1</div>
+          <div class="inline-answer"><strong>太空養蠶 1.</strong> B（更堅韌）</div>
+          <div class="inline-answer"><strong>太空育種 2.</strong> B（20%）</div>
+          <div class="inline-answer"><strong>太空育種 3.</strong> A（失重環境使基因出現變化）</div>
+          <div class="inline-answer"><strong>衛星配對</strong> 1-B, 2-A, 3-C, 4-D, 5-E, 6-F</div>
+          <div class="inline-answer"><strong>問答</strong> 太空垃圾是失效的人造衛星和火箭殘骸。它會影響人造衛星和太空站的運作，也可能從太空墜落，威脅人類的安全。</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#4A7C23; font-weight:bold; margin:40px 0; font-size:20px;">~ 全卷完 ~</div>
+
+    <button class="submit-btn" onclick="alert('考試已提交！感謝參與陽光鎮小學常識科考試！🌻')">提交考試 Submit</button>
+
+    <div class="pvz-decoration">🌻 🧟 🚀 🌙 🧠 🌻 🧟 🚀 🌙</div>
+
+    <script>
+      function toggleSectionAnswer(btn) {
+        const panel = btn.nextElementSibling;
+        if (panel.classList.contains('expanded')) {
+          panel.classList.remove('expanded');
+        } else {
+          panel.classList.add('expanded');
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>

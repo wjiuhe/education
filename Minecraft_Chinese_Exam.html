@@ -52,21 +52,14 @@
     .short-answer { width: 100%; min-height: 80px; border: 2px solid #8B7355; border-radius: 8px; padding: 12px; font-size: 16px; font-family: inherit; resize: vertical; }
     .submit-btn { display: block; width: 100%; max-width: 300px; margin: 40px auto; padding: 15px 30px; background: linear-gradient(135deg, #5D8C31, #7ab54a); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(93, 140, 49, 0.4); }
     .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(93, 140, 49, 0.5); }
-    .answer-key-container { margin: 40px 0; border: 4px solid #27AE60; border-radius: 15px; overflow: hidden; }
-    .answer-key-toggle { width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #27AE60, #2ECC71); color: white; border: none; font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px; }
-    .answer-key-toggle:hover { background: linear-gradient(135deg, #229954, #27AE60); }
-    .key-badge { background: #E74C3C; padding: 5px 12px; border-radius: 15px; font-size: 14px; }
-    .answer-key-panel { background: #f0fff0; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden; }
-    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
-    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
-    .answer-key-title { color: #27AE60; font-size: 20px; margin: 20px 0 10px 0; padding-bottom: 8px; border-bottom: 3px solid #27AE60; }
-    .answer-key-title:first-child { margin-top: 0; }
-    .answer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
-    .answer-item { background: #fff; padding: 10px 12px; border-radius: 8px; border-left: 4px solid #27AE60; font-size: 14px; }
-    .answer-item.long { grid-column: 1 / -1; }
-    .q-num { font-weight: 700; color: #E74C3C; margin-right: 6px; }
-    .answer-footer { margin-top: 25px; padding: 15px; background: #fff; border-radius: 10px; text-align: center; border: 2px solid #27AE60; }
-    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 22px; } .section-header { margin: -20px -20px 20px -20px; font-size: 16px; } .answer-grid { grid-template-columns: 1fr; } }
+    .section-answer { margin-top: 20px; border: 3px solid #27AE60; border-radius: 10px; overflow: hidden; }
+    .section-answer-toggle { width: 100%; padding: 12px 20px; background: linear-gradient(135deg, #27AE60, #2ECC71); color: white; border: none; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .section-answer-toggle:hover { background: linear-gradient(135deg, #229954, #27AE60); }
+    .section-answer-panel { background: #f0fff0; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .section-answer-panel.expanded { padding: 20px; max-height: 2000px; }
+    .inline-answer { background: #fff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #27AE60; margin: 5px 0; font-size: 14px; }
+    .inline-answer strong { color: #E74C3C; }
+    @media (max-width: 600px) { .cover-page, .section { padding: 20px; } h1 { font-size: 22px; } .section-header { margin: -20px -20px 20px -20px; font-size: 16px; } }
   </style>
 </head>
 <body>
@@ -167,6 +160,22 @@
         <p class="question-text">根據文章內容，史提夫遇到了什麼危險？他最後是怎樣脫險的？</p>
         <textarea class="short-answer" placeholder="請在此作答..."></textarea>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 篇章一 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 興致勃勃</div>
+          <div class="inline-answer"><strong>2.</strong> 興奮</div>
+          <div class="inline-answer"><strong>3.</strong> 三（如「愈來愈多的鑽石...成就感也愈來愈強烈」）</div>
+          <div class="inline-answer"><strong>4.</strong> 「只見那鑽石在火把的照耀下折射出美麗的光芒」</div>
+          <div class="inline-answer"><strong>5.</strong> C（比喻）</div>
+          <div class="inline-answer"><strong>6.</strong> B（動作描寫）</div>
+          <div class="inline-answer"><strong>7.</strong> 因為他沿着礦道走，發現岩壁上有閃爍的光芒</div>
+          <div class="inline-answer"><strong>8.</strong> 遇到苦力怕逼近，最後轉身逃跑，一路狂奔逃出了礦坑</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -236,6 +245,21 @@
         <label class="mcq-option"><input type="radio" name="q15"> <span class="mcq-circle">C</span> 村莊很危險</label>
         <label class="mcq-option"><input type="radio" name="q15"> <span class="mcq-circle">D</span> 附魔書很珍貴</label>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 篇章二 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>9.</strong> 破破爛爛</div>
+          <div class="inline-answer"><strong>10.</strong> 破破爛爛</div>
+          <div class="inline-answer"><strong>11.</strong> B（綠寶石）</div>
+          <div class="inline-answer"><strong>12.</strong> B（附魔書）</div>
+          <div class="inline-answer"><strong>13.</strong> 「把背包裏的綠寶石一個個拿出來」</div>
+          <div class="inline-answer"><strong>14.</strong> a. 綠寶石 b. 附魔金蘋果</div>
+          <div class="inline-answer"><strong>15.</strong> B</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -302,6 +326,21 @@
         <p class="question-text">根據文章內容，苦力怕掉落了哪些東西？</p>
         <textarea class="short-answer" placeholder="請在此作答..."></textarea>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 篇章三 答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>16.</strong> 悠閒</div>
+          <div class="inline-answer"><strong>17.</strong> 後悔</div>
+          <div class="inline-answer"><strong>18.</strong> A（互相看着對方）</div>
+          <div class="inline-answer"><strong>19.</strong> B（送禮物給史提夫）</div>
+          <div class="inline-answer"><strong>20.</strong> B（輕輕拍了拍苦力怕）</div>
+          <div class="inline-answer"><strong>21.</strong> B</div>
+          <div class="inline-answer"><strong>22.</strong> 幾塊煤炭和一根木棍</div>
+        </div>
+      </div>
       
       <div style="text-align:center; color:#5D8C31; font-weight:bold; margin:30px 0;">~甲部完~</div>
     </div>
@@ -334,6 +373,19 @@
         <p style="margin-top:15px;"><strong>4.</strong> 比賽即將開始，選手們 <input type="text" class="fill-blank"> 地加緊練習。</p>
         <p style="margin-top:15px;"><strong>5.</strong> 看到別人有更好的裝備，我不禁投以 <input type="text" class="fill-blank"> 的目光。</p>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （一）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 叮嚀</div>
+          <div class="inline-answer"><strong>2.</strong> 蜿蜒</div>
+          <div class="inline-answer"><strong>3.</strong> 自告奮勇</div>
+          <div class="inline-answer"><strong>4.</strong> 馬不停蹄</div>
+          <div class="inline-answer"><strong>5.</strong> 羨慕</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -342,6 +394,16 @@
       <div class="question">
         <p><strong>1.</strong> 我們每天挖礦，不僅能收集資源，還能 <input type="text" class="fill-blank"> 經驗。</p>
         <p style="margin-top:15px;"><strong>2.</strong> 弟弟說我破壞了他的建築，我趕緊解釋，原來是苦力怕炸的，這是一場 <input type="text" class="fill-blank">。</p>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （二）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 累積/增加</div>
+          <div class="inline-answer"><strong>2.</strong> 誤會</div>
+        </div>
       </div>
     </div>
 
@@ -359,6 +421,16 @@
         <p>（利用「除非……否則……」改寫成條件複句）</p>
         <textarea class="short-answer" style="margin-top:10px;" placeholder="請在此作答..."></textarea>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （三）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 這張地圖很有用，我不得不一口氣探索完。</div>
+          <div class="inline-answer"><strong>2.</strong> 除非我們要挖礦，否則我們需要帶火把。</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -371,6 +443,15 @@
         <label class="mcq-option"><input type="radio" name="q_b4_1"> <span class="mcq-circle">C</span> 敵人南下的軍隊</label>
         <label class="mcq-option"><input type="radio" name="q_b4_1"> <span class="mcq-circle">D</span> 陰山的野馬</label>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （四）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> C（敵人南下的軍隊）</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -379,6 +460,15 @@
       <div class="question">
         <p>方塊世界裏有各種各樣的生物雞牛羊豬和馬各類動物都有自己的特色就像喜歡建築的史提夫最懷念小時候和村民交易的時光上茶樓坐下就大喝一聲來一杯綠寶石奶茶</p>
         <p style="margin-top:15px; color:#8B7355;">提示：需要填入的標點為：， 、 、 、 ， 、 「 」</p>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （五）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>答案：</strong>方塊世界裏有各種各樣的生物<b>，</b>雞<b>、</b>牛<b>、</b>羊<b>、</b>豬<b>和</b>馬<b>，</b>各類動物都有自己的特色<b>。</b>就像喜歡建築的史提夫<b>，</b>最懷念小時候和村民交易的時光<b>，</b>上茶樓<b>，</b>坐下就大喝一聲<b>：「</b>來一杯綠寶石奶茶<b>！」</b></div>
+        </div>
       </div>
     </div>
 
@@ -407,6 +497,17 @@
         <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">B</span> 對偶</label>
         <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">C</span> 擬人</label>
         <label class="mcq-option"><input type="radio" name="q_b6_3"> <span class="mcq-circle">D</span> 暗喻</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （六）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> B（擬人）</div>
+          <div class="inline-answer"><strong>2.</strong> B（對偶）</div>
+          <div class="inline-answer"><strong>3.</strong> A（排比）</div>
+        </div>
       </div>
     </div>
 
@@ -444,6 +545,18 @@
         <label class="mcq-option"><input type="radio" name="q_b7_4"> <span class="mcq-circle">C</span> 如願以償</label>
         <label class="mcq-option"><input type="radio" name="q_b7_4"> <span class="mcq-circle">D</span> 觸景生情</label>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （七）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> D（不遺餘力）</div>
+          <div class="inline-answer"><strong>2.</strong> C（不恥下問）</div>
+          <div class="inline-answer"><strong>3.</strong> A（力爭上游）</div>
+          <div class="inline-answer"><strong>4.</strong> B（大驚小怪）</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -458,6 +571,16 @@
         <p><strong>2.</strong> 蜿蜒</p>
         <textarea class="short-answer" placeholder="請在此造句..."></textarea>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （八）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 造句合理即可</div>
+          <div class="inline-answer"><strong>2.</strong> 造句合理即可</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -468,6 +591,18 @@
         <p style="margin-top:15px;"><strong>2.</strong> zhī yuán → <input type="text" class="fill-blank"></p>
         <p style="margin-top:15px;"><strong>3.</strong> shuǎng cuì → <input type="text" class="fill-blank"></p>
         <p style="margin-top:15px;"><strong>4.</strong> jiàn zhù → <input type="text" class="fill-blank"></p>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （九）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 打轉</div>
+          <div class="inline-answer"><strong>2.</strong> 支援</div>
+          <div class="inline-answer"><strong>3.</strong> 爽脆</div>
+          <div class="inline-answer"><strong>4.</strong> 建築</div>
+        </div>
       </div>
     </div>
 
@@ -485,6 +620,16 @@
         <p>怪不得……，原來……</p>
         <textarea class="short-answer" style="margin-top:10px;" placeholder="請在此作答..."></textarea>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （十）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 造句合理即可（用「只要...就...」）</div>
+          <div class="inline-answer"><strong>2.</strong> 造句合理即可（用「怪不得...原來...」）</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -497,6 +642,15 @@
         <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">B</span> 不同活動有不同的好處</label>
         <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">C</span> Minecraft 能訓練人的品格</label>
         <label class="mcq-option"><input type="radio" name="q_b11"> <span class="mcq-circle">D</span> 建造比挖礦好</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （十一）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> C</div>
+        </div>
       </div>
     </div>
 
@@ -515,6 +669,15 @@
         </table>
         <p style="margin-top:15px;"><strong>答案：</strong>( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> ) ( <input type="text" class="fill-blank" style="width:40px;"> )</p>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （十二）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>答案：</strong>D → E → F → B → C → A</div>
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -527,6 +690,15 @@
         <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">B</span> 太陽和小鳥</label>
         <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">C</span> 大自然清晨的景象</label>
         <label class="mcq-option"><input type="radio" name="q_b13"> <span class="mcq-circle">D</span> 小花和小溪</label>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （十三）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> C</div>
+        </div>
       </div>
     </div>
 
@@ -564,104 +736,72 @@
         <label class="mcq-option"><input type="radio" name="q_b14_4"> <span class="mcq-circle">C</span> 與其　不如</label>
         <label class="mcq-option"><input type="radio" name="q_b14_4"> <span class="mcq-circle">D</span> 不是　就是</label>
       </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （十四）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> C</div>
+          <div class="inline-answer"><strong>2.</strong> A</div>
+          <div class="inline-answer"><strong>3.</strong> D</div>
+          <div class="inline-answer"><strong>4.</strong> B</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="part-header">（十五）句子重組：把下列詞語重新排列成通順的句子。4% @2%</div>
+      
+      <div class="question">
+        <p><strong>1.</strong> 苦力怕 / 發出 / 響聲 / 嘶嘶地 / 礦坑裏 / 在 /</p>
+        <p style="margin-top:10px; color:#8B7355;">（提示：苦力怕在礦坑裏發出嘶嘶的響聲）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請寫出完整的句子..."></textarea>
+      </div>
+      
+      <div class="question">
+        <p><strong>2.</strong> 史提夫 / 村民 / 和 / 交易 / 每天 / 都 / 進行 /</p>
+        <p style="margin-top:10px; color:#8B7355;">（提示：史提夫每天都和村民進行交易）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請寫出完整的句子..."></textarea>
+      </div>
+      
+      <div class="question">
+        <p><strong>3.</strong> 挖掘 / 可以 / 我們 / 資源 / 從中 / 免費的 /</p>
+        <p style="margin-top:10px; color:#8B7355;">（提示：我們可以從中挖掘免費的資源）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請寫出完整的句子..."></textarea>
+      </div>
+      
+      <div class="question">
+        <p><strong>4.</strong> 房子 / 史提夫 / 漂亮的 / 用 / 建造 / 方塊 /了一座 /</p>
+        <p style="margin-top:10px; color:#8B7355;">（提示：史提夫用方塊建造了一座漂亮的房子）</p>
+        <textarea class="short-answer" style="margin-top:10px;" placeholder="請寫出完整的句子..."></textarea>
+      </div>
+
+      <div class="section-answer">
+        <button class="section-answer-toggle" onclick="toggleSectionAnswer(this)">
+          📜 （十五）答案
+        </button>
+        <div class="section-answer-panel">
+          <div class="inline-answer"><strong>1.</strong> 苦力怕在礦坑裏發出嘶嘶的響聲。</div>
+          <div class="inline-answer"><strong>2.</strong> 史提夫每天都和村民進行交易。</div>
+          <div class="inline-answer"><strong>3.</strong> 我們可以從中挖掘免費的資源。</div>
+          <div class="inline-answer"><strong>4.</strong> 史提夫用方塊建造了一座漂亮的房子。</div>
+        </div>
+      </div>
     </div>
 
     <div style="text-align:center; color:#5D8C31; font-weight:bold; margin:40px 0; font-size:18px;">~全卷完~</div>
 
     <button class="submit-btn" onclick="alert('考試已提交！感謝參與方塊世界中文科考試！⛏️')">提交考試 Submit</button>
 
-    <div class="answer-key-container">
-      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
-        <span id="toggle-icon">▶</span> 
-        答案匙 Answer Key
-        <span class="key-badge">教師專用</span>
-      </button>
-      
-      <div id="answer-key-panel" class="answer-key-panel collapsed">
-        <h3 class="answer-key-title">甲部 閱讀理解答案</h3>
-        
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">1.</span> 興致勃勃</div>
-          <div class="answer-item"><span class="q-num">2.</span> 興奮</div>
-          <div class="answer-item"><span class="q-num">3.</span> 三（如「愈來愈多的鑽石...成就感也愈來愈強烈」）</div>
-          <div class="answer-item long"><span class="q-num">4.</span> 「只見那鑽石在火把的照耀下折射出美麗的光芒」</div>
-          <div class="answer-item"><span class="q-num">5.</span> C（比喻）</div>
-          <div class="answer-item"><span class="q-num">6.</span> B（動作描寫）</div>
-          <div class="answer-item long"><span class="q-num">7.</span> 因為他沿着礦道走，發現岩壁上有閃爍的光芒</div>
-          <div class="answer-item long"><span class="q-num">8.</span> 遇到苦力怕逼近，最後轉身逃跑，一路狂奔逃出了礦坑</div>
-          <div class="answer-item"><span class="q-num">9.</span> 破破爛爛</div>
-          <div class="answer-item"><span class="q-num">10.</span> 破破爛爛</div>
-          <div class="answer-item"><span class="q-num">11.</span> B（綠寶石）</div>
-          <div class="answer-item"><span class="q-num">12.</span> B（附魔書）</div>
-          <div class="answer-item long"><span class="q-num">13.</span> 「把背包裏的綠寶石一個個拿出來」</div>
-          <div class="answer-item long"><span class="q-num">14.</span> a. 綠寶石 b. 附魔金蘋果</div>
-          <div class="answer-item"><span class="q-num">15.</span> B</div>
-          <div class="answer-item"><span class="q-num">16.</span> 悠閒</div>
-          <div class="answer-item"><span class="q-num">17.</span> 後悔</div>
-          <div class="answer-item"><span class="q-num">18.</span> A（互相看着對方）</div>
-          <div class="answer-item"><span class="q-num">19.</span> B（送禮物給史提夫）</div>
-          <div class="answer-item"><span class="q-num">20.</span> B（輕輕拍了拍苦力怕）</div>
-          <div class="answer-item"><span class="q-num">21.</span> B</div>
-          <div class="answer-item long"><span class="q-num">22.</span> 幾塊煤炭和一根木棍</div>
-        </div>
-
-        <h3 class="answer-key-title">乙部 語文基礎知識答案</h3>
-        
-        <div class="answer-grid">
-          <div class="answer-item"><span class="q-num">一1.</span> 叮嚀</div>
-          <div class="answer-item"><span class="q-num">一2.</span> 蜿蜒</div>
-          <div class="answer-item"><span class="q-num">一3.</span> 自告奮勇</div>
-          <div class="answer-item"><span class="q-num">一4.</span> 馬不停蹄</div>
-          <div class="answer-item"><span class="q-num">一5.</span> 羨慕</div>
-          <div class="answer-item"><span class="q-num">二1.</span> 累積/增加</div>
-          <div class="answer-item"><span class="q-num">二2.</span> 誤會</div>
-          <div class="answer-item long"><span class="q-num">三1.</span> 這張地圖很有用，我不得不一口氣探索完。</div>
-          <div class="answer-item long"><span class="q-num">三2.</span> 除非我們要挖礦，否則我們需要帶火把。</div>
-          <div class="answer-item"><span class="q-num">四1.</span> C</div>
-          <div class="answer-item long"><span class="q-num">五</span> 方塊世界裏有各種各樣的生物<b>，</b>雞<b>、</b>牛<b>、</b>羊<b>、</b>豬<b>和</b>馬<b>，</b>各類動物都有自己的特色<b>。</b>就像喜歡建築的史提夫<b>，</b>最懷念小時候和村民交易的時光<b>，</b>上茶樓<b>，</b>坐下就大喝一聲<b>：「</b>來一杯綠寶石奶茶<b！」</b></div>
-          <div class="answer-item"><span class="q-num">六1.</span> B（擬人）</div>
-          <div class="answer-item"><span class="q-num">六2.</span> B（對偶）</div>
-          <div class="answer-item"><span class="q-num">六3.</span> A（排比）</div>
-          <div class="answer-item"><span class="q-num">七1.</span> D（不遺餘力）</div>
-          <div class="answer-item"><span class="q-num">七2.</span> C（不恥下問）</div>
-          <div class="answer-item"><span class="q-num">七3.</span> A（力爭上游）</div>
-          <div class="answer-item"><span class="q-num">七4.</span> B（大驚小怪）</div>
-          <div class="answer-item"><span class="q-num">八1.</span> 造句合理即可</div>
-          <div class="answer-item"><span class="q-num">八2.</span> 造句合理即可</div>
-          <div class="answer-item"><span class="q-num">九1.</span> 打轉</div>
-          <div class="answer-item"><span class="q-num">九2.</span> 支援</div>
-          <div class="answer-item"><span class="q-num">九3.</span> 爽脆</div>
-          <div class="answer-item"><span class="q-num">九4.</span> 建築</div>
-          <div class="answer-item long"><span class="q-num">十1.</span> 造句合理即可（用「只要...就...」）</div>
-          <div class="answer-item long"><span class="q-num">十2.</span> 造句合理即可（用「怪不得...原來...」）</div>
-          <div class="answer-item"><span class="q-num">十一1.</span> C</div>
-          <div class="answer-item"><span class="q-num">十二</span> D → E → F → B → C → A</div>
-          <div class="answer-item"><span class="q-num">十三1.</span> C</div>
-          <div class="answer-item"><span class="q-num">十四1.</span> C</div>
-          <div class="answer-item"><span class="q-num">十四2.</span> A</div>
-          <div class="answer-item"><span class="q-num">十四3.</span> D</div>
-          <div class="answer-item"><span class="q-num">十四4.</span> B</div>
-        </div>
-
-        <div class="answer-footer">
-          <p>📊 <strong>總分：100分</strong></p>
-          <p>⏱️ <strong>甲部：30分鐘 | 乙部：25分鐘</strong></p>
-        </div>
-      </div>
-    </div>
-
     <script>
-      function toggleAnswerKey() {
-        const panel = document.getElementById('answer-key-panel');
-        const icon = document.getElementById('toggle-icon');
-        if (panel.classList.contains('collapsed')) {
-          panel.classList.remove('collapsed');
-          panel.classList.add('expanded');
-          icon.textContent = '▼';
-        } else {
-          panel.classList.add('collapsed');
+      function toggleSectionAnswer(btn) {
+        const panel = btn.nextElementSibling;
+        if (panel.classList.contains('expanded')) {
           panel.classList.remove('expanded');
-          icon.textContent = '▶';
+          btn.textContent = '📜 ' + btn.textContent.replace('📜 ', '').replace(' 答案', ' 答案').replace('▲', '▼');
+        } else {
+          panel.classList.add('expanded');
         }
       }
     </script>
