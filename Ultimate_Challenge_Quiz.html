@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星級達人終極挑戰 - 全能常識測驗</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4e 30%, #2d1b69 60%, #1a1a4e 100%);
+      min-height: 100vh; color: #2d2d2d; line-height: 1.8;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+    .cover-page {
+      background: #FFFDF5; border: 8px solid #FFD700; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); position: relative; overflow: hidden;
+    }
+    .cover-page::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      background: repeating-linear-gradient(90deg, #FFD700, #FFD700 25px, #9B59B6 25px, #9B59B6 50px, #2ECC71 50px, #2ECC71 75px);
+    }
+    .challenge-header { text-align: center; margin-bottom: 30px; }
+    .challenge-icon { font-size: 60px; margin-bottom: 10px; letter-spacing: 8px; }
+    h1 { text-align: center; color: #6C3483; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #F5E6FF; }
+    .subtitle { text-align: center; color: #FFD700; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #FFD700; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #FFD700; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #6C3483; color: white; font-weight: 700; }
+    .info-table td { background: #FFFDF5; }
+    .info-input { width: 100%; border: 2px dashed #FFD700; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .info-input:focus { outline: none; border-color: #6C3483; }
+
+    .score-summary {
+      background: #F5E6FF; border: 3px solid #6C3483; border-radius: 12px; padding: 15px 25px;
+      margin: 20px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .score-box { display: flex; align-items: center; gap: 15px; }
+    .score-label { font-weight: 700; color: #6C3483; font-size: 16px; }
+    .score-value { font-size: 28px; font-weight: 900; color: #FFD700; }
+    .progress-bar-wrap { flex: 1; min-width: 150px; height: 16px; background: #D4C0E0; border-radius: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #6C3483, #9B59B6); border-radius: 10px; transition: width 0.5s ease; width: 0%; }
+    .progress-text { font-size: 14px; color: #6C3483; font-weight: 700; }
+
+    .instructions {
+      background: #F5E6FF; border-left: 6px solid #6C3483; padding: 20px; margin: 20px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .instructions h3 { color: #6C3483; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+
+    .section {
+      background: #FFFDF5; border: 5px solid #FFD700; border-radius: 16px; padding: 30px;
+      margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    }
+    .section-header {
+      background: linear-gradient(135deg, #6C3483, #9B59B6); color: white;
+      padding: 18px 25px; margin: -30px -30px 25px -30px;
+      border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-header::before { content: '⭐'; font-size: 28px; }
+
+    .question {
+      margin: 25px 0; padding: 20px; background: #FAFBF5; border-radius: 12px;
+      border-left: 5px solid #FFD700; position: relative;
+      transition: all 0.3s;
+    }
+    .question.answered-correct { border-left-color: #6C3483; background: #F5E6FF; }
+    .question.answered-wrong { border-left-color: #E74C3C; background: #FFF0EE; }
+    .question-number {
+      font-weight: 700; color: #6C3483; font-size: 16px; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .q-badge {
+      display: inline-block; background: #6C3483; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+    .q-type {
+      display: inline-block; background: #FFD700; color: #6C3483; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px; font-weight: 700;
+    }
+
+    .mcq-option {
+      display: flex; align-items: center; margin: 8px 0; padding: 10px 15px;
+      background: #fff; border-radius: 10px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.2s;
+    }
+    .mcq-option:hover { background: #F5E6FF; border-color: #9B59B6; }
+    .mcq-option input[type="radio"] {
+      width: 20px; height: 20px; margin-right: 12px; accent-color: #6C3483; cursor: pointer; flex-shrink: 0;
+    }
+    .mcq-option:has(input:checked) { background: #F5E6FF; border-color: #6C3483; }
+    .mcq-option.correct { background: #D4EDDA !important; border-color: #28A745 !important; }
+    .mcq-option.wrong { background: #F8D7DA !important; border-color: #DC3545 !important; }
+    .mcq-option.disabled { pointer-events: none; opacity: 0.85; }
+    .mcq-circle {
+      width: 26px; height: 26px; border: 3px solid #FFD700; border-radius: 50%;
+      margin-right: 12px; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #6C3483; background: #fff; font-size: 13px; flex-shrink: 0;
+    }
+
+    .fill-input {
+      border: none; border-bottom: 3px solid #6C3483; background: #FFFDF5;
+      padding: 8px 12px; font-size: 16px; min-width: 120px; text-align: center;
+      border-radius: 6px 6px 0 0; font-family: inherit; font-weight: 700;
+    }
+    .fill-input:focus { outline: none; background: #F5E6FF; border-bottom-color: #FFD700; }
+
+    .btn-row {
+      margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .btn-show-answer {
+      padding: 8px 20px; background: #9B59B6; color: white; border: none;
+      border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .btn-show-answer:hover { background: #6C3483; transform: translateY(-1px); }
+
+    .answer-reveal {
+      margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; display: none;
+    }
+    .answer-reveal.show { display: block; }
+    .answer-reveal.correct { background: #D4EDDA; color: #155724; }
+
+    .final-result {
+      background: #FFFDF5; border: 5px solid #FFD700; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      display: none;
+    }
+    .final-result.show { display: block; }
+    .final-score { font-size: 72px; font-weight: 900; color: #FFD700; margin: 20px 0; }
+    .final-label { font-size: 24px; color: #6C3483; font-weight: 700; }
+    .final-message { font-size: 18px; color: #666; margin: 20px 0; }
+    .final-stars { font-size: 40px; margin: 15px 0; letter-spacing: 8px; }
+
+    .answer-key-container { margin: 40px 0; border: 4px solid #6C3483; border-radius: 15px; overflow: hidden; }
+    .answer-key-toggle {
+      width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #6C3483, #9B59B6);
+      color: white; border: none; font-size: 20px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px;
+    }
+    .answer-key-toggle:hover { background: linear-gradient(135deg, #4A235A, #6C3483); }
+    .answer-key-panel {
+      background: #F5E6FF; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden;
+    }
+    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
+    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
+    .answer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+    .answer-item {
+      background: #fff; padding: 8px 12px; border-radius: 8px;
+      border-left: 4px solid #6C3483; font-size: 13px;
+    }
+    .q-num { font-weight: 700; color: #FFD700; margin-right: 6px; }
+
+    .challenge-decoration { text-align: center; font-size: 28px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box {
+      background: #F5E6FF; border-left: 4px solid #6C3483; padding: 12px 15px;
+      margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 14px;
+    }
+    .difficulty-badge {
+      display: inline-block; background: #E74C3C; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 11px; font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      .cover-page, .section { padding: 20px; }
+      h1 { font-size: 22px; }
+      .section-header { margin: -20px -20px 20px -20px; font-size: 18px; }
+      .score-summary { flex-direction: column; align-items: stretch; text-align: center; }
+      .score-box { justify-content: center; }
+      .final-score { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="challenge-header">
+        <div class="challenge-icon">⭐ 🌟 🚀 💫</div>
+        <h1>星級達人終極挑戰</h1>
+        <p class="subtitle">Ultimate Challenge: Master of All Subjects</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" id="studentName" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" id="studentId" placeholder="學號"></td><td><input type="text" class="info-input" id="examDate" placeholder="日期"></td></tr>
+      </table>
+      <div class="score-summary">
+        <div class="score-box">
+          <span class="score-label">🏆 已答對</span>
+          <span class="score-value" id="totalScore">0</span>
+          <span style="font-size:16px;color:#6C3483;">題</span>
+        </div>
+        <div style="flex:1;min-width:100px;">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-text" id="progressText">已作答 0 / 40 題</div>
+        </div>
+        <button onclick="resetQuiz()" style="padding:8px 20px;background:#FFD700;color:#6C3483;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">🔄 重新開始</button>
+      </div>
+      <div class="instructions">
+        <h3>📝 測驗須知</h3>
+        <ul>
+          <li>本測驗共 <b>40 題</b>，混合選擇題和填充題，難度比一般測驗更高</li>
+          <li>選擇題：點選答案後會即時核對</li>
+          <li>填充題：在橫線上填寫答案，可按「顯示答案」核對</li>
+          <li>每題都有<b>「顯示答案」</b>按鈕，可以隨時查看正確答案</li>
+          <li>涵蓋地理、歷史、健康及時事四大領域，考驗你的全能知識！</li>
+        </ul>
+      </div>
+      <div class="challenge-decoration">⭐ 🌟 🚀 💫 🚀 🌟 ⭐</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：錦繡河山進階篇 (Q1-Q10)</div>
+      <div class="tip-box">
+        <p><strong>⭐ 星級知識：</strong>中國地勢西高東低，分為三級階梯。第一級階梯以青藏高原為主，平均海拔4000米以上，被稱為「世界屋脊」！</p>
+      </div>
+
+      <div class="question" id="q1">
+        <div class="question-number"><span class="q-badge">Q1</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 中國地勢第一級階梯與第二級階梯的分界線包括以下哪些山脈？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">A</span> 大興安嶺—太行山—巫山—雪峰山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">B</span> 崑崙山脈—祁連山脈—橫斷山脈</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">C</span> 天山—陰山—燕山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">D</span> 秦嶺—大別山—武夷山</div>
+        <div class="answer-reveal" id="reveal1"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(1, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q2">
+        <div class="question-number"><span class="q-badge">Q2</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 胡煥庸線從黑龍江____連接到雲南騰沖，顯示了中國人口東密西疏的分佈格局。</div>
+        <div><input type="text" class="fill-input" id="fill2" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal2"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(2, 'fill', '黑河')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q3">
+        <div class="question-number"><span class="q-badge">Q3</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪個城市全年平均降雨量最高？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q3"><span class="mcq-circle">A</span> 上海</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q3"><span class="mcq-circle">B</span> 哈爾濱</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q3"><span class="mcq-circle">C</span> 拉薩</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q3"><span class="mcq-circle">D</span> 香港</div>
+        <div class="answer-reveal" id="reveal3"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(3, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q4">
+        <div class="question-number"><span class="q-badge">Q4</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 中國四大盆地中，哪個被稱為「聚寶盆」，因富藏鹽、石油和煤炭資源？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">A</span> 塔里木盆地</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">B</span> 準噶爾盆地</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">C</span> 柴達木盆地</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">D</span> 四川盆地</div>
+        <div class="answer-reveal" id="reveal4"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(4, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q5">
+        <div class="question-number"><span class="q-badge">Q5</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 中國的東部夏季主要受來自太平洋的____季風影響，帶來大量水汽，形成雨熱同期。</div>
+        <div><input type="text" class="fill-input" id="fill5" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal5"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(5, 'fill', '東南')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q6">
+        <div class="question-number"><span class="q-badge">Q6</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 6月中下旬至7月初，長江中下游地區出現的持續陰雨天氣稱為甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">A</span> 颱風</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">B</span> 梅雨</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">C</span> 寒潮</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">D</span> 沙塵暴</div>
+        <div class="answer-reveal" id="reveal6"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(6, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q7">
+        <div class="question-number"><span class="q-badge">Q7</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 世界最長的人工運河——____大運河，北起北京、南至杭州，為世界文化遺產。</div>
+        <div><input type="text" class="fill-input" id="fill7" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal7"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(7, 'fill', '京杭')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q8">
+        <div class="question-number"><span class="q-badge">Q8</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 長江發源於青藏高原哪座山脈？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">A</span> 巴顏喀拉山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">B</span> 唐古拉山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">C</span> 崑崙山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">D</span> 天山</div>
+        <div class="answer-reveal" id="reveal8"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(8, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q9">
+        <div class="question-number"><span class="q-badge">Q9</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪項關於中國氣候的陳述是正確的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">A</span> 中國西北地區受季風影響顯著，雨量充沛</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">B</span> 青藏高原屬於溫帶大陸性氣候</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">C</span> 秦嶺—淮河以南屬於亞熱帶季風氣候</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">D</span> 中國東北地區全年高溫多雨</div>
+        <div class="answer-reveal" id="reveal9"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(9, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q10">
+        <div class="question-number"><span class="q-badge">Q10</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 塔里木河是中國最長的____河，最終消失在沙漠中，不流入海洋。</div>
+        <div><input type="text" class="fill-input" id="fill10" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal10"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(10, 'fill', '內流')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：歷史長河進階篇 (Q11-Q20)</div>
+      <div class="tip-box">
+        <p><strong>⭐ 星級知識：</strong>漢朝和唐朝是中國歷史上最強盛的朝代。張騫「鑿空」西域開通絲綢之路；玄奘西行取經促進中印文化交流！</p>
+      </div>
+
+      <div class="question" id="q11">
+        <div class="question-number"><span class="q-badge">Q11</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪個朝代順序是完全正確的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q11"><span class="mcq-circle">A</span> 夏 → 商 → 周 → 秦 → 漢</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q11"><span class="mcq-circle">B</span> 夏 → 周 → 商 → 秦 → 漢</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q11"><span class="mcq-circle">C</span> 商 → 夏 → 周 → 秦 → 漢</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q11"><span class="mcq-circle">D</span> 夏 → 商 → 秦 → 周 → 漢</div>
+        <div class="answer-reveal" id="reveal11"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(11, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q12">
+        <div class="question-number"><span class="q-badge">Q12</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 張騫第一次出使西域約在公元前____年，途中曾被匈奴扣留十多年。</div>
+        <div><input type="text" class="fill-input" id="fill12" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal12"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(12, 'fill', '138')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q13">
+        <div class="question-number"><span class="q-badge">Q13</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪位歷史人物比玄奘更早赴印度取經？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q13"><span class="mcq-circle">A</span> 鑑真</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q13"><span class="mcq-circle">B</span> 法顯</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q13"><span class="mcq-circle">C</span> 班超</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q13"><span class="mcq-circle">D</span> 甘英</div>
+        <div class="answer-reveal" id="reveal13"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(13, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q14">
+        <div class="question-number"><span class="q-badge">Q14</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 宋朝在沿海設立「____司」管理海外貿易，反映宋代對外貿易發達。</div>
+        <div><input type="text" class="fill-input" id="fill14" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal14"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(14, 'fill', '市舶')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q15">
+        <div class="question-number"><span class="q-badge">Q15</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪項關於鄭和與哥倫布的對比是正確的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q15"><span class="mcq-circle">A</span> 鄭和第一次出航比哥倫布早約87年</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q15"><span class="mcq-circle">B</span> 鄭和船隊最遠到達美洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q15"><span class="mcq-circle">C</span> 哥倫布的船比鄭和寶船更大</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q15"><span class="mcq-circle">D</span> 鄭和共出航四次，哥倫布七次</div>
+        <div class="answer-reveal" id="reveal15"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(15, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q16">
+        <div class="question-number"><span class="q-badge">Q16</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 司馬遷在《史記》中稱張騫出使西域為「____」，意思是開通了前所未有的中西通道。</div>
+        <div><input type="text" class="fill-input" id="fill16" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal16"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(16, 'fill', '鑿空')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q17">
+        <div class="question-number"><span class="q-badge">Q17</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 元朝把人民分為蒙古人、色目人、漢人、南人四個等級。最高等級是？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">A</span> 漢人</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">B</span> 色目人</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">C</span> 蒙古人</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">D</span> 南人</div>
+        <div class="answer-reveal" id="reveal17"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(17, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q18">
+        <div class="question-number"><span class="q-badge">Q18</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 意大利旅行家____的遊記向歐洲介紹了東方的繁華，激發了歐洲人探索東方的興趣。</div>
+        <div><input type="text" class="fill-input" id="fill18" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal18"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(18, 'fill', '馬可·波羅')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q19">
+        <div class="question-number"><span class="q-badge">Q19</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪項不是宋朝文化發展興盛的原因？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q19"><span class="mcq-circle">A</span> 科舉制度選拔人才</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q19"><span class="mcq-circle">B</span> 造紙術和印刷術改良</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q19"><span class="mcq-circle">C</span> 書院數目增多，更多人接受教育</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q19"><span class="mcq-circle">D</span> 推行閉關鎖國政策</div>
+        <div class="answer-reveal" id="reveal19"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(19, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q20">
+        <div class="question-number"><span class="q-badge">Q20</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 鄭和船隊使用____針和天文導航「牽星術」等先進航海技術，領先世界。</div>
+        <div><input type="text" class="fill-input" id="fill20" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal20"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(20, 'fill', '指南')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：拒絕不良行為進階篇 (Q21-Q30)</div>
+      <div class="tip-box">
+        <p><strong>⭐ 星級知識：</strong>上癮是一種大腦疾病，不是單純「意志力不夠」。尼古丁、酒精和毒品都會刺激大腦釋放大量多巴胺，帶來短暫快感，令人難以戒除。</p>
+      </div>
+
+      <div class="question" id="q21">
+        <div class="question-number"><span class="q-badge">Q21</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 成癮的腦部機制中，尼古丁、酒精和毒品都會刺激大腦釋放大量哪種物質？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q21"><span class="mcq-circle">A</span> 腎上腺素</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q21"><span class="mcq-circle">B</span> 多巴胺</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q21"><span class="mcq-circle">C</span> 胰島素</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q21"><span class="mcq-circle">D</span> 血清素</div>
+        <div class="answer-reveal" id="reveal21"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(21, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q22">
+        <div class="question-number"><span class="q-badge">Q22</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 燃燒的香煙會釋出超過____種化學物質，其中至少69種為已知致癌物。</div>
+        <div><input type="text" class="fill-input" id="fill22" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal22"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(22, 'fill', '7000')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q23">
+        <div class="question-number"><span class="q-badge">Q23</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 飲酒後臉紅是因為身體缺乏哪種酶？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q23"><span class="mcq-circle">A</span> 酒精脫氫酶</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q23"><span class="mcq-circle">B</span> 乙醛脫氫酶</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q23"><span class="mcq-circle">C</span> 脂肪酶</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q23"><span class="mcq-circle">D</span> 澱粉酶</div>
+        <div class="answer-reveal" id="reveal23"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(23, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q24">
+        <div class="question-number"><span class="q-badge">Q24</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 以下哪項是新型毒品「太空油」（依托咪酯）的主要危險？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q24"><span class="mcq-circle">A</span> 有助於改善睡眠</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q24"><span class="mcq-circle">B</span> 吸食後會出現搖晃、神志不清</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q24"><span class="mcq-circle">C</span> 不會上癮</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q24"><span class="mcq-circle">D</span> 已獲醫生處方可安心使用</div>
+        <div class="answer-reveal" id="reveal24"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(24, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q25">
+        <div class="question-number"><span class="q-badge">Q25</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 香港政府已於2025年2月14日把依托咪酯列為____藥物，以免美化毒品。</div>
+        <div><input type="text" class="fill-input" id="fill25" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal25"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(25, 'fill', '危險')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q26">
+        <div class="question-number"><span class="q-badge">Q26</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 根據《危險藥物條例》，販運毒品最高可判哪種刑罰？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">A</span> 罰款10萬港元</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">B</span> 監禁10年</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">C</span> 最高可判終身監禁</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">D</span> 社會服務令</div>
+        <div class="answer-reveal" id="reveal26"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(26, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q27">
+        <div class="question-number"><span class="q-badge">Q27</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 衞生署綜合戒煙熱線是____（數字）。</div>
+        <div><input type="text" class="fill-input" id="fill27" placeholder="請填寫數字"></div>
+        <div class="answer-reveal" id="reveal27"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(27, 'fill', '1833 183')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q28">
+        <div class="question-number"><span class="q-badge">Q28</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 哪個機構負責香港的24小時禁毒熱線？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q28"><span class="mcq-circle">A</span> 香港警務處</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q28"><span class="mcq-circle">B</span> 香港海關</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q28"><span class="mcq-circle">C</span> 保安局禁毒處</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q28"><span class="mcq-circle">D</span> 社會福利署</div>
+        <div class="answer-reveal" id="reveal28"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(28, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q29">
+        <div class="question-number"><span class="q-badge">Q29</span><span class="q-type">選擇題</span><span class="difficulty-badge">進階</span> 世界衞生組織指出，就健康而言，以下哪項關於飲酒的正確說法是？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q29"><span class="mcq-circle">A</span> 適量飲酒有益健康</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q29"><span class="mcq-circle">B</span> 只有烈酒才有害</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q29"><span class="mcq-circle">C</span> 喝紅酒可以預防心臟病</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q29"><span class="mcq-circle">D</span> 不存在安全的飲酒分量</div>
+        <div class="answer-reveal" id="reveal29"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(29, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q30">
+        <div class="question-number"><span class="q-badge">Q30</span><span class="q-type">填充題</span><span class="difficulty-badge">進階</span> 酒精在身體分解過程中產生的____本身是致癌物，會損害身體。</div>
+        <div><input type="text" class="fill-input" id="fill30" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal30"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(30, 'fill', '乙醛')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第四部分：時事挑戰 (Q31-Q40)</div>
+      <div class="tip-box">
+        <p><strong>⭐ 星級知識：</strong>今天是2026年6月3日！2026年有世界盃、冬奧會等大型國際盛事，也有多項香港新法例實施。你留意了最近的新聞嗎？</p>
+      </div>
+
+      <div class="question" id="q31">
+        <div class="question-number"><span class="q-badge">Q31</span><span class="q-type">選擇題</span><span class="difficulty-badge">時事</span> 2026年世界盃足球賽將由哪三個國家聯合主辦？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q31"><span class="mcq-circle">A</span> 美國、加拿大、墨西哥</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q31"><span class="mcq-circle">B</span> 中國、日本、韓國</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q31"><span class="mcq-circle">C</span> 英國、法國、德國</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q31"><span class="mcq-circle">D</span> 巴西、阿根廷、烏拉圭</div>
+        <div class="answer-reveal" id="reveal31"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(31, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q32">
+        <div class="question-number"><span class="q-badge">Q32</span><span class="q-type">選擇題</span><span class="difficulty-badge">時事</span> 香港政府由2026年4月30日起，進一步禁止在公眾地方____另類吸煙產品（如電子煙煙彈、加熱煙煙芯）。</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q32"><span class="mcq-circle">A</span> 售賣</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q32"><span class="mcq-circle">B</span> 進口</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q32"><span class="mcq-circle">C</span> 管有</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q32"><span class="mcq-circle">D</span> 宣傳</div>
+        <div class="answer-reveal" id="reveal32"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(32, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q33">
+        <div class="question-number"><span class="q-badge">Q33</span><span class="q-type">填充題</span><span class="difficulty-badge">時事</span> 2026年世界盃將在____月開賽。（請填數字）</div>
+        <div><input type="text" class="fill-input" id="fill33" placeholder="請填寫數字"></div>
+        <div class="answer-reveal" id="reveal33"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(33, 'fill', '6')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q34">
+        <div class="question-number"><span class="q-badge">Q34</span><span class="q-type">選擇題</span><span class="difficulty-badge">時事</span> 2026年冬季奧運會在以下哪個國家舉辦？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q34"><span class="mcq-circle">A</span> 中國</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q34"><span class="mcq-circle">B</span> 意大利</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q34"><span class="mcq-circle">C</span> 日本</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q34"><span class="mcq-circle">D</span> 美國</div>
+        <div class="answer-reveal" id="reveal34"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(34, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q35">
+        <div class="question-number"><span class="q-badge">Q35</span><span class="q-type">填充題</span><span class="difficulty-badge">時事</span> 2026年是農曆____年（生肖）。</div>
+        <div><input type="text" class="fill-input" id="fill35" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal35"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(35, 'fill', '馬')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q36">
+        <div class="question-number"><span class="q-badge">Q36</span><span class="q-type">選擇題</span><span class="difficulty-badge">時事</span> 以下哪項是2026年國家開始實施的重要發展規劃？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q36"><span class="mcq-circle">A</span> 「十三五」規劃</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q36"><span class="mcq-circle">B</span> 「十四五」規劃</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q36"><span class="mcq-circle">C</span> 「十五五」規劃</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q36"><span class="mcq-circle">D</span> 「十六五」規劃</div>
+        <div class="answer-reveal" id="reveal36"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(36, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q37">
+        <div class="question-number"><span class="q-badge">Q37</span><span class="q-type">填充題</span><span class="difficulty-badge">時事</span> 2026年香港國際七人欖球賽在____月舉行。</div>
+        <div><input type="text" class="fill-input" id="fill37" placeholder="請填寫數字"></div>
+        <div class="answer-reveal" id="reveal37"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(37, 'fill', '4')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q38">
+        <div class="question-number"><span class="q-badge">Q38</span><span class="q-type">選擇題</span><span class="difficulty-badge">時事</span> 2026年端午節以下列哪一天慶祝？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q38"><span class="mcq-circle">A</span> 6月1日</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q38"><span class="mcq-circle">B</span> 6月5日</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q38"><span class="mcq-circle">C</span> 6月19日</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q38"><span class="mcq-circle">D</span> 6月26日</div>
+        <div class="answer-reveal" id="reveal38"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(38, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q39">
+        <div class="question-number"><span class="q-badge">Q39</span><span class="q-type">選擇題</span><span class="difficulty-badge">時事</span> 2026年4月，第六屆亞洲沙灘運動會在中國哪個城市舉辦？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">A</span> 海南三亞</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">B</span> 青島</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">C</span> 廈門</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">D</span> 大連</div>
+        <div class="answer-reveal" id="reveal39"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(39, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q40">
+        <div class="question-number"><span class="q-badge">Q40</span><span class="q-type">填充題</span><span class="difficulty-badge">時事</span> 2026年世界環境日在6月____日。</div>
+        <div><input type="text" class="fill-input" id="fill40" placeholder="請填寫數字"></div>
+        <div class="answer-reveal" id="reveal40"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(40, 'fill', '5')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="final-result" id="finalResult">
+      <div class="final-stars" id="finalStars">⭐⭐⭐</div>
+      <div class="final-label">🏆 測驗完成！</div>
+      <div class="final-score" id="finalScore">0</div>
+      <div style="font-size:22px;color:#6C3483;font-weight:700;">/ 40 題正確</div>
+      <div class="final-message" id="finalMessage">繼續努力！</div>
+      <button onclick="resetQuiz()" style="padding:15px 40px;background:linear-gradient(135deg,#FFD700,#F5A623);color:#6C3483;border:none;border-radius:15px;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 5px 20px rgba(255,215,0,0.4);">🔄 再玩一次</button>
+    </div>
+
+    <div class="answer-key-container">
+      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
+        📖 查看答案一覽表 <span id="keyArrow">▼</span>
+      </button>
+      <div class="answer-key-panel collapsed" id="answerKeyPanel">
+        <div class="answer-grid">
+          <div class="answer-item"><span class="q-num">Q1</span>B</div>
+          <div class="answer-item"><span class="q-num">Q2</span>黑河</div>
+          <div class="answer-item"><span class="q-num">Q3</span>D</div>
+          <div class="answer-item"><span class="q-num">Q4</span>C</div>
+          <div class="answer-item"><span class="q-num">Q5</span>東南</div>
+          <div class="answer-item"><span class="q-num">Q6</span>B</div>
+          <div class="answer-item"><span class="q-num">Q7</span>京杭</div>
+          <div class="answer-item"><span class="q-num">Q8</span>B</div>
+          <div class="answer-item"><span class="q-num">Q9</span>C</div>
+          <div class="answer-item"><span class="q-num">Q10</span>內流</div>
+          <div class="answer-item"><span class="q-num">Q11</span>A</div>
+          <div class="answer-item"><span class="q-num">Q12</span>138</div>
+          <div class="answer-item"><span class="q-num">Q13</span>B</div>
+          <div class="answer-item"><span class="q-num">Q14</span>市舶</div>
+          <div class="answer-item"><span class="q-num">Q15</span>A</div>
+          <div class="answer-item"><span class="q-num">Q16</span>鑿空</div>
+          <div class="answer-item"><span class="q-num">Q17</span>C</div>
+          <div class="answer-item"><span class="q-num">Q18</span>馬可·波羅</div>
+          <div class="answer-item"><span class="q-num">Q19</span>D</div>
+          <div class="answer-item"><span class="q-num">Q20</span>指南</div>
+          <div class="answer-item"><span class="q-num">Q21</span>B</div>
+          <div class="answer-item"><span class="q-num">Q22</span>7000</div>
+          <div class="answer-item"><span class="q-num">Q23</span>B</div>
+          <div class="answer-item"><span class="q-num">Q24</span>B</div>
+          <div class="answer-item"><span class="q-num">Q25</span>危險</div>
+          <div class="answer-item"><span class="q-num">Q26</span>C</div>
+          <div class="answer-item"><span class="q-num">Q27</span>1833 183</div>
+          <div class="answer-item"><span class="q-num">Q28</span>C</div>
+          <div class="answer-item"><span class="q-num">Q29</span>D</div>
+          <div class="answer-item"><span class="q-num">Q30</span>乙醛</div>
+          <div class="answer-item"><span class="q-num">Q31</span>A</div>
+          <div class="answer-item"><span class="q-num">Q32</span>C</div>
+          <div class="answer-item"><span class="q-num">Q33</span>6</div>
+          <div class="answer-item"><span class="q-num">Q34</span>B</div>
+          <div class="answer-item"><span class="q-num">Q35</span>馬</div>
+          <div class="answer-item"><span class="q-num">Q36</span>C</div>
+          <div class="answer-item"><span class="q-num">Q37</span>4</div>
+          <div class="answer-item"><span class="q-num">Q38</span>C</div>
+          <div class="answer-item"><span class="q-num">Q39</span>A</div>
+          <div class="answer-item"><span class="q-num">Q40</span>5</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px;color:#aaa;font-size:14px;">
+      ⭐ 星級達人終極挑戰 | 綜合常識科進階測驗 | 時事資料截至2026年6月
+    </div>
+  </div>
+
+  <script>
+    let correctCount = 0;
+    let answeredMCQ = {};
+    let revealed = {};
+
+    function checkMCQ(el, correctAns) {
+      const input = el.querySelector('input[type="radio"]');
+      if (!input || input.disabled) return;
+
+      const qDiv = el.closest('.question');
+      const qId = qDiv.id;
+      const qNum = parseInt(qId.substring(1));
+      if (answeredMCQ[qNum]) return;
+
+      const options = qDiv.querySelectorAll('.mcq-option');
+      const selectedLabel = el.querySelector('.mcq-circle');
+      const userAns = selectedLabel ? selectedLabel.textContent.trim() : '';
+
+      options.forEach(o => o.classList.add('disabled'));
+      input.checked = true;
+      answeredMCQ[qNum] = true;
+
+      if (userAns === correctAns) {
+        el.classList.add('correct');
+        qDiv.classList.add('answered-correct');
+        correctCount++;
+      } else {
+        el.classList.add('wrong');
+        options.forEach(o => {
+          const c = o.querySelector('.mcq-circle');
+          if (c && c.textContent.trim() === correctAns) o.classList.add('correct');
+        });
+        qDiv.classList.add('answered-wrong');
+      }
+      updateScore();
+      if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 40) checkAllDone();
+    }
+
+    function showAnswer(qNum, type, answer) {
+      const revealDiv = document.getElementById('reveal' + qNum);
+      if (!revealDiv) return;
+
+      if (type === 'mcq') {
+        const qDiv = document.getElementById('q' + qNum);
+        const options = qDiv.querySelectorAll('.mcq-option');
+        if (!answeredMCQ[qNum]) {
+          options.forEach(o => o.classList.add('disabled'));
+          options.forEach(o => {
+            const c = o.querySelector('.mcq-circle');
+            if (c && c.textContent.trim() === answer) o.classList.add('correct');
+          });
+        }
+        revealDiv.className = 'answer-reveal show correct';
+        const label = answer;
+        revealDiv.textContent = '✅ 正確答案是：' + label;
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          if (!answeredMCQ[qNum]) {
+            qDiv.classList.remove('answered-wrong');
+            qDiv.classList.add('answered-correct');
+          }
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 40) checkAllDone();
+        }
+      } else {
+        const input = document.getElementById('fill' + qNum);
+        const qDiv = document.getElementById('q' + qNum);
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          const userAns = input ? input.value.trim() : '';
+          if (userAns === answer) {
+            correctCount++;
+            qDiv.classList.add('answered-correct');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '✅ 正確！答案是「' + answer + '」';
+          } else {
+            if (userAns) qDiv.classList.add('answered-wrong');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '🔍 正確答案是「' + answer + '」' + (userAns ? '，你填的是「' + userAns + '」' : '');
+          }
+          if (input) input.disabled = true;
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 40) checkAllDone();
+        }
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('totalScore').textContent = correctCount;
+      const total = Math.max(Object.keys(answeredMCQ).length + Object.keys(revealed).length, correctCount);
+      const pct = (total / 40) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = '已作答 ' + total + ' / 40 題';
+    }
+
+    function checkAllDone() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total >= 40) {
+        setTimeout(showFinalResult, 500);
+      }
+    }
+
+    function showFinalResult() {
+      const fr = document.getElementById('finalResult');
+      fr.classList.add('show');
+      document.getElementById('finalScore').textContent = correctCount;
+      let stars = '', msg = '';
+      if (correctCount >= 36) {
+        stars = '⭐⭐⭐⭐⭐'; msg = '🏆 太厲害了！你是真正的星級達人！';
+      } else if (correctCount >= 28) {
+        stars = '⭐⭐⭐⭐'; msg = '🎉 表現優秀！你已經掌握大部分進階知識！';
+      } else if (correctCount >= 20) {
+        stars = '⭐⭐⭐'; msg = '👍 不錯喔！建議重溫課本和新聞，加強記憶！';
+      } else if (correctCount >= 12) {
+        stars = '⭐⭐'; msg = '📖 需要努力！建議仔細複習單元內容，多看新聞。';
+      } else {
+        stars = '⭐'; msg = '💪 加油！從基礎開始，一步一步累積知識吧！';
+      }
+      document.getElementById('finalStars').textContent = stars;
+      document.getElementById('finalMessage').textContent = msg;
+      fr.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleAnswerKey() {
+      const panel = document.getElementById('answerKeyPanel');
+      const arrow = document.getElementById('keyArrow');
+      const isCollapsed = panel.classList.contains('collapsed');
+      panel.classList.toggle('collapsed');
+      panel.classList.toggle('expanded');
+      arrow.textContent = isCollapsed ? '▲' : '▼';
+    }
+
+    function resetQuiz() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total > 0 && !confirm('確定要重新開始嗎？所有進度將會清除。')) return;
+      correctCount = 0;
+      answeredMCQ = {};
+      revealed = {};
+      document.getElementById('totalScore').textContent = '0';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('progressText').textContent = '已作答 0 / 40 題';
+      document.getElementById('finalResult').classList.remove('show');
+
+      for (let i = 1; i <= 40; i++) {
+        const qDiv = document.getElementById('q' + i);
+        if (!qDiv) continue;
+        qDiv.classList.remove('answered-correct', 'answered-wrong');
+        const options = qDiv.querySelectorAll('.mcq-option');
+        options.forEach(o => {
+          o.classList.remove('correct', 'wrong', 'disabled', 'revealed-correct', 'revealed-wrong');
+          const radio = o.querySelector('input[type="radio"]');
+          if (radio) radio.checked = false;
+        });
+        const reveal = document.getElementById('reveal' + i);
+        if (reveal) { reveal.className = 'answer-reveal'; reveal.textContent = ''; }
+        const input = document.getElementById('fill' + i);
+        if (input) { input.disabled = false; input.value = ''; }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
