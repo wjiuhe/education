@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動物森友會健康生活小測驗 - 拒絕不良行為</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #7EC850 0%, #5FA837 30%, #90D86A 70%, #6BBF47 100%);
+      min-height: 100vh; color: #2d2d2d; line-height: 1.8;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+    .cover-page {
+      background: #FFFDF5; border: 8px solid #F5A623; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); position: relative; overflow: hidden;
+    }
+    .cover-page::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      background: repeating-linear-gradient(90deg, #F5A623, #F5A623 25px, #7EC850 25px, #7EC850 50px, #86C5DA 50px, #86C5DA 75px);
+    }
+    .ac-header { text-align: center; margin-bottom: 30px; }
+    .ac-icon { font-size: 60px; margin-bottom: 10px; letter-spacing: 8px; }
+    h1 { text-align: center; color: #5FA837; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #E8F5D8; }
+    .subtitle { text-align: center; color: #F5A623; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #F5A623; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #F5A623; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #F5A623; color: white; font-weight: 700; }
+    .info-table td { background: #FFFDF5; }
+    .info-input { width: 100%; border: 2px dashed #F5A623; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .info-input:focus { outline: none; border-color: #5FA837; }
+
+    .score-summary {
+      background: #E8F5D8; border: 3px solid #5FA837; border-radius: 12px; padding: 15px 25px;
+      margin: 20px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .score-box { display: flex; align-items: center; gap: 15px; }
+    .score-label { font-weight: 700; color: #5FA837; font-size: 16px; }
+    .score-value { font-size: 28px; font-weight: 900; color: #F5A623; }
+    .progress-bar-wrap { flex: 1; min-width: 150px; height: 16px; background: #D4E8C0; border-radius: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #5FA837, #7EC850); border-radius: 10px; transition: width 0.5s ease; width: 0%; }
+    .progress-text { font-size: 14px; color: #5FA837; font-weight: 700; }
+
+    .instructions {
+      background: #E8F5D8; border-left: 6px solid #7EC850; padding: 20px; margin: 20px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .instructions h3 { color: #5FA837; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+
+    .section {
+      background: #FFFDF5; border: 5px solid #86C5DA; border-radius: 16px; padding: 30px;
+      margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    }
+    .section-header {
+      background: linear-gradient(135deg, #86C5DA, #5FB0C9); color: white;
+      padding: 18px 25px; margin: -30px -30px 25px -30px;
+      border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-header::before { content: '🏝️'; font-size: 28px; }
+
+    .question {
+      margin: 25px 0; padding: 20px; background: #FAFBF5; border-radius: 12px;
+      border-left: 5px solid #86C5DA; position: relative;
+      transition: all 0.3s;
+    }
+    .question.answered-correct { border-left-color: #5FA837; background: #F0F8E8; }
+    .question.answered-wrong { border-left-color: #E74C3C; background: #FFF0EE; }
+    .question-number {
+      font-weight: 700; color: #F5A623; font-size: 16px; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .q-badge {
+      display: inline-block; background: #F5A623; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+    .q-type {
+      display: inline-block; background: #86C5DA; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+    .question-text { margin-bottom: 15px; font-weight: 500; }
+
+    .mcq-option {
+      display: flex; align-items: center; margin: 8px 0; padding: 10px 15px;
+      background: #fff; border-radius: 10px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.2s;
+    }
+    .mcq-option:hover { background: #E8F5D8; border-color: #7EC850; }
+    .mcq-option input[type="radio"] {
+      width: 20px; height: 20px; margin-right: 12px; accent-color: #5FA837; cursor: pointer; flex-shrink: 0;
+    }
+    .mcq-option:has(input:checked) { background: #E8F5D8; border-color: #5FA837; }
+    .mcq-option.correct {
+      background: #D4EDDA !important; border-color: #28A745 !important;
+    }
+    .mcq-option.wrong {
+      background: #F8D7DA !important; border-color: #DC3545 !important;
+    }
+    .mcq-option.revealed-correct {
+      background: #D4EDDA !important; border-color: #28A745 !important;
+    }
+    .mcq-option.revealed-wrong {
+      background: #F8D7DA !important; border-color: #DC3545 !important;
+    }
+    .mcq-option.disabled { pointer-events: none; opacity: 0.85; }
+    .mcq-circle {
+      width: 26px; height: 26px; border: 3px solid #86C5DA; border-radius: 50%;
+      margin-right: 12px; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #86C5DA; background: #fff; font-size: 13px; flex-shrink: 0;
+    }
+
+    .fill-input {
+      border: none; border-bottom: 3px solid #F5A623; background: #FFFDF5;
+      padding: 8px 12px; font-size: 16px; min-width: 120px; text-align: center;
+      border-radius: 6px 6px 0 0; font-family: inherit; font-weight: 700;
+    }
+    .fill-input:focus { outline: none; background: #FFF8E1; border-bottom-color: #5FA837; }
+
+    .btn-row {
+      margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .btn-show-answer {
+      padding: 8px 20px; background: #86C5DA; color: white; border: none;
+      border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .btn-show-answer:hover { background: #5FB0C9; transform: translateY(-1px); }
+    .btn-show-answer.showing { background: #F5A623; }
+
+    .answer-reveal {
+      margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; display: none;
+    }
+    .answer-reveal.show { display: block; }
+    .answer-reveal.correct { background: #D4EDDA; color: #155724; }
+    .answer-reveal.wrong { background: #F8D7DA; color: #721C24; }
+
+    .final-result {
+      background: #FFFDF5; border: 5px solid #F5A623; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      display: none;
+    }
+    .final-result.show { display: block; }
+    .final-score { font-size: 72px; font-weight: 900; color: #F5A623; margin: 20px 0; }
+    .final-label { font-size: 24px; color: #5FA837; font-weight: 700; }
+    .final-message { font-size: 18px; color: #666; margin: 20px 0; }
+    .final-stars { font-size: 40px; margin: 15px 0; letter-spacing: 8px; }
+
+    .answer-key-container { margin: 40px 0; border: 4px solid #5FA837; border-radius: 15px; overflow: hidden; }
+    .answer-key-toggle {
+      width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #5FA837, #7EC850);
+      color: white; border: none; font-size: 20px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px;
+    }
+    .answer-key-toggle:hover { background: linear-gradient(135deg, #4A8A2A, #5FA837); }
+    .answer-key-panel {
+      background: #F0F8E8; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden;
+    }
+    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
+    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
+    .answer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+    .answer-item {
+      background: #fff; padding: 8px 12px; border-radius: 8px;
+      border-left: 4px solid #5FA837; font-size: 13px;
+    }
+    .q-num { font-weight: 700; color: #F5A623; margin-right: 6px; }
+
+    .ac-decoration { text-align: center; font-size: 28px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box {
+      background: #E8F5D8; border-left: 4px solid #7EC850; padding: 12px 15px;
+      margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .cover-page, .section { padding: 20px; }
+      h1 { font-size: 22px; }
+      .section-header { margin: -20px -20px 20px -20px; font-size: 18px; }
+      .score-summary { flex-direction: column; align-items: stretch; text-align: center; }
+      .score-box { justify-content: center; }
+      .final-score { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="ac-header">
+        <div class="ac-icon">🏝️ 🌿 🍎 ⭐</div>
+        <h1>動物森友會健康生活小測驗</h1>
+        <p class="subtitle">Animal Crossing: Healthy Life Challenge</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" id="studentName" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" id="studentId" placeholder="學號"></td><td><input type="text" class="info-input" id="examDate" placeholder="日期"></td></tr>
+      </table>
+      <div class="score-summary">
+        <div class="score-box">
+          <span class="score-label">🏆 已答對</span>
+          <span class="score-value" id="totalScore">0</span>
+          <span style="font-size:16px;color:#5FA837;">題</span>
+        </div>
+        <div style="flex:1;min-width:100px;">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-text" id="progressText">已作答 0 / 50 題</div>
+        </div>
+        <button onclick="resetQuiz()" style="padding:8px 20px;background:#F5A623;color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">🔄 重新開始</button>
+      </div>
+      <div class="instructions">
+        <h3>📝 測驗須知</h3>
+        <ul>
+          <li>本測驗共 <b>50 題</b>，混合選擇題和填充題</li>
+          <li>選擇題：點選答案後會即時核對</li>
+          <li>填充題：在橫線上填寫答案，可按「顯示答案」核對</li>
+          <li>每題都有<b>「顯示答案」</b>按鈕，可以隨時查看正確答案</li>
+          <li>內容參考小五常識科「拒絕不良行為」單元</li>
+        </ul>
+      </div>
+      <div class="ac-decoration">🍎 🌿 ⭐ 🏝️ ⭐ 🌿 🍎</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：拒絕吸煙 (Q1-Q15)</div>
+      <div class="tip-box">
+        <p><strong>🍎 蘋果小知識：</strong>燃燒的香煙會釋出超過 7,000 種化學物質，其中至少 69 種為已知致癌物！</p>
+      </div>
+
+      <div class="question" id="q1">
+        <div class="question-number"><span class="q-badge">Q1</span><span class="q-type">選擇題</span> 吸煙時產生的焦油含有甚麼物質？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q1"><span class="mcq-circle">A</span> 維生素
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q1"><span class="mcq-circle">B</span> 致癌物質
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q1"><span class="mcq-circle">C</span> 蛋白質
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q1"><span class="mcq-circle">D</span> 礦物質
+        </div>
+        <div class="answer-reveal" id="reveal1"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(1, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q2">
+        <div class="question-number"><span class="q-badge">Q2</span><span class="q-type">選擇題</span> 尼古丁對身體有甚麼主要影響？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q2"><span class="mcq-circle">A</span> 使人放鬆
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q2"><span class="mcq-circle">B</span> 幫助消化
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q2"><span class="mcq-circle">C</span> 增強記憶力
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q2"><span class="mcq-circle">D</span> 令人上癮
+        </div>
+        <div class="answer-reveal" id="reveal2"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(2, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q3">
+        <div class="question-number"><span class="q-badge">Q3</span><span class="q-type">填充題</span> 一氧化碳會降低人體血液的＿＿＿＿能力。</div>
+        <div><input type="text" class="fill-input" id="fill3" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal3"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(3, 'fill', '攜氧')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q4">
+        <div class="question-number"><span class="q-badge">Q4</span><span class="q-type">選擇題</span> 以下哪項不是吸煙對儀容的影響？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q4"><span class="mcq-circle">A</span> 牙齒變黃
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q4"><span class="mcq-circle">B</span> 指甲變黃
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q4"><span class="mcq-circle">C</span> 容易長出皺紋
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q4"><span class="mcq-circle">D</span> 頭髮變濃密
+        </div>
+        <div class="answer-reveal" id="reveal4"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(4, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q5">
+        <div class="question-number"><span class="q-badge">Q5</span><span class="q-type">填充題</span> 吸煙者較易患上＿＿＿＿、口腔癌、肝癌等致命疾病。</div>
+        <div><input type="text" class="fill-input" id="fill5" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal5"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(5, 'fill', '肺癌')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q6">
+        <div class="question-number"><span class="q-badge">Q6</span><span class="q-type">選擇題</span> 二手煙是指甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q6"><span class="mcq-circle">A</span> 吸煙者吸入的煙
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q6"><span class="mcq-circle">B</span> 殘留在衣服上的煙草殘餘物
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q6"><span class="mcq-circle">C</span> 吸煙者呼出的煙霧和煙草燃燒產生的煙霧
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q6"><span class="mcq-circle">D</span> 電子煙產生的蒸氣
+        </div>
+        <div class="answer-reveal" id="reveal6"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(6, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q7">
+        <div class="question-number"><span class="q-badge">Q7</span><span class="q-type">填充題</span> ＿＿＿＿煙是指吸煙後殘留在衣服、頭髮或家具上的煙草殘餘化學物質。</div>
+        <div><input type="text" class="fill-input" id="fill7" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal7"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(7, 'fill', '三手')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q8">
+        <div class="question-number"><span class="q-badge">Q8</span><span class="q-type">填充題</span> 孕婦吸入二手煙會影響＿＿＿＿的生長。</div>
+        <div><input type="text" class="fill-input" id="fill8" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal8"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(8, 'fill', '胎兒')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q9">
+        <div class="question-number"><span class="q-badge">Q9</span><span class="q-type">選擇題</span> 香港法例禁止向多少歲以下人士銷售煙草？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q9"><span class="mcq-circle">A</span> 16歲
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q9"><span class="mcq-circle">B</span> 18歲
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q9"><span class="mcq-circle">C</span> 21歲
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q9"><span class="mcq-circle">D</span> 20歲
+        </div>
+        <div class="answer-reveal" id="reveal9"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(9, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q10">
+        <div class="question-number"><span class="q-badge">Q10</span><span class="q-type">選擇題</span> 以下哪項是香港政府的控煙措施？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q10"><span class="mcq-circle">A</span> 降低煙草稅
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q10"><span class="mcq-circle">B</span> 放寬禁煙區限制
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q10"><span class="mcq-circle">C</span> 禁止煙草廣告和促銷活動
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q10"><span class="mcq-circle">D</span> 降低煙草價格
+        </div>
+        <div class="answer-reveal" id="reveal10"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(10, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q11">
+        <div class="question-number"><span class="q-badge">Q11</span><span class="q-type">選擇題</span> 以下哪項不是煙草燃燒時產生的有害物質？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q11"><span class="mcq-circle">A</span> 焦油
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q11"><span class="mcq-circle">B</span> 尼古丁
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q11"><span class="mcq-circle">C</span> 一氧化碳
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q11"><span class="mcq-circle">D</span> 維生素C
+        </div>
+        <div class="answer-reveal" id="reveal11"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(11, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q12">
+        <div class="question-number"><span class="q-badge">Q12</span><span class="q-type">填充題</span> 吸煙會使人加速＿＿＿＿，容易長出皺紋。</div>
+        <div><input type="text" class="fill-input" id="fill12" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal12"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(12, 'fill', '衰老')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q13">
+        <div class="question-number"><span class="q-badge">Q13</span><span class="q-type">填充題</span> 政府規定煙盒包裝要有＿＿＿＿字句和圖片。</div>
+        <div><input type="text" class="fill-input" id="fill13" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal13"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(13, 'fill', '警告')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q14">
+        <div class="question-number"><span class="q-badge">Q14</span><span class="q-type">選擇題</span> 三手煙對哪類人士特別容易造成傷害？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q14"><span class="mcq-circle">A</span> 幼兒
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q14"><span class="mcq-circle">B</span> 成年人
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q14"><span class="mcq-circle">C</span> 長者
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q14"><span class="mcq-circle">D</span> 青少年
+        </div>
+        <div class="answer-reveal" id="reveal14"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(14, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q15">
+        <div class="question-number"><span class="q-badge">Q15</span><span class="q-type">填充題</span> 吸煙會令牙齒和指甲＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill15" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal15"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(15, 'fill', '變黃')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：不要喝酒 (Q16-Q30)</div>
+      <div class="tip-box">
+        <p><strong>🍎 蘋果小知識：</strong>酒精是一級致癌物！世界上並沒有安全的飲酒分量。</p>
+      </div>
+
+      <div class="question" id="q16">
+        <div class="question-number"><span class="q-badge">Q16</span><span class="q-type">選擇題</span> 以下哪項是對喝酒的常見錯誤想法？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q16"><span class="mcq-circle">A</span> 喝酒對健康有益
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q16"><span class="mcq-circle">B</span> 喝酒可以幫助入睡
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q16"><span class="mcq-circle">C</span> 醉了便可以忘記煩惱
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q16"><span class="mcq-circle">D</span> 以上皆是
+        </div>
+        <div class="answer-reveal" id="reveal16"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(16, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q17">
+        <div class="question-number"><span class="q-badge">Q17</span><span class="q-type">選擇題</span> 以下哪種酒的酒精含量最高？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q17"><span class="mcq-circle">A</span> 紅酒 (10-15%)
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q17"><span class="mcq-circle">B</span> 米酒 (約20%)
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q17"><span class="mcq-circle">C</span> 白蘭地 (40%或以上)
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q17"><span class="mcq-circle">D</span> 啤酒 (約5%)
+        </div>
+        <div class="answer-reveal" id="reveal17"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(17, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q18">
+        <div class="question-number"><span class="q-badge">Q18</span><span class="q-type">填充題</span> 喝少量酒會令人反應＿＿＿＿、過度興奮。</div>
+        <div><input type="text" class="fill-input" id="fill18" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal18"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(18, 'fill', '遲緩')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q19">
+        <div class="question-number"><span class="q-badge">Q19</span><span class="q-type">填充題</span> 酗酒會損害＿＿＿＿，引致肝硬化和肝癌。</div>
+        <div><input type="text" class="fill-input" id="fill19" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal19"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(19, 'fill', '肝臟')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q20">
+        <div class="question-number"><span class="q-badge">Q20</span><span class="q-type">選擇題</span> 酗酒會影響大腦功能，令人出現甚麼情況？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q20"><span class="mcq-circle">A</span> 記憶力變好
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q20"><span class="mcq-circle">B</span> 反應更快
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q20"><span class="mcq-circle">C</span> 精神更好
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q20"><span class="mcq-circle">D</span> 記憶力衰退
+        </div>
+        <div class="answer-reveal" id="reveal20"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(20, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q21">
+        <div class="question-number"><span class="q-badge">Q21</span><span class="q-type">填充題</span> 酗酒會引致肝癌、＿＿＿＿、大腸癌等嚴重疾病。</div>
+        <div><input type="text" class="fill-input" id="fill21" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal21"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(21, 'fill', '心臟病')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q22">
+        <div class="question-number"><span class="q-badge">Q22</span><span class="q-type">選擇題</span> 酒精是世界衞生組織列為第幾類致癌物？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q22"><span class="mcq-circle">A</span> 一級致癌物
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q22"><span class="mcq-circle">B</span> 二級致癌物
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q22"><span class="mcq-circle">C</span> 三級致癌物
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q22"><span class="mcq-circle">D</span> 非致癌物
+        </div>
+        <div class="answer-reveal" id="reveal22"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(22, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q23">
+        <div class="question-number"><span class="q-badge">Q23</span><span class="q-type">填充題</span> 酒後駕駛會影響人的判斷能力和令人的反應＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill23" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal23"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(23, 'fill', '遲緩')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q24">
+        <div class="question-number"><span class="q-badge">Q24</span><span class="q-type">選擇題</span> 酗酒對家庭造成的影響是甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q24"><span class="mcq-circle">A</span> 家庭更團結
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q24"><span class="mcq-circle">B</span> 家庭不和諧
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q24"><span class="mcq-circle">C</span> 家庭更富有
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q24"><span class="mcq-circle">D</span> 家庭更快樂
+        </div>
+        <div class="answer-reveal" id="reveal24"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(24, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q25">
+        <div class="question-number"><span class="q-badge">Q25</span><span class="q-type">選擇題</span> 以下哪項不是酗酒的禍害？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q25"><span class="mcq-circle">A</span> 記憶力衰退
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q25"><span class="mcq-circle">B</span> 心臟病
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q25"><span class="mcq-circle">C</span> 大腸癌
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q25"><span class="mcq-circle">D</span> 增強免疫力
+        </div>
+        <div class="answer-reveal" id="reveal25"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(25, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q26">
+        <div class="question-number"><span class="q-badge">Q26</span><span class="q-type">選擇題</span> 暴飲可能導致甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q26"><span class="mcq-circle">A</span> 精神變好
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q26"><span class="mcq-circle">B</span> 身體更健康
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q26"><span class="mcq-circle">C</span> 急性酒精中毒甚至死亡
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q26"><span class="mcq-circle">D</span> 記憶力增強
+        </div>
+        <div class="answer-reveal" id="reveal26"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(26, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q27">
+        <div class="question-number"><span class="q-badge">Q27</span><span class="q-type">填充題</span> 酗酒會影響人的＿＿＿＿能力，令人無法自制。</div>
+        <div><input type="text" class="fill-input" id="fill27" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal27"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(27, 'fill', '判斷')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q28">
+        <div class="question-number"><span class="q-badge">Q28</span><span class="q-type">選擇題</span> 以下哪項關於喝酒的說法是錯誤的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q28"><span class="mcq-circle">A</span> 所有酒類都含有酒精
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q28"><span class="mcq-circle">B</span> 酒精含量越高，酒性越烈
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q28"><span class="mcq-circle">C</span> 酒精有麻醉作用
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')">
+          <input type="radio" name="q28"><span class="mcq-circle">D</span> 喝酒可以真正解決問題
+        </div>
+        <div class="answer-reveal" id="reveal28"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(28, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q29">
+        <div class="question-number"><span class="q-badge">Q29</span><span class="q-type">選擇題</span> 在日本，除了酒後駕駛屬違法外，喝酒後做甚麼也是犯法的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q29"><span class="mcq-circle">A</span> 騎單車
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q29"><span class="mcq-circle">B</span> 走路
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q29"><span class="mcq-circle">C</span> 乘坐公共汽車
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')">
+          <input type="radio" name="q29"><span class="mcq-circle">D</span> 看電視
+        </div>
+        <div class="answer-reveal" id="reveal29"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(29, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q30">
+        <div class="question-number"><span class="q-badge">Q30</span><span class="q-type">填充題</span> 世界衞生組織指出，並不存在＿＿＿＿的飲酒分量。</div>
+        <div><input type="text" class="fill-input" id="fill30" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal30"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(30, 'fill', '安全')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：遠離毒品 (Q31-Q45)</div>
+      <div class="tip-box">
+        <p><strong>🍎 蘋果小知識：</strong>上癮是一種大腦疾病，不是單純「意志力不夠」。越早接觸、傷害越深！</p>
+      </div>
+
+      <div class="question" id="q31">
+        <div class="question-number"><span class="q-badge">Q31</span><span class="q-type">選擇題</span> 「冰」屬於哪類毒品？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q31"><span class="mcq-circle">A</span> 迷幻劑
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q31"><span class="mcq-circle">B</span> 興奮劑
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q31"><span class="mcq-circle">C</span> 麻醉劑
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q31"><span class="mcq-circle">D</span> 鎮靜劑
+        </div>
+        <div class="answer-reveal" id="reveal31"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(31, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q32">
+        <div class="question-number"><span class="q-badge">Q32</span><span class="q-type">填充題</span> 「搖頭丸」是＿＿＿＿劑，會使人肌肉失控抽搐。</div>
+        <div><input type="text" class="fill-input" id="fill32" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal32"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(32, 'fill', '興奮')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q33">
+        <div class="question-number"><span class="q-badge">Q33</span><span class="q-type">填充題</span> 濫用咳藥水會引致失憶和牙齒＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill33" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal33"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(33, 'fill', '潰爛')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q34">
+        <div class="question-number"><span class="q-badge">Q34</span><span class="q-type">選擇題</span> 大麻屬於哪類毒品？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q34"><span class="mcq-circle">A</span> 興奮劑
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q34"><span class="mcq-circle">B</span> 迷幻劑
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q34"><span class="mcq-circle">C</span> 麻醉劑
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q34"><span class="mcq-circle">D</span> 抑制劑
+        </div>
+        <div class="answer-reveal" id="reveal34"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(34, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q35">
+        <div class="question-number"><span class="q-badge">Q35</span><span class="q-type">填充題</span> 吸食「K仔」會引致尿頻和＿＿＿＿失禁。</div>
+        <div><input type="text" class="fill-input" id="fill35" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal35"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(35, 'fill', '小便')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q36">
+        <div class="question-number"><span class="q-badge">Q36</span><span class="q-type">選擇題</span> 根據2017年香港數據，21歲以下人士吸毒的主要原因是甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q36"><span class="mcq-circle">A</span> 出於好奇
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q36"><span class="mcq-circle">B</span> 受到朋友影響
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q36"><span class="mcq-circle">C</span> 尋求快感
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q36"><span class="mcq-circle">D</span> 解悶
+        </div>
+        <div class="answer-reveal" id="reveal36"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(36, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q37">
+        <div class="question-number"><span class="q-badge">Q37</span><span class="q-type">填充題</span> 青少年吸毒的原因包括受到＿＿＿＿影響、解悶、出於好奇等。</div>
+        <div><input type="text" class="fill-input" id="fill37" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal37"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(37, 'fill', '朋友')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q38">
+        <div class="question-number"><span class="q-badge">Q38</span><span class="q-type">選擇題</span> 吸毒對個人造成甚麼影響？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q38"><span class="mcq-circle">A</span> 精神變好
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q38"><span class="mcq-circle">B</span> 精神和身體上的傷害
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q38"><span class="mcq-circle">C</span> 記憶力增強
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q38"><span class="mcq-circle">D</span> 身體更健康
+        </div>
+        <div class="answer-reveal" id="reveal38"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(38, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q39">
+        <div class="question-number"><span class="q-badge">Q39</span><span class="q-type">填充題</span> 志樂的故事告訴我們，吸毒會令＿＿＿＿一起受罪。</div>
+        <div><input type="text" class="fill-input" id="fill39" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal39"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(39, 'fill', '家人')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q40">
+        <div class="question-number"><span class="q-badge">Q40</span><span class="q-type">選擇題</span> 以下哪個機構負責禁毒和緝毒？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q40"><span class="mcq-circle">A</span> 社會福利署
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q40"><span class="mcq-circle">B</span> 香港警務處
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q40"><span class="mcq-circle">C</span> 香港賽馬會
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q40"><span class="mcq-circle">D</span> 教育局
+        </div>
+        <div class="answer-reveal" id="reveal40"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(40, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q41">
+        <div class="question-number"><span class="q-badge">Q41</span><span class="q-type">填充題</span> 香港＿＿＿＿署在獄中為吸毒者提供戒毒治療。</div>
+        <div><input type="text" class="fill-input" id="fill41" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal41"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(41, 'fill', '懲教')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q42">
+        <div class="question-number"><span class="q-badge">Q42</span><span class="q-type">選擇題</span> 可卡因胡亂吸食會出現以下哪種情況？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q42"><span class="mcq-circle">A</span> 失眠
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q42"><span class="mcq-circle">B</span> 小便失禁
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q42"><span class="mcq-circle">C</span> 被迫害的感覺、精神錯亂
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q42"><span class="mcq-circle">D</span> 牙齒潰爛
+        </div>
+        <div class="answer-reveal" id="reveal42"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(42, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q43">
+        <div class="question-number"><span class="q-badge">Q43</span><span class="q-type">填充題</span> 新型毒品「太空油」的正式名稱是＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill43" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal43"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(43, 'fill', '依托咪酯')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q44">
+        <div class="question-number"><span class="q-badge">Q44</span><span class="q-type">選擇題</span> 香港政府於哪一年把依托咪酯列為危險藥物？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q44"><span class="mcq-circle">A</span> 2024年
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q44"><span class="mcq-circle">B</span> 2025年
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q44"><span class="mcq-circle">C</span> 2026年
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q44"><span class="mcq-circle">D</span> 2023年
+        </div>
+        <div class="answer-reveal" id="reveal44"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(44, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q45">
+        <div class="question-number"><span class="q-badge">Q45</span><span class="q-type">填充題</span> 非法管有或吸食毒品，最高可判罰款＿＿＿＿萬港元及監禁7年。</div>
+        <div><input type="text" class="fill-input" id="fill45" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal45"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(45, 'fill', '100')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第四部分：拒絕不良行為與健康生活 (Q46-Q50)</div>
+      <div class="tip-box">
+        <p><strong>🍎 蘋果小知識：</strong>真正的朋友會互相保護，而不是慫恿對方做傷害自己的事。</p>
+      </div>
+
+      <div class="question" id="q46">
+        <div class="question-number"><span class="q-badge">Q46</span><span class="q-type">選擇題</span> 以下哪項不是拒絕不良行為的方法？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q46"><span class="mcq-circle">A</span> 堅決拒絕法
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q46"><span class="mcq-circle">B</span> 附和朋友法
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q46"><span class="mcq-circle">C</span> 理智分析法
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')">
+          <input type="radio" name="q46"><span class="mcq-circle">D</span> 儘快離開法
+        </div>
+        <div class="answer-reveal" id="reveal46"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(46, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q47">
+        <div class="question-number"><span class="q-badge">Q47</span><span class="q-type">填充題</span> 「堅決拒絕法」是指直接説「＿＿＿＿」。</div>
+        <div><input type="text" class="fill-input" id="fill47" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal47"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(47, 'fill', '不')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q48">
+        <div class="question-number"><span class="q-badge">Q48</span><span class="q-type">選擇題</span> 以下哪項有助於活出健康人生？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q48"><span class="mcq-circle">A</span> 結交損友
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q48"><span class="mcq-circle">B</span> 遇到困難時自己忍受
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q48"><span class="mcq-circle">C</span> 培養健康的生活習慣和興趣
+        </div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')">
+          <input type="radio" name="q48"><span class="mcq-circle">D</span> 認識不良行為的好處
+        </div>
+        <div class="answer-reveal" id="reveal48"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(48, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q49">
+        <div class="question-number"><span class="q-badge">Q49</span><span class="q-type">填充題</span> 遇到困難時應向家人、師長或＿＿＿＿傾訴。</div>
+        <div><input type="text" class="fill-input" id="fill49" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal49"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(49, 'fill', '社工')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q50">
+        <div class="question-number"><span class="q-badge">Q50</span><span class="q-type">填充題</span> 健康生活應實踐均衡飲食、定時作息和做足夠＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill50" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal50"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(50, 'fill', '運動')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="final-result" id="finalResult">
+      <div class="final-stars" id="finalStars">⭐⭐⭐</div>
+      <div class="final-label">🏆 測驗完成！</div>
+      <div class="final-score" id="finalScore">0</div>
+      <div style="font-size:22px;color:#5FA837;font-weight:700;">/ 50 題正確</div>
+      <div class="final-message" id="finalMessage">繼續努力！</div>
+      <button onclick="resetQuiz()" style="padding:15px 40px;background:linear-gradient(135deg,#F5A623,#FFC107);color:white;border:none;border-radius:15px;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 5px 20px rgba(245,166,35,0.4);">🔄 再玩一次</button>
+    </div>
+
+    <div class="answer-key-container">
+      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
+        📖 查看答案一覽表 <span id="keyArrow">▼</span>
+      </button>
+      <div class="answer-key-panel collapsed" id="answerKeyPanel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;">
+          <div class="answer-item"><span class="q-num">Q1</span>B</div>
+          <div class="answer-item"><span class="q-num">Q2</span>D</div>
+          <div class="answer-item"><span class="q-num">Q3</span>攜氧</div>
+          <div class="answer-item"><span class="q-num">Q4</span>D</div>
+          <div class="answer-item"><span class="q-num">Q5</span>肺癌</div>
+          <div class="answer-item"><span class="q-num">Q6</span>C</div>
+          <div class="answer-item"><span class="q-num">Q7</span>三手</div>
+          <div class="answer-item"><span class="q-num">Q8</span>胎兒</div>
+          <div class="answer-item"><span class="q-num">Q9</span>B</div>
+          <div class="answer-item"><span class="q-num">Q10</span>C</div>
+          <div class="answer-item"><span class="q-num">Q11</span>D</div>
+          <div class="answer-item"><span class="q-num">Q12</span>衰老</div>
+          <div class="answer-item"><span class="q-num">Q13</span>警告</div>
+          <div class="answer-item"><span class="q-num">Q14</span>A</div>
+          <div class="answer-item"><span class="q-num">Q15</span>變黃</div>
+          <div class="answer-item"><span class="q-num">Q16</span>D</div>
+          <div class="answer-item"><span class="q-num">Q17</span>C</div>
+          <div class="answer-item"><span class="q-num">Q18</span>遲緩</div>
+          <div class="answer-item"><span class="q-num">Q19</span>肝臟</div>
+          <div class="answer-item"><span class="q-num">Q20</span>D</div>
+          <div class="answer-item"><span class="q-num">Q21</span>心臟病</div>
+          <div class="answer-item"><span class="q-num">Q22</span>A</div>
+          <div class="answer-item"><span class="q-num">Q23</span>遲緩</div>
+          <div class="answer-item"><span class="q-num">Q24</span>B</div>
+          <div class="answer-item"><span class="q-num">Q25</span>D</div>
+          <div class="answer-item"><span class="q-num">Q26</span>C</div>
+          <div class="answer-item"><span class="q-num">Q27</span>判斷</div>
+          <div class="answer-item"><span class="q-num">Q28</span>D</div>
+          <div class="answer-item"><span class="q-num">Q29</span>A</div>
+          <div class="answer-item"><span class="q-num">Q30</span>安全</div>
+          <div class="answer-item"><span class="q-num">Q31</span>B</div>
+          <div class="answer-item"><span class="q-num">Q32</span>興奮</div>
+          <div class="answer-item"><span class="q-num">Q33</span>潰爛</div>
+          <div class="answer-item"><span class="q-num">Q34</span>B</div>
+          <div class="answer-item"><span class="q-num">Q35</span>小便</div>
+          <div class="answer-item"><span class="q-num">Q36</span>B</div>
+          <div class="answer-item"><span class="q-num">Q37</span>朋友</div>
+          <div class="answer-item"><span class="q-num">Q38</span>B</div>
+          <div class="answer-item"><span class="q-num">Q39</span>家人</div>
+          <div class="answer-item"><span class="q-num">Q40</span>B</div>
+          <div class="answer-item"><span class="q-num">Q41</span>懲教</div>
+          <div class="answer-item"><span class="q-num">Q42</span>C</div>
+          <div class="answer-item"><span class="q-num">Q43</span>依托咪酯</div>
+          <div class="answer-item"><span class="q-num">Q44</span>B</div>
+          <div class="answer-item"><span class="q-num">Q45</span>100</div>
+          <div class="answer-item"><span class="q-num">Q46</span>B</div>
+          <div class="answer-item"><span class="q-num">Q47</span>不</div>
+          <div class="answer-item"><span class="q-num">Q48</span>C</div>
+          <div class="answer-item"><span class="q-num">Q49</span>社工</div>
+          <div class="answer-item"><span class="q-num">Q50</span>運動</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px;color:#fff;font-size:14px;">
+      🏝️ 動物森友會健康生活小測驗 | 參考小五常識科「拒絕不良行為」單元 | 資料來源：香港衞生署、保安局禁毒處
+    </div>
+  </div>
+
+  <script>
+    let correctCount = 0;
+    let answeredMCQ = {};
+    let revealed = {};
+
+    function checkMCQ(el, correctAns) {
+      const input = el.querySelector('input[type="radio"]');
+      if (!input || input.disabled) return;
+
+      const qDiv = el.closest('.question');
+      const qId = qDiv.id;
+      const qNum = parseInt(qId.substring(1));
+      if (answeredMCQ[qNum]) return;
+
+      const options = qDiv.querySelectorAll('.mcq-option');
+      const selectedLabel = el.querySelector('.mcq-circle');
+      const userAns = selectedLabel ? selectedLabel.textContent.trim() : '';
+
+      options.forEach(o => o.classList.add('disabled'));
+      input.checked = true;
+      answeredMCQ[qNum] = true;
+
+      if (userAns === correctAns) {
+        el.classList.add('correct');
+        qDiv.classList.add('answered-correct');
+        correctCount++;
+      } else {
+        el.classList.add('wrong');
+        options.forEach(o => {
+          const c = o.querySelector('.mcq-circle');
+          if (c && c.textContent.trim() === correctAns) o.classList.add('correct');
+        });
+        qDiv.classList.add('answered-wrong');
+      }
+      updateScore();
+      if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+    }
+
+    function showAnswer(qNum, type, answer) {
+      const revealDiv = document.getElementById('reveal' + qNum);
+      if (!revealDiv) return;
+
+      if (type === 'mcq') {
+        const qDiv = document.getElementById('q' + qNum);
+        const options = qDiv.querySelectorAll('.mcq-option');
+        let foundUserChoice = false;
+        options.forEach(o => {
+          if (o.querySelector('input[type="radio"]:checked')) {
+            foundUserChoice = true;
+          }
+        });
+        if (!answeredMCQ[qNum]) {
+          options.forEach(o => o.classList.add('disabled'));
+          options.forEach(o => {
+            const c = o.querySelector('.mcq-circle');
+            if (c && c.textContent.trim() === answer) o.classList.add('correct');
+          });
+        }
+        revealDiv.className = 'answer-reveal show correct';
+        revealDiv.textContent = '✅ 正確答案是：' + answer;
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          if (!answeredMCQ[qNum]) {
+            qDiv.classList.remove('answered-wrong');
+            qDiv.classList.add('answered-correct');
+          }
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+        }
+      } else {
+        const input = document.getElementById('fill' + qNum);
+        const qDiv = document.getElementById('q' + qNum);
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          const userAns = input ? input.value.trim() : '';
+          if (userAns === answer) {
+            correctCount++;
+            qDiv.classList.add('answered-correct');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '✅ 正確！答案是「' + answer + '」';
+          } else {
+            if (userAns) qDiv.classList.add('answered-wrong');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '🔍 正確答案是「' + answer + '」' + (userAns ? '，你填的是「' + userAns + '」' : '');
+          }
+          if (input) input.disabled = true;
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+        }
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('totalScore').textContent = correctCount;
+      const total = Math.max(Object.keys(answeredMCQ).length + Object.keys(revealed).length, correctCount);
+      const pct = (total / 50) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = '已作答 ' + total + ' / 50 題';
+    }
+
+    function checkAllDone() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total >= 50) {
+        setTimeout(showFinalResult, 500);
+      }
+    }
+
+    function showFinalResult() {
+      const fr = document.getElementById('finalResult');
+      fr.classList.add('show');
+      document.getElementById('finalScore').textContent = correctCount;
+      let stars = '', msg = '';
+      if (correctCount >= 45) {
+        stars = '⭐⭐⭐⭐⭐'; msg = '🏆 太厲害了！你是健康生活大師！';
+      } else if (correctCount >= 35) {
+        stars = '⭐⭐⭐⭐'; msg = '🎉 表現優秀！繼續保持對健康知識的關注！';
+      } else if (correctCount >= 25) {
+        stars = '⭐⭐⭐'; msg = '👍 不錯喔！建議重溫課本內容，加強記憶！';
+      } else if (correctCount >= 15) {
+        stars = '⭐⭐'; msg = '📖 需要努力！建議仔細閱讀課本，了解不良行為的禍害。';
+      } else {
+        stars = '⭐'; msg = '💪 加油！健康知識很重要，從頭學習這個單元吧！';
+      }
+      document.getElementById('finalStars').textContent = stars;
+      document.getElementById('finalMessage').textContent = msg;
+      fr.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleAnswerKey() {
+      const panel = document.getElementById('answerKeyPanel');
+      const arrow = document.getElementById('keyArrow');
+      const isCollapsed = panel.classList.contains('collapsed');
+      panel.classList.toggle('collapsed');
+      panel.classList.toggle('expanded');
+      arrow.textContent = isCollapsed ? '▲' : '▼';
+    }
+
+    function resetQuiz() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total > 0 && !confirm('確定要重新開始嗎？所有進度將會清除。')) return;
+      correctCount = 0;
+      answeredMCQ = {};
+      revealed = {};
+      document.getElementById('totalScore').textContent = '0';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('progressText').textContent = '已作答 0 / 50 題';
+      document.getElementById('finalResult').classList.remove('show');
+
+      for (let i = 1; i <= 50; i++) {
+        const qDiv = document.getElementById('q' + i);
+        if (!qDiv) continue;
+        qDiv.classList.remove('answered-correct', 'answered-wrong');
+        const options = qDiv.querySelectorAll('.mcq-option');
+        options.forEach(o => {
+          o.classList.remove('correct', 'wrong', 'disabled', 'revealed-correct', 'revealed-wrong');
+          const radio = o.querySelector('input[type="radio"]');
+          if (radio) radio.checked = false;
+        });
+        const reveal = document.getElementById('reveal' + i);
+        if (reveal) { reveal.className = 'answer-reveal'; reveal.textContent = ''; }
+        const input = document.getElementById('fill' + i);
+        if (input) { input.disabled = false; input.value = ''; }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
