@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>薩爾達傳說歷史小測驗 - 歷史長河</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #0a3d0a 0%, #1B6B3A 40%, #2d8f4e 70%, #1B6B3A 100%);
+      min-height: 100vh; color: #2d2d2d; line-height: 1.8;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+    .cover-page {
+      background: #FFFDF5; border: 8px solid #DAA520; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+    }
+    .cover-page::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      background: repeating-linear-gradient(90deg, #DAA520, #DAA520 25px, #1B6B3A 25px, #1B6B3A 50px, #4A90D9 50px, #4A90D9 75px);
+    }
+    .zelda-header { text-align: center; margin-bottom: 30px; }
+    .zelda-icon { font-size: 60px; margin-bottom: 10px; letter-spacing: 8px; }
+    h1 { text-align: center; color: #1B6B3A; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #E8F5D8; }
+    .subtitle { text-align: center; color: #DAA520; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #DAA520; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #DAA520; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #DAA520; color: white; font-weight: 700; }
+    .info-table td { background: #FFFDF5; }
+    .info-input { width: 100%; border: 2px dashed #DAA520; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .info-input:focus { outline: none; border-color: #1B6B3A; }
+
+    .score-summary {
+      background: #E8F5D8; border: 3px solid #1B6B3A; border-radius: 12px; padding: 15px 25px;
+      margin: 20px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .score-box { display: flex; align-items: center; gap: 15px; }
+    .score-label { font-weight: 700; color: #1B6B3A; font-size: 16px; }
+    .score-value { font-size: 28px; font-weight: 900; color: #DAA520; }
+    .progress-bar-wrap { flex: 1; min-width: 150px; height: 16px; background: #D4E8C0; border-radius: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #1B6B3A, #3DAF6A); border-radius: 10px; transition: width 0.5s ease; width: 0%; }
+    .progress-text { font-size: 14px; color: #1B6B3A; font-weight: 700; }
+
+    .instructions {
+      background: #E8F5D8; border-left: 6px solid #1B6B3A; padding: 20px; margin: 20px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .instructions h3 { color: #1B6B3A; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+
+    .section {
+      background: #FFFDF5; border: 5px solid #4A90D9; border-radius: 16px; padding: 30px;
+      margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    }
+    .section-header {
+      background: linear-gradient(135deg, #4A90D9, #3A7BC8); color: white;
+      padding: 18px 25px; margin: -30px -30px 25px -30px;
+      border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-header::before { content: '🗡️'; font-size: 28px; }
+
+    .question {
+      margin: 25px 0; padding: 20px; background: #FAFBF5; border-radius: 12px;
+      border-left: 5px solid #4A90D9; position: relative;
+      transition: all 0.3s;
+    }
+    .question.answered-correct { border-left-color: #1B6B3A; background: #F0F8E8; }
+    .question.answered-wrong { border-left-color: #E74C3C; background: #FFF0EE; }
+    .question-number {
+      font-weight: 700; color: #DAA520; font-size: 16px; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .q-badge {
+      display: inline-block; background: #DAA520; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+    .q-type {
+      display: inline-block; background: #4A90D9; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+    .question-text { margin-bottom: 15px; font-weight: 500; }
+
+    .mcq-option {
+      display: flex; align-items: center; margin: 8px 0; padding: 10px 15px;
+      background: #fff; border-radius: 10px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.2s;
+    }
+    .mcq-option:hover { background: #E8F5D8; border-color: #1B6B3A; }
+    .mcq-option input[type="radio"] {
+      width: 20px; height: 20px; margin-right: 12px; accent-color: #1B6B3A; cursor: pointer; flex-shrink: 0;
+    }
+    .mcq-option:has(input:checked) { background: #E8F5D8; border-color: #1B6B3A; }
+    .mcq-option.correct { background: #D4EDDA !important; border-color: #28A745 !important; }
+    .mcq-option.wrong { background: #F8D7DA !important; border-color: #DC3545 !important; }
+    .mcq-option.disabled { pointer-events: none; opacity: 0.85; }
+    .mcq-circle {
+      width: 26px; height: 26px; border: 3px solid #4A90D9; border-radius: 50%;
+      margin-right: 12px; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #4A90D9; background: #fff; font-size: 13px; flex-shrink: 0;
+    }
+
+    .fill-input {
+      border: none; border-bottom: 3px solid #DAA520; background: #FFFDF5;
+      padding: 8px 12px; font-size: 16px; min-width: 120px; text-align: center;
+      border-radius: 6px 6px 0 0; font-family: inherit; font-weight: 700;
+    }
+    .fill-input:focus { outline: none; background: #FFF8E1; border-bottom-color: #1B6B3A; }
+
+    .btn-row {
+      margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .btn-show-answer {
+      padding: 8px 20px; background: #4A90D9; color: white; border: none;
+      border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .btn-show-answer:hover { background: #3A7BC8; transform: translateY(-1px); }
+
+    .answer-reveal {
+      margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; display: none;
+    }
+    .answer-reveal.show { display: block; }
+    .answer-reveal.correct { background: #D4EDDA; color: #155724; }
+    .answer-reveal.wrong { background: #F8D7DA; color: #721C24; }
+
+    .final-result {
+      background: #FFFDF5; border: 5px solid #DAA520; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      display: none;
+    }
+    .final-result.show { display: block; }
+    .final-score { font-size: 72px; font-weight: 900; color: #DAA520; margin: 20px 0; }
+    .final-label { font-size: 24px; color: #1B6B3A; font-weight: 700; }
+    .final-message { font-size: 18px; color: #666; margin: 20px 0; }
+    .final-stars { font-size: 40px; margin: 15px 0; letter-spacing: 8px; }
+
+    .answer-key-container { margin: 40px 0; border: 4px solid #1B6B3A; border-radius: 15px; overflow: hidden; }
+    .answer-key-toggle {
+      width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #1B6B3A, #3DAF6A);
+      color: white; border: none; font-size: 20px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px;
+    }
+    .answer-key-toggle:hover { background: linear-gradient(135deg, #14582A, #1B6B3A); }
+    .answer-key-panel {
+      background: #F0F8E8; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden;
+    }
+    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
+    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
+    .answer-item {
+      background: #fff; padding: 8px 12px; border-radius: 8px;
+      border-left: 4px solid #1B6B3A; font-size: 13px;
+    }
+    .q-num { font-weight: 700; color: #DAA520; margin-right: 6px; }
+
+    .zelda-decoration { text-align: center; font-size: 28px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box {
+      background: #E8F5D8; border-left: 4px solid #1B6B3A; padding: 12px 15px;
+      margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .cover-page, .section { padding: 20px; }
+      h1 { font-size: 22px; }
+      .section-header { margin: -20px -20px 20px -20px; font-size: 18px; }
+      .score-summary { flex-direction: column; align-items: stretch; text-align: center; }
+      .score-box { justify-content: center; }
+      .final-score { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="zelda-header">
+        <div class="zelda-icon">🗡️ 🛡️ 👑 ⚔️</div>
+        <h1>薩爾達傳說歷史小測驗</h1>
+        <p class="subtitle">Legend of Zelda: History River Adventure</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" id="studentName" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" id="studentId" placeholder="學號"></td><td><input type="text" class="info-input" id="examDate" placeholder="日期"></td></tr>
+      </table>
+      <div class="score-summary">
+        <div class="score-box">
+          <span class="score-label">🏆 已答對</span>
+          <span class="score-value" id="totalScore">0</span>
+          <span style="font-size:16px;color:#1B6B3A;">題</span>
+        </div>
+        <div style="flex:1;min-width:100px;">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-text" id="progressText">已作答 0 / 50 題</div>
+        </div>
+        <button onclick="resetQuiz()" style="padding:8px 20px;background:#DAA520;color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">🔄 重新開始</button>
+      </div>
+      <div class="instructions">
+        <h3>📝 測驗須知</h3>
+        <ul>
+          <li>本測驗共 <b>50 題</b>，混合選擇題和填充題</li>
+          <li>選擇題：點選答案後會即時核對</li>
+          <li>填充題：在橫線上填寫答案，可按「顯示答案」核對</li>
+          <li>每題都有<b>「顯示答案」</b>按鈕，可以隨時查看正確答案</li>
+          <li>內容參考小五常識科「歷史長河」單元</li>
+        </ul>
+      </div>
+      <div class="zelda-decoration">🗡️ 🛡️ 👑 ⚔️ 👑 🛡️ 🗡️</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：漢、唐大事記 (Q1-Q25)</div>
+      <div class="tip-box">
+        <p><strong>🗡️ 勇者小知識：</strong>中國有五千多年歷史，經歷多個朝代。漢朝和唐朝是中國歷史上最強盛的朝代，影響至今！</p>
+      </div>
+
+      <div class="question" id="q1">
+        <div class="question-number"><span class="q-badge">Q1</span><span class="q-type">選擇題</span> 中國第一個朝代是甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q1"><span class="mcq-circle">A</span> 夏朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q1"><span class="mcq-circle">B</span> 商朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q1"><span class="mcq-circle">C</span> 周朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q1"><span class="mcq-circle">D</span> 秦朝</div>
+        <div class="answer-reveal" id="reveal1"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(1, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q2">
+        <div class="question-number"><span class="q-badge">Q2</span><span class="q-type">選擇題</span> 中國最後一個帝制王朝是甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">A</span> 明朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">B</span> 元朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">C</span> 清朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">D</span> 宋朝</div>
+        <div class="answer-reveal" id="reveal2"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(2, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q3">
+        <div class="question-number"><span class="q-badge">Q3</span><span class="q-type">填充題</span> 中國歷史上維持時間最長的是＿＿＿＿朝（約790年）。</div>
+        <div><input type="text" class="fill-input" id="fill3" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal3"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(3, 'fill', '周')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q4">
+        <div class="question-number"><span class="q-badge">Q4</span><span class="q-type">選擇題</span> 漢朝哪位皇帝派遣張騫出使西域？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q4"><span class="mcq-circle">A</span> 漢高祖</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q4"><span class="mcq-circle">B</span> 漢武帝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q4"><span class="mcq-circle">C</span> 漢文帝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q4"><span class="mcq-circle">D</span> 漢景帝</div>
+        <div class="answer-reveal" id="reveal4"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(4, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q5">
+        <div class="question-number"><span class="q-badge">Q5</span><span class="q-type">填充題</span> 張騫從漢朝首都＿＿＿＿出發前往西域。</div>
+        <div><input type="text" class="fill-input" id="fill5" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal5"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(5, 'fill', '長安')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q6">
+        <div class="question-number"><span class="q-badge">Q6</span><span class="q-type">選擇題</span> 張騫出使西域的主要目的是甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">A</span> 學習佛法</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">B</span> 聯絡西域國家對抗匈奴</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">C</span> 尋找新大陸</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q6"><span class="mcq-circle">D</span> 開通海上貿易</div>
+        <div class="answer-reveal" id="reveal6"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(6, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q7">
+        <div class="question-number"><span class="q-badge">Q7</span><span class="q-type">填充題</span> 張騫出使途經著名的＿＿＿＿克拉瑪干沙漠。</div>
+        <div><input type="text" class="fill-input" id="fill7" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal7"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(7, 'fill', '塔')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q8">
+        <div class="question-number"><span class="q-badge">Q8</span><span class="q-type">選擇題</span> 張騫出使途經以下哪個高原？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">A</span> 青藏高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">B</span> 帕米爾高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">C</span> 蒙古高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q8"><span class="mcq-circle">D</span> 雲貴高原</div>
+        <div class="answer-reveal" id="reveal8"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(8, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q9">
+        <div class="question-number"><span class="q-badge">Q9</span><span class="q-type">填充題</span> 後人稱張騫開通的貫通中西的通道為「＿＿＿＿之路」。</div>
+        <div><input type="text" class="fill-input" id="fill9" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal9"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(9, 'fill', '絲綢')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q10">
+        <div class="question-number"><span class="q-badge">Q10</span><span class="q-type">選擇題</span> 以下哪項是中國傳入西域的物品？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q10"><span class="mcq-circle">A</span> 葡萄</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q10"><span class="mcq-circle">B</span> 絲綢</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q10"><span class="mcq-circle">C</span> 胡琴</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q10"><span class="mcq-circle">D</span> 雜技</div>
+        <div class="answer-reveal" id="reveal10"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(10, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q11">
+        <div class="question-number"><span class="q-badge">Q11</span><span class="q-type">填充題</span> ＿＿＿＿、胡桃、胡瓜是從西域傳入中國的作物。</div>
+        <div><input type="text" class="fill-input" id="fill11" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal11"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(11, 'fill', '葡萄')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q12">
+        <div class="question-number"><span class="q-badge">Q12</span><span class="q-type">選擇題</span> 絲綢是從哪種動物得來的物料編製而成的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q12"><span class="mcq-circle">A</span> 蜘蛛</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q12"><span class="mcq-circle">B</span> 蜜蜂</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q12"><span class="mcq-circle">C</span> 蠶</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q12"><span class="mcq-circle">D</span> 綿羊</div>
+        <div class="answer-reveal" id="reveal12"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(12, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q13">
+        <div class="question-number"><span class="q-badge">Q13</span><span class="q-type">填充題</span> 蠶在＿＿＿＿階段吐絲做繭，人們在此階段「取絲」。</div>
+        <div><input type="text" class="fill-input" id="fill13" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal13"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(13, 'fill', '蠶蟲')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q14">
+        <div class="question-number"><span class="q-badge">Q14</span><span class="q-type">選擇題</span> 唐朝僧人玄奘曾前往哪裏學習佛理？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q14"><span class="mcq-circle">A</span> 西域</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q14"><span class="mcq-circle">B</span> 歐洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q14"><span class="mcq-circle">C</span> 非洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q14"><span class="mcq-circle">D</span> 天竺</div>
+        <div class="answer-reveal" id="reveal14"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(14, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q15">
+        <div class="question-number"><span class="q-badge">Q15</span><span class="q-type">填充題</span> 玄奘被尊稱為「＿＿＿＿法師」。</div>
+        <div><input type="text" class="fill-input" id="fill15" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal15"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(15, 'fill', '三藏')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q16">
+        <div class="question-number"><span class="q-badge">Q16</span><span class="q-type">填充題</span> 天竺是現今的＿＿＿＿（國家）。</div>
+        <div><input type="text" class="fill-input" id="fill16" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal16"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(16, 'fill', '印度')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q17">
+        <div class="question-number"><span class="q-badge">Q17</span><span class="q-type">選擇題</span> 以下哪部小說與玄奘取西經的故事有關？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">A</span> 《三國演義》</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">B</span> 《水滸傳》</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">C</span> 《西遊記》</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">D</span> 《紅樓夢》</div>
+        <div class="answer-reveal" id="reveal17"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(17, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q18">
+        <div class="question-number"><span class="q-badge">Q18</span><span class="q-type">選擇題</span> 根據史書記載，玄奘西行取經的主要原因是甚麼？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q18"><span class="mcq-circle">A</span> 唐太宗派他去</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q18"><span class="mcq-circle">B</span> 前人翻譯佛經有錯漏</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q18"><span class="mcq-circle">C</span> 想成為神仙</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q18"><span class="mcq-circle">D</span> 尋找寶藏</div>
+        <div class="answer-reveal" id="reveal18"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(18, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q19">
+        <div class="question-number"><span class="q-badge">Q19</span><span class="q-type">填充題</span> 玄奘把西行見聞編寫成《大唐＿＿＿＿記》。</div>
+        <div><input type="text" class="fill-input" id="fill19" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal19"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(19, 'fill', '西域')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q20">
+        <div class="question-number"><span class="q-badge">Q20</span><span class="q-type">選擇題</span> 以下哪項是玄奘對文化交流的貢獻？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q20"><span class="mcq-circle">A</span> 開通絲綢之路</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q20"><span class="mcq-circle">B</span> 七次下西洋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q20"><span class="mcq-circle">C</span> 把佛經翻譯成漢文，促進中印文化交流</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q20"><span class="mcq-circle">D</span> 開鑿大運河</div>
+        <div class="answer-reveal" id="reveal20"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(20, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q21">
+        <div class="question-number"><span class="q-badge">Q21</span><span class="q-type">填充題</span> 玄奘回國後致力傳揚＿＿＿＿，使佛教在中國廣泛傳播。</div>
+        <div><input type="text" class="fill-input" id="fill21" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal21"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(21, 'fill', '佛法')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q22">
+        <div class="question-number"><span class="q-badge">Q22</span><span class="q-type">選擇題</span> 以下哪項印度文化傳入了中國？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q22"><span class="mcq-circle">A</span> 絲綢</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q22"><span class="mcq-circle">B</span> 瓷器</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q22"><span class="mcq-circle">C</span> 茶葉</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q22"><span class="mcq-circle">D</span> 雕刻和建築</div>
+        <div class="answer-reveal" id="reveal22"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(22, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q23">
+        <div class="question-number"><span class="q-badge">Q23</span><span class="q-type">選擇題</span> 漢朝和唐朝是中國歷史上怎樣的朝代？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q23"><span class="mcq-circle">A</span> 最弱小的朝代</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q23"><span class="mcq-circle">B</span> 最短暫的朝代</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q23"><span class="mcq-circle">C</span> 最強盛的朝代</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q23"><span class="mcq-circle">D</span> 最動盪的朝代</div>
+        <div class="answer-reveal" id="reveal23"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(23, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q24">
+        <div class="question-number"><span class="q-badge">Q24</span><span class="q-type">填充題</span> 中國人又稱為「漢人」和「＿＿＿＿」，正因漢、唐國力強盛。</div>
+        <div><input type="text" class="fill-input" id="fill24" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal24"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(24, 'fill', '唐人')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q25">
+        <div class="question-number"><span class="q-badge">Q25</span><span class="q-type">填充題</span> 司馬遷在《史記》中稱張騫的出使為「＿＿＿＿」，意指開通中西通道。</div>
+        <div><input type="text" class="fill-input" id="fill25" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal25"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(25, 'fill', '鑿空')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：宋、元、明放大鏡 (Q26-Q45)</div>
+      <div class="tip-box">
+        <p><strong>🗡️ 勇者小知識：</strong>宋朝發明了世界上最早的紙幣「交子」；元朝是首個由少數民族建立的大一統王朝；鄭和的寶船長約140米，比哥倫布的旗艦大得多！</p>
+      </div>
+
+      <div class="question" id="q26">
+        <div class="question-number"><span class="q-badge">Q26</span><span class="q-type">選擇題</span> 《清明上河圖》描繪了哪個城市的繁榮景象？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">A</span> 北京</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">B</span> 杭州</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">C</span> 汴京（開封）</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">D</span> 西安</div>
+        <div class="answer-reveal" id="reveal26"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(26, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q27">
+        <div class="question-number"><span class="q-badge">Q27</span><span class="q-type">填充題</span> 宋朝通過＿＿＿＿考試，選拔賢能的人擔任官員。</div>
+        <div><input type="text" class="fill-input" id="fill27" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal27"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(27, 'fill', '科舉')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q28">
+        <div class="question-number"><span class="q-badge">Q28</span><span class="q-type">填充題</span> 宋代出現世界上最早的紙幣，稱為「＿＿＿＿」。</div>
+        <div><input type="text" class="fill-input" id="fill28" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal28"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(28, 'fill', '交子')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q29">
+        <div class="question-number"><span class="q-badge">Q29</span><span class="q-type">選擇題</span> 《清明上河圖》中的木橋名叫甚麼橋？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q29"><span class="mcq-circle">A</span> 虹橋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q29"><span class="mcq-circle">B</span> 石橋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q29"><span class="mcq-circle">C</span> 木橋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q29"><span class="mcq-circle">D</span> 鐵橋</div>
+        <div class="answer-reveal" id="reveal29"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(29, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q30">
+        <div class="question-number"><span class="q-badge">Q30</span><span class="q-type">選擇題</span> 以下哪項發明是宋朝時期出現的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q30"><span class="mcq-circle">A</span> 造紙術</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q30"><span class="mcq-circle">B</span> 火藥</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q30"><span class="mcq-circle">C</span> 活字印刷術</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q30"><span class="mcq-circle">D</span> 地動儀</div>
+        <div class="answer-reveal" id="reveal30"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(30, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q31">
+        <div class="question-number"><span class="q-badge">Q31</span><span class="q-type">填充題</span> 畢昇發明了＿＿＿＿印刷術（膠泥活字）。</div>
+        <div><input type="text" class="fill-input" id="fill31" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal31"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(31, 'fill', '活字')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q32">
+        <div class="question-number"><span class="q-badge">Q32</span><span class="q-type">填充題</span> ＿＿＿＿是宋代文學代表，著名詞人有蘇軾、李清照等。</div>
+        <div><input type="text" class="fill-input" id="fill32" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal32"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(32, 'fill', '宋詞')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q33">
+        <div class="question-number"><span class="q-badge">Q33</span><span class="q-type">選擇題</span> 元朝由哪個民族建立？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q33"><span class="mcq-circle">A</span> 漢族</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q33"><span class="mcq-circle">B</span> 滿族</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q33"><span class="mcq-circle">C</span> 蒙古族</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q33"><span class="mcq-circle">D</span> 回族</div>
+        <div class="answer-reveal" id="reveal33"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(33, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q34">
+        <div class="question-number"><span class="q-badge">Q34</span><span class="q-type">填充題</span> 蒙古族領袖鐵木真被尊稱為「＿＿＿＿汗」。</div>
+        <div><input type="text" class="fill-input" id="fill34" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal34"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(34, 'fill', '成吉思')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q35">
+        <div class="question-number"><span class="q-badge">Q35</span><span class="q-type">選擇題</span> 元朝的開國皇帝是誰？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q35"><span class="mcq-circle">A</span> 成吉思汗</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q35"><span class="mcq-circle">B</span> 忽必烈</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q35"><span class="mcq-circle">C</span> 朱元璋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q35"><span class="mcq-circle">D</span> 趙匡胤</div>
+        <div class="answer-reveal" id="reveal35"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(35, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q36">
+        <div class="question-number"><span class="q-badge">Q36</span><span class="q-type">填充題</span> 元朝設立「行＿＿＿＿省」管理地方，是今天「省」制度的源頭。</div>
+        <div><input type="text" class="fill-input" id="fill36" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal36"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(36, 'fill', '中書')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q37">
+        <div class="question-number"><span class="q-badge">Q37</span><span class="q-type">選擇題</span> 意大利旅行家馬可·波羅曾到訪哪個朝代的中國？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">A</span> 宋朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">B</span> 明朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">C</span> 元朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">D</span> 唐朝</div>
+        <div class="answer-reveal" id="reveal37"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(37, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q38">
+        <div class="question-number"><span class="q-badge">Q38</span><span class="q-type">填充題</span> ＿＿＿＿曲是元代的文學代表，如關漢卿的《竇娥冤》。</div>
+        <div><input type="text" class="fill-input" id="fill38" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal38"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(38, 'fill', '元')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q39">
+        <div class="question-number"><span class="q-badge">Q39</span><span class="q-type">選擇題</span> 鄭和是哪個朝代的航海家？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q39"><span class="mcq-circle">A</span> 元朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q39"><span class="mcq-circle">B</span> 宋朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q39"><span class="mcq-circle">C</span> 明朝</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q39"><span class="mcq-circle">D</span> 唐朝</div>
+        <div class="answer-reveal" id="reveal39"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(39, 'mcq', 'C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q40">
+        <div class="question-number"><span class="q-badge">Q40</span><span class="q-type">填充題</span> 鄭和七次下西洋，最遠到達＿＿＿＿東岸一帶。</div>
+        <div><input type="text" class="fill-input" id="fill40" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal40"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(40, 'fill', '非洲')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q41">
+        <div class="question-number"><span class="q-badge">Q41</span><span class="q-type">填充題</span> 鄭和第一次出航是在＿＿＿＿年。</div>
+        <div><input type="text" class="fill-input" id="fill41" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal41"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(41, 'fill', '1405')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q42">
+        <div class="question-number"><span class="q-badge">Q42</span><span class="q-type">選擇題</span> 鄭和第一次下西洋有多少艘船？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q42"><span class="mcq-circle">A</span> 3艘</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q42"><span class="mcq-circle">B</span> 超過200艘</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q42"><span class="mcq-circle">C</span> 50艘</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q42"><span class="mcq-circle">D</span> 100艘</div>
+        <div class="answer-reveal" id="reveal42"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(42, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q43">
+        <div class="question-number"><span class="q-badge">Q43</span><span class="q-type">選擇題</span> 鄭和寶船的主船長度約多少米？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q43"><span class="mcq-circle">A</span> 25米</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q43"><span class="mcq-circle">B</span> 50米</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q43"><span class="mcq-circle">C</span> 100米</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q43"><span class="mcq-circle">D</span> 約140米</div>
+        <div class="answer-reveal" id="reveal43"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(43, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q44">
+        <div class="question-number"><span class="q-badge">Q44</span><span class="q-type">填充題</span> 鄭和本姓馬，因功獲賜姓「＿＿＿＿」。</div>
+        <div><input type="text" class="fill-input" id="fill44" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal44"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(44, 'fill', '鄭')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q45">
+        <div class="question-number"><span class="q-badge">Q45</span><span class="q-type">選擇題</span> 鄭和下西洋促進了中國與哪個區域的文化交流？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q45"><span class="mcq-circle">A</span> 歐洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q45"><span class="mcq-circle">B</span> 東南亞和非洲東部</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q45"><span class="mcq-circle">C</span> 美洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q45"><span class="mcq-circle">D</span> 澳洲</div>
+        <div class="answer-reveal" id="reveal45"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(45, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：綜合知識 (Q46-Q50)</div>
+      <div class="tip-box">
+        <p><strong>🗡️ 勇者小知識：</strong>古代的絲綢之路和鄭和航線，今天化為「一帶一路」倡議，繼續連結中國與世界！</p>
+      </div>
+
+      <div class="question" id="q46">
+        <div class="question-number"><span class="q-badge">Q46</span><span class="q-type">選擇題</span> 以下哪個朝代順序是正確的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">A</span> 漢→唐→宋→元→明</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">B</span> 唐→漢→宋→明→元</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">C</span> 宋→元→明→唐→漢</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">D</span> 元→明→宋→漢→唐</div>
+        <div class="answer-reveal" id="reveal46"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(46, 'mcq', 'A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q47">
+        <div class="question-number"><span class="q-badge">Q47</span><span class="q-type">填充題</span> 朝代口訣：夏商與西周，東周分兩段；秦漢三國晉，南北＿＿＿＿列。</div>
+        <div><input type="text" class="fill-input" id="fill47" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal47"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(47, 'fill', '朝')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q48">
+        <div class="question-number"><span class="q-badge">Q48</span><span class="q-type">選擇題</span> 以下哪項不是世界著名的航海家？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q48"><span class="mcq-circle">A</span> 鄭和</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q48"><span class="mcq-circle">B</span> 哥倫布</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q48"><span class="mcq-circle">C</span> 達·伽馬</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q48"><span class="mcq-circle">D</span> 孔子</div>
+        <div class="answer-reveal" id="reveal48"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(48, 'mcq', 'D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q49">
+        <div class="question-number"><span class="q-badge">Q49</span><span class="q-type">填充題</span> 今天中國的「一帶一路」倡議，借用古代絲綢之路和＿＿＿＿航線的歷史概念。</div>
+        <div><input type="text" class="fill-input" id="fill49" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal49"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(49, 'fill', '鄭和')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q50">
+        <div class="question-number"><span class="q-badge">Q50</span><span class="q-type">選擇題</span> 我們可以從張騫和玄奘身上學到甚麼精神？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q50"><span class="mcq-circle">A</span> 貪圖享樂</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q50"><span class="mcq-circle">B</span> 堅毅不屈、勇敢面對困難</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q50"><span class="mcq-circle">C</span> 畏縮不前</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q50"><span class="mcq-circle">D</span> 自私自利</div>
+        <div class="answer-reveal" id="reveal50"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(50, 'mcq', 'B')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="final-result" id="finalResult">
+      <div class="final-stars" id="finalStars">⭐⭐⭐</div>
+      <div class="final-label">🏆 測驗完成！</div>
+      <div class="final-score" id="finalScore">0</div>
+      <div style="font-size:22px;color:#1B6B3A;font-weight:700;">/ 50 題正確</div>
+      <div class="final-message" id="finalMessage">繼續努力！</div>
+      <button onclick="resetQuiz()" style="padding:15px 40px;background:linear-gradient(135deg,#DAA520,#FFC107);color:white;border:none;border-radius:15px;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 5px 20px rgba(218,165,32,0.4);">🔄 再玩一次</button>
+    </div>
+
+    <div class="answer-key-container">
+      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
+        📖 查看答案一覽表 <span id="keyArrow">▼</span>
+      </button>
+      <div class="answer-key-panel collapsed" id="answerKeyPanel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;">
+          <div class="answer-item"><span class="q-num">Q1</span>A</div><div class="answer-item"><span class="q-num">Q2</span>C</div>
+          <div class="answer-item"><span class="q-num">Q3</span>周</div><div class="answer-item"><span class="q-num">Q4</span>B</div>
+          <div class="answer-item"><span class="q-num">Q5</span>長安</div><div class="answer-item"><span class="q-num">Q6</span>B</div>
+          <div class="answer-item"><span class="q-num">Q7</span>塔</div><div class="answer-item"><span class="q-num">Q8</span>B</div>
+          <div class="answer-item"><span class="q-num">Q9</span>絲綢</div><div class="answer-item"><span class="q-num">Q10</span>B</div>
+          <div class="answer-item"><span class="q-num">Q11</span>葡萄</div><div class="answer-item"><span class="q-num">Q12</span>C</div>
+          <div class="answer-item"><span class="q-num">Q13</span>蠶蟲</div><div class="answer-item"><span class="q-num">Q14</span>D</div>
+          <div class="answer-item"><span class="q-num">Q15</span>三藏</div><div class="answer-item"><span class="q-num">Q16</span>印度</div>
+          <div class="answer-item"><span class="q-num">Q17</span>C</div><div class="answer-item"><span class="q-num">Q18</span>B</div>
+          <div class="answer-item"><span class="q-num">Q19</span>西域</div><div class="answer-item"><span class="q-num">Q20</span>C</div>
+          <div class="answer-item"><span class="q-num">Q21</span>佛法</div><div class="answer-item"><span class="q-num">Q22</span>D</div>
+          <div class="answer-item"><span class="q-num">Q23</span>C</div><div class="answer-item"><span class="q-num">Q24</span>唐人</div>
+          <div class="answer-item"><span class="q-num">Q25</span>鑿空</div><div class="answer-item"><span class="q-num">Q26</span>C</div>
+          <div class="answer-item"><span class="q-num">Q27</span>科舉</div><div class="answer-item"><span class="q-num">Q28</span>交子</div>
+          <div class="answer-item"><span class="q-num">Q29</span>A</div><div class="answer-item"><span class="q-num">Q30</span>C</div>
+          <div class="answer-item"><span class="q-num">Q31</span>活字</div><div class="answer-item"><span class="q-num">Q32</span>宋詞</div>
+          <div class="answer-item"><span class="q-num">Q33</span>C</div><div class="answer-item"><span class="q-num">Q34</span>成吉思</div>
+          <div class="answer-item"><span class="q-num">Q35</span>B</div><div class="answer-item"><span class="q-num">Q36</span>中書</div>
+          <div class="answer-item"><span class="q-num">Q37</span>C</div><div class="answer-item"><span class="q-num">Q38</span>元</div>
+          <div class="answer-item"><span class="q-num">Q39</span>C</div><div class="answer-item"><span class="q-num">Q40</span>非洲</div>
+          <div class="answer-item"><span class="q-num">Q41</span>1405</div><div class="answer-item"><span class="q-num">Q42</span>B</div>
+          <div class="answer-item"><span class="q-num">Q43</span>D</div><div class="answer-item"><span class="q-num">Q44</span>鄭</div>
+          <div class="answer-item"><span class="q-num">Q45</span>B</div><div class="answer-item"><span class="q-num">Q46</span>A</div>
+          <div class="answer-item"><span class="q-num">Q47</span>朝</div><div class="answer-item"><span class="q-num">Q48</span>D</div>
+          <div class="answer-item"><span class="q-num">Q49</span>鄭和</div><div class="answer-item"><span class="q-num">Q50</span>B</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px;color:#fff;font-size:14px;">
+      🗡️ 薩爾達傳說歷史小測驗 | 參考小五常識科「歷史長河」單元
+    </div>
+  </div>
+
+  <script>
+    let correctCount = 0;
+    let answeredMCQ = {};
+    let revealed = {};
+
+    function checkMCQ(el, correctAns) {
+      const input = el.querySelector('input[type="radio"]');
+      if (!input || input.disabled) return;
+      const qDiv = el.closest('.question');
+      const qNum = parseInt(qDiv.id.substring(1));
+      if (answeredMCQ[qNum]) return;
+      const options = qDiv.querySelectorAll('.mcq-option');
+      const selectedLabel = el.querySelector('.mcq-circle');
+      const userAns = selectedLabel ? selectedLabel.textContent.trim() : '';
+      options.forEach(o => o.classList.add('disabled'));
+      input.checked = true;
+      answeredMCQ[qNum] = true;
+      if (userAns === correctAns) {
+        el.classList.add('correct');
+        qDiv.classList.add('answered-correct');
+        correctCount++;
+      } else {
+        el.classList.add('wrong');
+        options.forEach(o => {
+          const c = o.querySelector('.mcq-circle');
+          if (c && c.textContent.trim() === correctAns) o.classList.add('correct');
+        });
+        qDiv.classList.add('answered-wrong');
+      }
+      updateScore();
+      if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+    }
+
+    function showAnswer(qNum, type, answer) {
+      const revealDiv = document.getElementById('reveal' + qNum);
+      if (!revealDiv) return;
+      if (type === 'mcq') {
+        const qDiv = document.getElementById('q' + qNum);
+        const options = qDiv.querySelectorAll('.mcq-option');
+        if (!answeredMCQ[qNum]) {
+          options.forEach(o => o.classList.add('disabled'));
+          options.forEach(o => {
+            const c = o.querySelector('.mcq-circle');
+            if (c && c.textContent.trim() === answer) o.classList.add('correct');
+          });
+        }
+        revealDiv.className = 'answer-reveal show correct';
+        revealDiv.textContent = '✅ 正確答案是：' + answer;
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          if (!answeredMCQ[qNum]) {
+            qDiv.classList.remove('answered-wrong');
+            qDiv.classList.add('answered-correct');
+          }
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+        }
+      } else {
+        const input = document.getElementById('fill' + qNum);
+        const qDiv = document.getElementById('q' + qNum);
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          const userAns = input ? input.value.trim() : '';
+          if (userAns === answer) {
+            correctCount++;
+            qDiv.classList.add('answered-correct');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '✅ 正確！答案是「' + answer + '」';
+          } else {
+            if (userAns) qDiv.classList.add('answered-wrong');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '🔍 正確答案是「' + answer + '」' + (userAns ? '，你填的是「' + userAns + '」' : '');
+          }
+          if (input) input.disabled = true;
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+        }
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('totalScore').textContent = correctCount;
+      const total = Math.max(Object.keys(answeredMCQ).length + Object.keys(revealed).length, correctCount);
+      const pct = (total / 50) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = '已作答 ' + total + ' / 50 題';
+    }
+
+    function checkAllDone() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total >= 50) setTimeout(showFinalResult, 500);
+    }
+
+    function showFinalResult() {
+      const fr = document.getElementById('finalResult');
+      fr.classList.add('show');
+      document.getElementById('finalScore').textContent = correctCount;
+      let stars = '', msg = '';
+      if (correctCount >= 45) { stars = '⭐⭐⭐⭐⭐'; msg = '🏆 你是歷史大師！完全掌握了歷史長河的知識！'; }
+      else if (correctCount >= 35) { stars = '⭐⭐⭐⭐'; msg = '🎉 表現優秀！對中國歷史有很好的認識！'; }
+      else if (correctCount >= 25) { stars = '⭐⭐⭐'; msg = '👍 不錯喔！建議重溫課本內容，加強記憶。'; }
+      else if (correctCount >= 15) { stars = '⭐⭐'; msg = '📖 需要努力！建議仔細閱讀課本，了解各朝代的大事。'; }
+      else { stars = '⭐'; msg = '💪 加油！從頭學習這個單元，你會越做越好！'; }
+      document.getElementById('finalStars').textContent = stars;
+      document.getElementById('finalMessage').textContent = msg;
+      fr.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleAnswerKey() {
+      const panel = document.getElementById('answerKeyPanel');
+      const arrow = document.getElementById('keyArrow');
+      const isCollapsed = panel.classList.contains('collapsed');
+      panel.classList.toggle('collapsed');
+      panel.classList.toggle('expanded');
+      arrow.textContent = isCollapsed ? '▲' : '▼';
+    }
+
+    function resetQuiz() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total > 0 && !confirm('確定要重新開始嗎？所有進度將會清除。')) return;
+      correctCount = 0;
+      answeredMCQ = {};
+      revealed = {};
+      document.getElementById('totalScore').textContent = '0';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('progressText').textContent = '已作答 0 / 50 題';
+      document.getElementById('finalResult').classList.remove('show');
+      for (let i = 1; i <= 50; i++) {
+        const qDiv = document.getElementById('q' + i);
+        if (!qDiv) continue;
+        qDiv.classList.remove('answered-correct', 'answered-wrong');
+        const options = qDiv.querySelectorAll('.mcq-option');
+        options.forEach(o => {
+          o.classList.remove('correct', 'wrong', 'disabled');
+          const radio = o.querySelector('input[type="radio"]');
+          if (radio) radio.checked = false;
+        });
+        const reveal = document.getElementById('reveal' + i);
+        if (reveal) { reveal.className = 'answer-reveal'; reveal.textContent = ''; }
+        const input = document.getElementById('fill' + i);
+        if (input) { input.disabled = false; input.value = ''; }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
