@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原神錦繡河山小測驗 - 中國地理與氣候</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #1a365d 0%, #2d5a87 30%, #4A90D9 60%, #7EC850 100%);
+      min-height: 100vh; color: #2d2d2d; line-height: 1.8;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+    .cover-page {
+      background: #FFFDF5; border: 8px solid #4A90D9; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+    }
+    .cover-page::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      background: repeating-linear-gradient(90deg, #4A90D9, #4A90D9 25px, #F5A623 25px, #F5A623 50px, #7EC850 50px, #7EC850 75px);
+    }
+    .genshin-header { text-align: center; margin-bottom: 30px; }
+    .genshin-icon { font-size: 60px; margin-bottom: 10px; letter-spacing: 8px; }
+    h1 { text-align: center; color: #4A90D9; font-size: 28px; margin-bottom: 5px; text-shadow: 2px 2px 0 #E8F5D8; }
+    .subtitle { text-align: center; color: #F5A623; font-size: 18px; font-weight: 700; margin-bottom: 30px; }
+    .info-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 4px solid #4A90D9; border-radius: 10px; overflow: hidden; }
+    .info-table td, .info-table th { border: 2px solid #4A90D9; padding: 15px; text-align: center; font-size: 16px; }
+    .info-table th { background: #4A90D9; color: white; font-weight: 700; }
+    .info-table td { background: #FFFDF5; }
+    .info-input { width: 100%; border: 2px dashed #4A90D9; background: #fff; padding: 8px; border-radius: 6px; text-align: center; font-size: 16px; }
+    .info-input:focus { outline: none; border-color: #F5A623; }
+
+    .score-summary {
+      background: #E8F5D8; border: 3px solid #4A90D9; border-radius: 12px; padding: 15px 25px;
+      margin: 20px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .score-box { display: flex; align-items: center; gap: 15px; }
+    .score-label { font-weight: 700; color: #4A90D9; font-size: 16px; }
+    .score-value { font-size: 28px; font-weight: 900; color: #F5A623; }
+    .progress-bar-wrap { flex: 1; min-width: 150px; height: 16px; background: #D4E8C0; border-radius: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #4A90D9, #7EC850); border-radius: 10px; transition: width 0.5s ease; width: 0%; }
+    .progress-text { font-size: 14px; color: #4A90D9; font-weight: 700; }
+
+    .instructions {
+      background: #E8F5D8; border-left: 6px solid #4A90D9; padding: 20px; margin: 20px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .instructions h3 { color: #4A90D9; margin-bottom: 12px; font-size: 20px; }
+    .instructions ul { margin-left: 25px; }
+    .instructions li { margin: 8px 0; }
+
+    .section {
+      background: #FFFDF5; border: 5px solid #F5A623; border-radius: 16px; padding: 30px;
+      margin-bottom: 30px; box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    }
+    .section-header {
+      background: linear-gradient(135deg, #F5A623, #E89820); color: white;
+      padding: 18px 25px; margin: -30px -30px 25px -30px;
+      border-radius: 11px 11px 0 0; font-size: 22px; font-weight: 700;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-header::before { content: '🌍'; font-size: 28px; }
+
+    .question {
+      margin: 25px 0; padding: 20px; background: #FAFBF5; border-radius: 12px;
+      border-left: 5px solid #F5A623; position: relative;
+      transition: all 0.3s;
+    }
+    .question.answered-correct { border-left-color: #4A90D9; background: #F0F8E8; }
+    .question.answered-wrong { border-left-color: #E74C3C; background: #FFF0EE; }
+    .question-number {
+      font-weight: 700; color: #4A90D9; font-size: 16px; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .q-badge {
+      display: inline-block; background: #4A90D9; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+    .q-type {
+      display: inline-block; background: #F5A623; color: white; padding: 2px 10px;
+      border-radius: 12px; font-size: 12px;
+    }
+
+    .mcq-option {
+      display: flex; align-items: center; margin: 8px 0; padding: 10px 15px;
+      background: #fff; border-radius: 10px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.2s;
+    }
+    .mcq-option:hover { background: #E8F5D8; border-color: #4A90D9; }
+    .mcq-option input[type="radio"] {
+      width: 20px; height: 20px; margin-right: 12px; accent-color: #4A90D9; cursor: pointer; flex-shrink: 0;
+    }
+    .mcq-option:has(input:checked) { background: #E8F5D8; border-color: #4A90D9; }
+    .mcq-option.correct { background: #D4EDDA !important; border-color: #28A745 !important; }
+    .mcq-option.wrong { background: #F8D7DA !important; border-color: #DC3545 !important; }
+    .mcq-option.disabled { pointer-events: none; opacity: 0.85; }
+    .mcq-circle {
+      width: 26px; height: 26px; border: 3px solid #F5A623; border-radius: 50%;
+      margin-right: 12px; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #F5A623; background: #fff; font-size: 13px; flex-shrink: 0;
+    }
+
+    .fill-input {
+      border: none; border-bottom: 3px solid #4A90D9; background: #FFFDF5;
+      padding: 8px 12px; font-size: 16px; min-width: 120px; text-align: center;
+      border-radius: 6px 6px 0 0; font-family: inherit; font-weight: 700;
+    }
+    .fill-input:focus { outline: none; background: #E8F5D8; border-bottom-color: #F5A623; }
+
+    .btn-row {
+      margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .btn-show-answer {
+      padding: 8px 20px; background: #F5A623; color: white; border: none;
+      border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .btn-show-answer:hover { background: #E89820; transform: translateY(-1px); }
+
+    .answer-reveal {
+      margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; display: none;
+    }
+    .answer-reveal.show { display: block; }
+    .answer-reveal.correct { background: #D4EDDA; color: #155724; }
+
+    .final-result {
+      background: #FFFDF5; border: 5px solid #F5A623; border-radius: 20px; padding: 40px;
+      margin-bottom: 30px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      display: none;
+    }
+    .final-result.show { display: block; }
+    .final-score { font-size: 72px; font-weight: 900; color: #F5A623; margin: 20px 0; }
+    .final-label { font-size: 24px; color: #4A90D9; font-weight: 700; }
+    .final-message { font-size: 18px; color: #666; margin: 20px 0; }
+    .final-stars { font-size: 40px; margin: 15px 0; letter-spacing: 8px; }
+
+    .answer-key-container { margin: 40px 0; border: 4px solid #4A90D9; border-radius: 15px; overflow: hidden; }
+    .answer-key-toggle {
+      width: 100%; padding: 18px 25px; background: linear-gradient(135deg, #4A90D9, #6BAFE0);
+      color: white; border: none; font-size: 20px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 15px;
+    }
+    .answer-key-toggle:hover { background: linear-gradient(135deg, #3A7BC8, #4A90D9); }
+    .answer-key-panel {
+      background: #F0F8E8; transition: max-height 0.5s ease, padding 0.3s; overflow: hidden;
+    }
+    .answer-key-panel.collapsed { max-height: 0; padding: 0; }
+    .answer-key-panel.expanded { max-height: 10000px; padding: 30px; }
+    .answer-item {
+      background: #fff; padding: 8px 12px; border-radius: 8px;
+      border-left: 4px solid #4A90D9; font-size: 13px;
+    }
+    .q-num { font-weight: 700; color: #F5A623; margin-right: 6px; }
+
+    .genshin-decoration { text-align: center; font-size: 28px; margin: 20px 0; letter-spacing: 10px; }
+    .tip-box {
+      background: #E8F5D8; border-left: 4px solid #4A90D9; padding: 12px 15px;
+      margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .cover-page, .section { padding: 20px; }
+      h1 { font-size: 22px; }
+      .section-header { margin: -20px -20px 20px -20px; font-size: 18px; }
+      .score-summary { flex-direction: column; align-items: stretch; text-align: center; }
+      .score-box { justify-content: center; }
+      .final-score { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="cover-page">
+      <div class="genshin-header">
+        <div class="genshin-icon">🌍 🏔️ 🌊 🌾</div>
+        <h1>原神錦繡河山小測驗</h1>
+        <p class="subtitle">Genshin Impact: China Geography & Climate</p>
+      </div>
+      <table class="info-table">
+        <tr><th>級別</th><th>姓名</th><th>學號</th><th>日期</th></tr>
+        <tr><td>五年級</td><td><input type="text" class="info-input" id="studentName" placeholder="請填寫姓名"></td><td><input type="text" class="info-input" id="studentId" placeholder="學號"></td><td><input type="text" class="info-input" id="examDate" placeholder="日期"></td></tr>
+      </table>
+      <div class="score-summary">
+        <div class="score-box">
+          <span class="score-label">🏆 已答對</span>
+          <span class="score-value" id="totalScore">0</span>
+          <span style="font-size:16px;color:#4A90D9;">題</span>
+        </div>
+        <div style="flex:1;min-width:100px;">
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-text" id="progressText">已作答 0 / 50 題</div>
+        </div>
+        <button onclick="resetQuiz()" style="padding:8px 20px;background:#4A90D9;color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">🔄 重新開始</button>
+      </div>
+      <div class="instructions">
+        <h3>📝 測驗須知</h3>
+        <ul>
+          <li>本測驗共 <b>50 題</b>，混合選擇題和填充題</li>
+          <li>選擇題：點選答案後會即時核對</li>
+          <li>填充題：在橫線上填寫答案，可按「顯示答案」核對</li>
+          <li>每題都有<b>「顯示答案」</b>按鈕，可以隨時查看正確答案</li>
+          <li>內容參考小五常識科「錦繡河山」單元</li>
+        </ul>
+      </div>
+      <div class="genshin-decoration">🌍 🏔️ 🌊 🌾 🌊 🏔️ 🌍</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第一部分：地理位置與行政區域 (Q1-Q15)</div>
+      <div class="tip-box">
+        <p><strong>🌍 旅行者小知識：</strong>中國位於亞洲東部，東面是太平洋，陸地國土面積約 960 萬平方公里，是世界第三大國！</p>
+      </div>
+
+      <div class="question" id="q1">
+        <div class="question-number"><span class="q-badge">Q1</span><span class="q-type">選擇題</span> 中國位於哪個洲？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">A</span> 歐洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">B</span> 亞洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">C</span> 非洲</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q1"><span class="mcq-circle">D</span> 北美洲</div>
+        <div class="answer-reveal" id="reveal1"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(1,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q2">
+        <div class="question-number"><span class="q-badge">Q2</span><span class="q-type">選擇題</span> 中國東面瀕臨哪個海洋？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">A</span> 印度洋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">B</span> 大西洋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">C</span> 太平洋</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q2"><span class="mcq-circle">D</span> 北冰洋</div>
+        <div class="answer-reveal" id="reveal2"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(2,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q3">
+        <div class="question-number"><span class="q-badge">Q3</span><span class="q-type">填充題</span> 中國版圖的外形像一隻＿＿＿＿（動物）。</div>
+        <div><input type="text" class="fill-input" id="fill3" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal3"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(3,'fill','雞')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q4">
+        <div class="question-number"><span class="q-badge">Q4</span><span class="q-type">選擇題</span> 以下哪項不是中國的行政區域類別？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">A</span> 省</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">B</span> 自治區</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">C</span> 殖民地</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q4"><span class="mcq-circle">D</span> 直轄市</div>
+        <div class="answer-reveal" id="reveal4"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(4,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q5">
+        <div class="question-number"><span class="q-badge">Q5</span><span class="q-type">填充題</span> 中國由 23 個省、5 個自治區、4 個直轄市和 2 個＿＿＿＿行政區組成。</div>
+        <div><input type="text" class="fill-input" id="fill5" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal5"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(5,'fill','特別')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q6">
+        <div class="question-number"><span class="q-badge">Q6</span><span class="q-type">選擇題</span> 上海屬於哪類行政區域？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q6"><span class="mcq-circle">A</span> 省</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q6"><span class="mcq-circle">B</span> 自治區</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q6"><span class="mcq-circle">C</span> 直轄市</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q6"><span class="mcq-circle">D</span> 特別行政區</div>
+        <div class="answer-reveal" id="reveal6"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(6,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q7">
+        <div class="question-number"><span class="q-badge">Q7</span><span class="q-type">填充題</span> 拉薩是西藏自治區的＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill7" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal7"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(7,'fill','首府')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q8">
+        <div class="question-number"><span class="q-badge">Q8</span><span class="q-type">選擇題</span> 廣州是哪個省的省會？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q8"><span class="mcq-circle">A</span> 廣西</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q8"><span class="mcq-circle">B</span> 福建</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q8"><span class="mcq-circle">C</span> 廣東</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q8"><span class="mcq-circle">D</span> 江西</div>
+        <div class="answer-reveal" id="reveal8"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(8,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q9">
+        <div class="question-number"><span class="q-badge">Q9</span><span class="q-type">選擇題</span> 以下哪個是中國的陸上鄰國？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">A</span> 日本</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">B</span> 韓國</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">C</span> 俄羅斯</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q9"><span class="mcq-circle">D</span> 菲律賓</div>
+        <div class="answer-reveal" id="reveal9"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(9,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q10">
+        <div class="question-number"><span class="q-badge">Q10</span><span class="q-type">填充題</span> 中國陸地國土面積約＿＿＿＿萬平方公里，居世界第三。</div>
+        <div><input type="text" class="fill-input" id="fill10" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal10"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(10,'fill','960')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q11">
+        <div class="question-number"><span class="q-badge">Q11</span><span class="q-type">選擇題</span> 以下哪個是中國的自治區？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q11"><span class="mcq-circle">A</span> 北京</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q11"><span class="mcq-circle">B</span> 新疆維吾爾自治區</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q11"><span class="mcq-circle">C</span> 廣東</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q11"><span class="mcq-circle">D</span> 上海</div>
+        <div class="answer-reveal" id="reveal11"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(11,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q12">
+        <div class="question-number"><span class="q-badge">Q12</span><span class="q-type">填充題</span> 中國大陸海岸線約＿＿＿＿公里。</div>
+        <div><input type="text" class="fill-input" id="fill12" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal12"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(12,'fill','18000')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q13">
+        <div class="question-number"><span class="q-badge">Q13</span><span class="q-type">填充題</span> ＿＿＿＿是中國的內海。</div>
+        <div><input type="text" class="fill-input" id="fill13" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal13"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(13,'fill','渤海')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q14">
+        <div class="question-number"><span class="q-badge">Q14</span><span class="q-type">選擇題</span> 成都位於哪個省？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q14"><span class="mcq-circle">A</span> 湖南</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q14"><span class="mcq-circle">B</span> 四川</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q14"><span class="mcq-circle">C</span> 雲南</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q14"><span class="mcq-circle">D</span> 貴州</div>
+        <div class="answer-reveal" id="reveal14"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(14,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q15">
+        <div class="question-number"><span class="q-badge">Q15</span><span class="q-type">選擇題</span> 中國共有多少個省級行政區？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q15"><span class="mcq-circle">A</span> 23</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q15"><span class="mcq-circle">B</span> 30</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q15"><span class="mcq-circle">C</span> 31</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q15"><span class="mcq-circle">D</span> 34</div>
+        <div class="answer-reveal" id="reveal15"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(15,'mcq','D')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第二部分：中國的主要地形 (Q16-Q30)</div>
+      <div class="tip-box">
+        <p><strong>🌍 旅行者小知識：</strong>中國地勢西高東低，呈階梯狀。青藏高原平均海拔 4000 米以上，被稱為「世界屋脊」！</p>
+      </div>
+
+      <div class="question" id="q16">
+        <div class="question-number"><span class="q-badge">Q16</span><span class="q-type">填充題</span> 中國的地勢特徵是西高東低，呈＿＿＿＿狀。</div>
+        <div><input type="text" class="fill-input" id="fill16" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal16"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(16,'fill','階梯')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q17">
+        <div class="question-number"><span class="q-badge">Q17</span><span class="q-type">選擇題</span> 中國最高的高原是哪個？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">A</span> 黃土高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">B</span> 內蒙古高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">C</span> 青藏高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q17"><span class="mcq-circle">D</span> 雲貴高原</div>
+        <div class="answer-reveal" id="reveal17"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(17,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q18">
+        <div class="question-number"><span class="q-badge">Q18</span><span class="q-type">填充題</span> 青藏高原被稱為「世界＿＿＿＿」。</div>
+        <div><input type="text" class="fill-input" id="fill18" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal18"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(18,'fill','屋脊')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q19">
+        <div class="question-number"><span class="q-badge">Q19</span><span class="q-type">選擇題</span> 以下哪種地形四周高而中間低？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q19"><span class="mcq-circle">A</span> 高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q19"><span class="mcq-circle">B</span> 盆地</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q19"><span class="mcq-circle">C</span> 平原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q19"><span class="mcq-circle">D</span> 丘陵</div>
+        <div class="answer-reveal" id="reveal19"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(19,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q20">
+        <div class="question-number"><span class="q-badge">Q20</span><span class="q-type">選擇題</span> 中國面積最大的平原是哪個？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q20"><span class="mcq-circle">A</span> 東北平原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q20"><span class="mcq-circle">B</span> 華北平原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q20"><span class="mcq-circle">C</span> 長江中下游平原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q20"><span class="mcq-circle">D</span> 成都平原</div>
+        <div class="answer-reveal" id="reveal20"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(20,'mcq','A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q21">
+        <div class="question-number"><span class="q-badge">Q21</span><span class="q-type">填充題</span> 長江中下游平原被稱為「＿＿＿＿之鄉」，盛產稻米和淡水魚。</div>
+        <div><input type="text" class="fill-input" id="fill21" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal21"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(21,'fill','魚米')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q22">
+        <div class="question-number"><span class="q-badge">Q22</span><span class="q-type">選擇題</span> 以下哪項是平原的特徵？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q22"><span class="mcq-circle">A</span> 山勢陡峭，起伏較大</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q22"><span class="mcq-circle">B</span> 高而面積廣闊</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q22"><span class="mcq-circle">C</span> 地勢平坦，高度在200米以下</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q22"><span class="mcq-circle">D</span> 山坡平緩</div>
+        <div class="answer-reveal" id="reveal22"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(22,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q23">
+        <div class="question-number"><span class="q-badge">Q23</span><span class="q-type">填充題</span> 四川盆地氣候溫暖濕潤，被稱為「＿＿＿＿盆地」。</div>
+        <div><input type="text" class="fill-input" id="fill23" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal23"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(23,'fill','紫色')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q24">
+        <div class="question-number"><span class="q-badge">Q24</span><span class="q-type">選擇題</span> 黃土高原以甚麼地貌聞名？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q24"><span class="mcq-circle">A</span> 喀斯特地貌</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q24"><span class="mcq-circle">B</span> 丹霞地貌</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q24"><span class="mcq-circle">C</span> 冰川地貌</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q24"><span class="mcq-circle">D</span> 黃土地貌，水土流失嚴重</div>
+        <div class="answer-reveal" id="reveal24"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(24,'mcq','D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q25">
+        <div class="question-number"><span class="q-badge">Q25</span><span class="q-type">填充題</span> 第一級階梯的平均海拔在＿＿＿＿米以上。</div>
+        <div><input type="text" class="fill-input" id="fill25" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal25"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(25,'fill','4000')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q26">
+        <div class="question-number"><span class="q-badge">Q26</span><span class="q-type">選擇題</span> 以下哪個不屬於中國的四大高原？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">A</span> 青藏高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">B</span> 雲貴高原</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">C</span> 四川盆地</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q26"><span class="mcq-circle">D</span> 黃土高原</div>
+        <div class="answer-reveal" id="reveal26"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(26,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q27">
+        <div class="question-number"><span class="q-badge">Q27</span><span class="q-type">填充題</span> 中國最大的沙漠是＿＿＿＿克拉瑪干沙漠。</div>
+        <div><input type="text" class="fill-input" id="fill27" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal27"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(27,'fill','塔')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q28">
+        <div class="question-number"><span class="q-badge">Q28</span><span class="q-type">填充題</span> 柴達木盆地被稱為「＿＿＿＿盆」，因富藏鹽、石油等資源。</div>
+        <div><input type="text" class="fill-input" id="fill28" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal28"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(28,'fill','聚寶')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q29">
+        <div class="question-number"><span class="q-badge">Q29</span><span class="q-type">選擇題</span> 世界最高的山峰是以下哪座？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q29"><span class="mcq-circle">A</span> 泰山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q29"><span class="mcq-circle">B</span> 華山</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q29"><span class="mcq-circle">C</span> 珠穆朗瑪峰</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q29"><span class="mcq-circle">D</span> 黃山</div>
+        <div class="answer-reveal" id="reveal29"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(29,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q30">
+        <div class="question-number"><span class="q-badge">Q30</span><span class="q-type">填充題</span> 山地的山勢陡峭，起伏＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill30" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal30"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(30,'fill','較大')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第三部分：主要山脈與河流 (Q31-Q40)</div>
+      <div class="tip-box">
+        <p><strong>🌍 旅行者小知識：</strong>中國主要河流受西高東低地勢影響，大部分從西流向東。長江約 6300 公里，是中國第一長河！</p>
+      </div>
+
+      <div class="question" id="q31">
+        <div class="question-number"><span class="q-badge">Q31</span><span class="q-type">選擇題</span> 中國最長的河流是哪條？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q31"><span class="mcq-circle">A</span> 黃河</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q31"><span class="mcq-circle">B</span> 長江</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q31"><span class="mcq-circle">C</span> 珠江</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q31"><span class="mcq-circle">D</span> 黑龍江</div>
+        <div class="answer-reveal" id="reveal31"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(31,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q32">
+        <div class="question-number"><span class="q-badge">Q32</span><span class="q-type">填充題</span> 長江全長約＿＿＿＿公里。</div>
+        <div><input type="text" class="fill-input" id="fill32" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal32"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(32,'fill','6300')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q33">
+        <div class="question-number"><span class="q-badge">Q33</span><span class="q-type">選擇題</span> 黃河全長約多少公里？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q33"><span class="mcq-circle">A</span> 6300</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q33"><span class="mcq-circle">B</span> 5500</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q33"><span class="mcq-circle">C</span> 2210</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q33"><span class="mcq-circle">D</span> 4000</div>
+        <div class="answer-reveal" id="reveal33"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(33,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q34">
+        <div class="question-number"><span class="q-badge">Q34</span><span class="q-type">選擇題</span> 中國最高的山脈是哪個？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q34"><span class="mcq-circle">A</span> 喜馬拉雅山脈</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q34"><span class="mcq-circle">B</span> 天山山脈</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q34"><span class="mcq-circle">C</span> 崑崙山脈</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q34"><span class="mcq-circle">D</span> 秦嶺</div>
+        <div class="answer-reveal" id="reveal34"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(34,'mcq','A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q35">
+        <div class="question-number"><span class="q-badge">Q35</span><span class="q-type">選擇題</span> 中國主要河流的流向是怎樣的？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q35"><span class="mcq-circle">A</span> 由東向西</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q35"><span class="mcq-circle">B</span> 由北向南</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q35"><span class="mcq-circle">C</span> 由西向東</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q35"><span class="mcq-circle">D</span> 由南向北</div>
+        <div class="answer-reveal" id="reveal35"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(35,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q36">
+        <div class="question-number"><span class="q-badge">Q36</span><span class="q-type">填充題</span> ＿＿＿＿是中國第二長的河流，被稱為「母親河」。</div>
+        <div><input type="text" class="fill-input" id="fill36" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal36"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(36,'fill','黃河')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q37">
+        <div class="question-number"><span class="q-badge">Q37</span><span class="q-type">選擇題</span> 最接近香港的河流是哪條？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">A</span> 長江</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">B</span> 黃河</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">C</span> 珠江</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'C')"><input type="radio" name="q37"><span class="mcq-circle">D</span> 黑龍江</div>
+        <div class="answer-reveal" id="reveal37"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(37,'mcq','C')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q38">
+        <div class="question-number"><span class="q-badge">Q38</span><span class="q-type">填充題</span> 秦嶺—＿＿＿＿線是中國重要的氣候和地理分界線。</div>
+        <div><input type="text" class="fill-input" id="fill38" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal38"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(38,'fill','淮河')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q39">
+        <div class="question-number"><span class="q-badge">Q39</span><span class="q-type">選擇題</span> 秦嶺—淮河以北的河流冬季會怎樣？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">A</span> 會結冰</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">B</span> 不結冰</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">C</span> 會乾涸</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q39"><span class="mcq-circle">D</span> 會蒸發</div>
+        <div class="answer-reveal" id="reveal39"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(39,'mcq','A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q40">
+        <div class="question-number"><span class="q-badge">Q40</span><span class="q-type">填充題</span> 最終流入海洋的河流稱為＿＿＿＿河。</div>
+        <div><input type="text" class="fill-input" id="fill40" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal40"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(40,'fill','外流')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">第四部分：氣候與人口分佈 (Q41-Q50)</div>
+      <div class="tip-box">
+        <p><strong>🌍 旅行者小知識：</strong>中國人口分佈東密西疏。地理學家胡煥庸提出的「胡煥庸線」從黑河到騰沖，東南半壁住著約 94% 的人口！</p>
+      </div>
+
+      <div class="question" id="q41">
+        <div class="question-number"><span class="q-badge">Q41</span><span class="q-type">選擇題</span> 秦嶺—淮河以北的 1 月平均氣溫是多少？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q41"><span class="mcq-circle">A</span> 0°C 以上</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q41"><span class="mcq-circle">B</span> 0°C 以下</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q41"><span class="mcq-circle">C</span> 10°C 以上</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q41"><span class="mcq-circle">D</span> 20°C 以上</div>
+        <div class="answer-reveal" id="reveal41"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(41,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q42">
+        <div class="question-number"><span class="q-badge">Q42</span><span class="q-type">填充題</span> 秦嶺—淮河以南的年降水量多於＿＿＿＿毫米。</div>
+        <div><input type="text" class="fill-input" id="fill42" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal42"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(42,'fill','800')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q43">
+        <div class="question-number"><span class="q-badge">Q43</span><span class="q-type">選擇題</span> 中國人口主要集中在哪個區域？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q43"><span class="mcq-circle">A</span> 西部和北部</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q43"><span class="mcq-circle">B</span> 東部和南部</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q43"><span class="mcq-circle">C</span> 西北部</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q43"><span class="mcq-circle">D</span> 中部</div>
+        <div class="answer-reveal" id="reveal43"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(43,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q44">
+        <div class="question-number"><span class="q-badge">Q44</span><span class="q-type">選擇題</span> 胡煥庸線從黑河連接到哪個地方？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q44"><span class="mcq-circle">A</span> 昆明</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q44"><span class="mcq-circle">B</span> 騰沖</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q44"><span class="mcq-circle">C</span> 拉薩</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q44"><span class="mcq-circle">D</span> 廣州</div>
+        <div class="answer-reveal" id="reveal44"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(44,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q45">
+        <div class="question-number"><span class="q-badge">Q45</span><span class="q-type">填充題</span> 中國共有＿＿＿＿個民族。</div>
+        <div><input type="text" class="fill-input" id="fill45" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal45"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(45,'fill','56')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q46">
+        <div class="question-number"><span class="q-badge">Q46</span><span class="q-type">選擇題</span> 中國南部居民多以甚麼為主食？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">A</span> 米飯</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">B</span> 麵食</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">C</span> 肉類</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'A')"><input type="radio" name="q46"><span class="mcq-circle">D</span> 乳製品</div>
+        <div class="answer-reveal" id="reveal46"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(46,'mcq','A')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q47">
+        <div class="question-number"><span class="q-badge">Q47</span><span class="q-type">選擇題</span> 中國北部居民多以甚麼為主食？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q47"><span class="mcq-circle">A</span> 米飯</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q47"><span class="mcq-circle">B</span> 麵食</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q47"><span class="mcq-circle">C</span> 海鮮</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'B')"><input type="radio" name="q47"><span class="mcq-circle">D</span> 水果</div>
+        <div class="answer-reveal" id="reveal47"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(47,'mcq','B')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q48">
+        <div class="question-number"><span class="q-badge">Q48</span><span class="q-type">填充題</span> 中國共有＿＿＿＿大氣候類型。</div>
+        <div><input type="text" class="fill-input" id="fill48" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal48"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(48,'fill','五')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q49">
+        <div class="question-number"><span class="q-badge">Q49</span><span class="q-type">選擇題</span> 以下哪項不是影響人口分佈的自然因素？</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q49"><span class="mcq-circle">A</span> 地勢高低</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q49"><span class="mcq-circle">B</span> 氣候寒冷或溫暖</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q49"><span class="mcq-circle">C</span> 雨量多少</div>
+        <div class="mcq-option" onclick="checkMCQ(this, 'D')"><input type="radio" name="q49"><span class="mcq-circle">D</span> 語言種類</div>
+        <div class="answer-reveal" id="reveal49"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(49,'mcq','D')">🔍 顯示答案</button></div>
+      </div>
+
+      <div class="question" id="q50">
+        <div class="question-number"><span class="q-badge">Q50</span><span class="q-type">填充題</span> 我們要保護自然景觀，讓美麗的景色得以＿＿＿＿。</div>
+        <div><input type="text" class="fill-input" id="fill50" placeholder="請填寫答案"></div>
+        <div class="answer-reveal" id="reveal50"></div>
+        <div class="btn-row"><button class="btn-show-answer" onclick="showAnswer(50,'fill','延續')">🔍 顯示答案</button></div>
+      </div>
+    </div>
+
+    <div class="final-result" id="finalResult">
+      <div class="final-stars" id="finalStars">⭐⭐⭐</div>
+      <div class="final-label">🏆 測驗完成！</div>
+      <div class="final-score" id="finalScore">0</div>
+      <div style="font-size:22px;color:#4A90D9;font-weight:700;">/ 50 題正確</div>
+      <div class="final-message" id="finalMessage">繼續努力！</div>
+      <button onclick="resetQuiz()" style="padding:15px 40px;background:linear-gradient(135deg,#4A90D9,#6BAFE0);color:white;border:none;border-radius:15px;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 5px 20px rgba(74,144,217,0.4);">🔄 再玩一次</button>
+    </div>
+
+    <div class="answer-key-container">
+      <button class="answer-key-toggle" onclick="toggleAnswerKey()">
+        📖 查看答案一覽表 <span id="keyArrow">▼</span>
+      </button>
+      <div class="answer-key-panel collapsed" id="answerKeyPanel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;">
+          <div class="answer-item"><span class="q-num">Q1</span>B</div><div class="answer-item"><span class="q-num">Q2</span>C</div>
+          <div class="answer-item"><span class="q-num">Q3</span>雞</div><div class="answer-item"><span class="q-num">Q4</span>C</div>
+          <div class="answer-item"><span class="q-num">Q5</span>特別</div><div class="answer-item"><span class="q-num">Q6</span>C</div>
+          <div class="answer-item"><span class="q-num">Q7</span>首府</div><div class="answer-item"><span class="q-num">Q8</span>C</div>
+          <div class="answer-item"><span class="q-num">Q9</span>C</div><div class="answer-item"><span class="q-num">Q10</span>960</div>
+          <div class="answer-item"><span class="q-num">Q11</span>B</div><div class="answer-item"><span class="q-num">Q12</span>18000</div>
+          <div class="answer-item"><span class="q-num">Q13</span>渤海</div><div class="answer-item"><span class="q-num">Q14</span>B</div>
+          <div class="answer-item"><span class="q-num">Q15</span>D</div><div class="answer-item"><span class="q-num">Q16</span>階梯</div>
+          <div class="answer-item"><span class="q-num">Q17</span>C</div><div class="answer-item"><span class="q-num">Q18</span>屋脊</div>
+          <div class="answer-item"><span class="q-num">Q19</span>B</div><div class="answer-item"><span class="q-num">Q20</span>A</div>
+          <div class="answer-item"><span class="q-num">Q21</span>魚米</div><div class="answer-item"><span class="q-num">Q22</span>C</div>
+          <div class="answer-item"><span class="q-num">Q23</span>紫色</div><div class="answer-item"><span class="q-num">Q24</span>D</div>
+          <div class="answer-item"><span class="q-num">Q25</span>4000</div><div class="answer-item"><span class="q-num">Q26</span>C</div>
+          <div class="answer-item"><span class="q-num">Q27</span>塔</div><div class="answer-item"><span class="q-num">Q28</span>聚寶</div>
+          <div class="answer-item"><span class="q-num">Q29</span>C</div><div class="answer-item"><span class="q-num">Q30</span>較大</div>
+          <div class="answer-item"><span class="q-num">Q31</span>B</div><div class="answer-item"><span class="q-num">Q32</span>6300</div>
+          <div class="answer-item"><span class="q-num">Q33</span>B</div><div class="answer-item"><span class="q-num">Q34</span>A</div>
+          <div class="answer-item"><span class="q-num">Q35</span>C</div><div class="answer-item"><span class="q-num">Q36</span>黃河</div>
+          <div class="answer-item"><span class="q-num">Q37</span>C</div><div class="answer-item"><span class="q-num">Q38</span>淮河</div>
+          <div class="answer-item"><span class="q-num">Q39</span>A</div><div class="answer-item"><span class="q-num">Q40</span>外流</div>
+          <div class="answer-item"><span class="q-num">Q41</span>B</div><div class="answer-item"><span class="q-num">Q42</span>800</div>
+          <div class="answer-item"><span class="q-num">Q43</span>B</div><div class="answer-item"><span class="q-num">Q44</span>B</div>
+          <div class="answer-item"><span class="q-num">Q45</span>56</div><div class="answer-item"><span class="q-num">Q46</span>A</div>
+          <div class="answer-item"><span class="q-num">Q47</span>B</div><div class="answer-item"><span class="q-num">Q48</span>五</div>
+          <div class="answer-item"><span class="q-num">Q49</span>D</div><div class="answer-item"><span class="q-num">Q50</span>延續</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px;color:#fff;font-size:14px;">
+      🌍 原神錦繡河山小測驗 | 參考小五常識科「錦繡河山」單元
+    </div>
+  </div>
+
+  <script>
+    let correctCount = 0;
+    let answeredMCQ = {};
+    let revealed = {};
+
+    function checkMCQ(el, correctAns) {
+      const input = el.querySelector('input[type="radio"]');
+      if (!input || input.disabled) return;
+      const qDiv = el.closest('.question');
+      const qNum = parseInt(qDiv.id.substring(1));
+      if (answeredMCQ[qNum]) return;
+      const options = qDiv.querySelectorAll('.mcq-option');
+      const selectedLabel = el.querySelector('.mcq-circle');
+      const userAns = selectedLabel ? selectedLabel.textContent.trim() : '';
+      options.forEach(o => o.classList.add('disabled'));
+      input.checked = true;
+      answeredMCQ[qNum] = true;
+      if (userAns === correctAns) {
+        el.classList.add('correct');
+        qDiv.classList.add('answered-correct');
+        correctCount++;
+      } else {
+        el.classList.add('wrong');
+        options.forEach(o => {
+          const c = o.querySelector('.mcq-circle');
+          if (c && c.textContent.trim() === correctAns) o.classList.add('correct');
+        });
+        qDiv.classList.add('answered-wrong');
+      }
+      updateScore();
+      if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+    }
+
+    function showAnswer(qNum, type, answer) {
+      const revealDiv = document.getElementById('reveal' + qNum);
+      if (!revealDiv) return;
+      if (type === 'mcq') {
+        const qDiv = document.getElementById('q' + qNum);
+        const options = qDiv.querySelectorAll('.mcq-option');
+        if (!answeredMCQ[qNum]) {
+          options.forEach(o => o.classList.add('disabled'));
+          options.forEach(o => {
+            const c = o.querySelector('.mcq-circle');
+            if (c && c.textContent.trim() === answer) o.classList.add('correct');
+          });
+        }
+        revealDiv.className = 'answer-reveal show correct';
+        revealDiv.textContent = '✅ 正確答案是：' + answer;
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          if (!answeredMCQ[qNum]) {
+            qDiv.classList.remove('answered-wrong');
+            qDiv.classList.add('answered-correct');
+          }
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+        }
+      } else {
+        const input = document.getElementById('fill' + qNum);
+        const qDiv = document.getElementById('q' + qNum);
+        if (!revealed[qNum]) {
+          revealed[qNum] = true;
+          const userAns = input ? input.value.trim() : '';
+          if (userAns === answer) {
+            correctCount++;
+            qDiv.classList.add('answered-correct');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '✅ 正確！答案是「' + answer + '」';
+          } else {
+            if (userAns) qDiv.classList.add('answered-wrong');
+            revealDiv.className = 'answer-reveal show correct';
+            revealDiv.textContent = '🔍 正確答案是「' + answer + '」' + (userAns ? '，你填的是「' + userAns + '」' : '');
+          }
+          if (input) input.disabled = true;
+          updateScore();
+          if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) checkAllDone();
+        }
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('totalScore').textContent = correctCount;
+      const total = Math.max(Object.keys(answeredMCQ).length + Object.keys(revealed).length, correctCount);
+      const pct = (total / 50) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = '已作答 ' + total + ' / 50 題';
+    }
+
+    function checkAllDone() {
+      if (Object.keys(answeredMCQ).length + Object.keys(revealed).length >= 50) setTimeout(showFinalResult, 500);
+    }
+
+    function showFinalResult() {
+      const fr = document.getElementById('finalResult');
+      fr.classList.add('show');
+      document.getElementById('finalScore').textContent = correctCount;
+      let stars = '', msg = '';
+      if (correctCount >= 45) { stars = '⭐⭐⭐⭐⭐'; msg = '🏆 你是地理大師！完全掌握錦繡河山的知識！'; }
+      else if (correctCount >= 35) { stars = '⭐⭐⭐⭐'; msg = '🎉 表現優秀！對中國地理有很好的認識！'; }
+      else if (correctCount >= 25) { stars = '⭐⭐⭐'; msg = '👍 不錯喔！建議重溫課本內容，加強記憶。'; }
+      else if (correctCount >= 15) { stars = '⭐⭐'; msg = '📖 需要努力！建議仔細閱讀課本，認識中國的地理特徵。'; }
+      else { stars = '⭐'; msg = '💪 加油！從頭學習這個單元，你會越做越好！'; }
+      document.getElementById('finalStars').textContent = stars;
+      document.getElementById('finalMessage').textContent = msg;
+      fr.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleAnswerKey() {
+      const panel = document.getElementById('answerKeyPanel');
+      const arrow = document.getElementById('keyArrow');
+      const isCollapsed = panel.classList.contains('collapsed');
+      panel.classList.toggle('collapsed');
+      panel.classList.toggle('expanded');
+      arrow.textContent = isCollapsed ? '▲' : '▼';
+    }
+
+    function resetQuiz() {
+      const total = Object.keys(answeredMCQ).length + Object.keys(revealed).length;
+      if (total > 0 && !confirm('確定要重新開始嗎？所有進度將會清除。')) return;
+      correctCount = 0; answeredMCQ = {}; revealed = {};
+      document.getElementById('totalScore').textContent = '0';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('progressText').textContent = '已作答 0 / 50 題';
+      document.getElementById('finalResult').classList.remove('show');
+      for (let i = 1; i <= 50; i++) {
+        const qDiv = document.getElementById('q' + i);
+        if (!qDiv) continue;
+        qDiv.classList.remove('answered-correct', 'answered-wrong');
+        qDiv.querySelectorAll('.mcq-option').forEach(o => {
+          o.classList.remove('correct', 'wrong', 'disabled');
+          const r = o.querySelector('input[type="radio"]');
+          if (r) r.checked = false;
+        });
+        const r = document.getElementById('reveal' + i);
+        if (r) { r.className = 'answer-reveal'; r.textContent = ''; }
+        const inp = document.getElementById('fill' + i);
+        if (inp) { inp.disabled = false; inp.value = ''; }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
