@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1-100</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: linear-gradient(135deg, #ffecd2, #fcb69f, #a8edea, #fed6e3);
+  background-size: 400% 400%;
+  animation: gradientBG 8s ease infinite;
+  min-height: 100vh;
+  font-family: 'Fredoka One', cursive;
+  overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* floating decorations */
+.deco {
+  position: fixed;
+  font-size: 30px;
+  opacity: 0.5;
+  pointer-events: none;
+  animation: floatDeco 6s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes floatDeco {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(15deg); }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  color: #fff;
+  text-shadow: 4px 4px 0 #e07c7c, 7px 7px 0 rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  animation: bounceTitle 2s ease-in-out infinite;
+  letter-spacing: 3px;
+}
+@keyframes bounceTitle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 12px;
+  padding: 10px;
+}
+
+.card {
+  aspect-ratio: 1;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12), inset 0 -4px 0 rgba(0,0,0,0.1);
+  border: 3px solid rgba(255,255,255,0.5);
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.12) rotate(-3deg);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.card:active {
+  transform: scale(0.92);
+}
+
+.card .emoji-deco {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* rainbow colors per row-ish */
+.card:nth-child(10n+1) { background: linear-gradient(135deg, #FF6B6B, #ee5a24); }
+.card:nth-child(10n+2) { background: linear-gradient(135deg, #FECA57, #f0932b); }
+.card:nth-child(10n+3) { background: linear-gradient(135deg, #FF9FF3, #f368e0); }
+.card:nth-child(10n+4) { background: linear-gradient(135deg, #54a0ff, #2e86de); }
+.card:nth-child(10n+5) { background: linear-gradient(135deg, #5f27cd, #341f97); }
+.card:nth-child(10n+6) { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
+.card:nth-child(10n+7) { background: linear-gradient(135deg, #ff9f43, #ee5a24); }
+.card:nth-child(10n+8) { background: linear-gradient(135deg, #f368e0, #be2edd); }
+.card:nth-child(10n+9) { background: linear-gradient(135deg, #48dbfb, #0abde3); }
+.card:nth-child(10n+0) { background: linear-gradient(135deg, #ff6b6b, #c44569); }
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* stagger animation */
+.card { animation-delay: calc(var(--i, 0) * 0.03s); }
+
+/* big number popup */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+.popup.show {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.popup-content {
+  background: white;
+  border-radius: 60px;
+  padding: 30px 60px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  animation: bouncePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  min-width: 280px;
+}
+@keyframes bouncePop {
+  from { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.popup-number {
+  font-size: 8rem;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.popup-emoji {
+  font-size: 3rem;
+  animation: wiggle 1s ease-in-out infinite;
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg) scale(1); }
+  50% { transform: rotate(5deg) scale(1.1); }
+}
+.popup-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+}
+.popup-close:hover { color: #ff6b6b; }
+.popup-objects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 1.5rem;
+}
+
+/* confetti */
+.confetti-piece {
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  z-index: 1000;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+@media (max-width: 500px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 8px; }
+  .card { font-size: 1.2rem; border-radius: 15px; }
+  h1 { font-size: 2rem; }
+  .popup-number { font-size: 5rem; }
+  .popup-content { padding: 25px 35px; min-width: 220px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🌟 1 → 100 🌟</h1>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <button class="popup-close" id="popupClose">&times;</button>
+    <div class="popup-number" id="popupNumber"></div>
+    <div class="popup-emoji" id="popupEmoji"></div>
+    <div class="popup-objects" id="popupObjects"></div>
+  </div>
+</div>
+
+<script>
+const emojis = ['🐶','🐱','🐼','🐨','🐸','🦄','🐝','🐙','🦋','🐢','🐳','🐬','🦀','🐌','🐧','🦊','🐰','🐹','🦁','🐮','🐷','🐵','🐔','🦉','🐺','🐛','🐞','🦖','🦕','🐠','🐡','🦈','🐪','🐫','🦒','🐘','🐁','🐿️','🦔','🐇','🐕','🐩','🐈','🐓','🦆','🦅','🦇','🐍','🦎','🐊'];
+const objects = ['⭐','🌈','🎈','🍭','🧸','🎠','🎪','🎨','🎵','🌸','🌻','🍀','🌺','🍎','🍊','🍋','🍇','🍓','🍑','🍒','🥕','🧁','🍩','🍪','🎂','🍰','🧃','🍼','🛝','🧩','🎯','🎲','🧸','🪁','🎀','🧦','👑','💎','🍬','🍫'];
+const colors = ['#FF6B6B','#FECA57','#FF9FF3','#54a0ff','#5f27cd','#1dd1a1','#ff9f43','#f368e0','#48dbfb','#ff6b6b'];
+
+function getEmojiForNum(n) {
+  if (n === 100) return '🎉';
+  if (n <= 10) return emojis[n % emojis.length];
+  return objects[n % objects.length];
+}
+
+function getObjectsDisplay(n) {
+  const e = getEmojiForNum(n);
+  if (n > 20) return e.repeat(3);
+  if (n > 10) return e.repeat(4);
+  return e.repeat(n);
+}
+
+function getColorForNum(n) {
+  return colors[(n - 1) % colors.length];
+}
+
+// build grid
+const grid = document.getElementById('grid');
+for (let i = 1; i <= 100; i++) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.setProperty('--i', i);
+  card.textContent = i;
+  card.dataset.num = i;
+
+  const ed = document.createElement('span');
+  ed.className = 'emoji-deco';
+  ed.textContent = getEmojiForNum(i);
+  ed.style.top = (Math.random() * 60 + 5) + '%';
+  ed.style.left = (Math.random() * 60 + 5) + '%';
+  ed.style.fontSize = (Math.random() * 0.8 + 0.6) + 'rem';
+  card.appendChild(ed);
+
+  card.addEventListener('click', () => showPopup(i));
+  grid.appendChild(card);
+}
+
+// floating decorations
+const decoEmojis = ['🌈','⭐','🌸','🎈','🦋','🍭','🧸','🌻','🍀','💫'];
+for (let i = 0; i < 15; i++) {
+  const d = document.createElement('div');
+  d.className = 'deco';
+  d.textContent = decoEmojis[i % decoEmojis.length];
+  d.style.left = Math.random() * 95 + '%';
+  d.style.top = Math.random() * 90 + '%';
+  d.style.animationDelay = (Math.random() * 5) + 's';
+  d.style.animationDuration = (5 + Math.random() * 4) + 's';
+  d.style.fontSize = (20 + Math.random() * 25) + 'px';
+  document.body.appendChild(d);
+}
+
+// popup
+const popup = document.getElementById('popup');
+const popupNum = document.getElementById('popupNumber');
+const popupEmoji = document.getElementById('popupEmoji');
+const popupObjects = document.getElementById('popupObjects');
+const popupClose = document.getElementById('popupClose');
+
+function showPopup(n) {
+  popupNum.textContent = n;
+  popupNum.style.color = getColorForNum(n);
+  const e = getEmojiForNum(n);
+  popupEmoji.textContent = e;
+  popupObjects.textContent = getObjectsDisplay(n);
+  popup.classList.add('show');
+  // confetti!
+  for (let i = 0; i < 30; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random() * 100 + '%';
+    c.style.top = '-10px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = (5 + Math.random() * 8) + 'px';
+    c.style.height = (5 + Math.random() * 8) + 'px';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+}
+
+function hidePopup() {
+  popup.classList.remove('show');
+}
+popupClose.addEventListener('click', hidePopup);
+popup.addEventListener('click', (e) => {
+  if (e.target === popup) hidePopup();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') hidePopup();
+});
+</script>
+</body>
+</html>
